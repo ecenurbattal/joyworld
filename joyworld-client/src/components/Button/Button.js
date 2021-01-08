@@ -1,13 +1,12 @@
 import React from 'react'
 
-const Button = ({text,onClick,role,icon,...restProps}) => {
+const Button = ({text,onClick,icon,...restProps}) => {
     return (
         <button style={{
             ...restProps,
-            border:"1px solid #d3d3d3",
-            boxShadow:"0 0 5px 5px #d3d3d3",
+            border:"2px solid #7d5fff",
+            borderRadius:"10px"
             }}
-            role={!!role ? (role) : ("button")}
             onClick={onClick}>
             {icon}
             {text} 

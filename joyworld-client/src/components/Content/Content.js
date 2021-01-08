@@ -12,20 +12,21 @@ const Content = () => {
         <Wrapper>
             <Switch>
                 {routes.map((route) => 
-                    route.isPrivate ? (
-                        <PrivateRoute
-                            key={`route-${route.title}`}
-                            exact={route.exact}
-                            path={route.path}
-                            isAuthenticated={isAuthenticated}
-                        >
-                            {route.component()}
-                        </PrivateRoute>
-                    ) : (
-                        <Route key={`route-${route.title}`} exact={route.exact} path={route.path}>
-                            {route.component()}
-                        </Route>
-                    )
+                    !route.isDropdown &&
+                        (route.isPrivate ? (
+                            <PrivateRoute
+                                key={`route-${route.title}`}
+                                exact={route.exact}
+                                path={route.path}
+                                isAuthenticated={isAuthenticated}
+                            >
+                                {route.component()}
+                            </PrivateRoute>
+                        ) : (
+                            <Route key={`route-${route.title}`} exact={route.exact} path={route.path}>
+                                {route.component()}
+                            </Route>
+                        ))
                 )}
             </Switch>
         </Wrapper>

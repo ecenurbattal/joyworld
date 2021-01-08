@@ -6,7 +6,6 @@ import ProductsScreen from '../screens/Products/ProductsScreen';
 import Register from '../screens/Register/Register';
 import AddProductScreen from '../screens/AddProductScreen/AddProductScreen';
 import Checkout from '../components/Checkout/Checkout';
-import ComicSectionScreen from '../screens/ComicSectionScreen/ComicSectionScreen';
 import VolumesScreen from '../screens/VolumesScreen/VolumesScreen';
 import VolumesDetailScreen from '../screens/VolumesDetailScreen/VolumesDetailScreen';
 import BooksScreen from '../screens/BooksScreen/BooksScreen';
@@ -23,9 +22,6 @@ export const routes = [
         isPrivate:false,
     },
     {
-        path: '/comic',
-        exact: true,
-        component: () => <ComicSectionScreen/>,
         title: 'Çizgi Roman',
         isLink:true,
         isPrivate: false,
@@ -33,7 +29,7 @@ export const routes = [
         links : ['Karakterler','Çizgi Romanlar']
     },
     {
-        path: '/comic/characters',
+        path: '/characters',
         exact:true,
         component: () => <CharactersScreen/>,
         title:'Karakterler',
@@ -41,14 +37,14 @@ export const routes = [
         isPrivate:false,
     },
     {
-        path: '/comic/characters/:characterId',
+        path: '/characters/:characterId',
         component: () => <CharacterDetailsScreen/>,
         title:'Character Detail',
         isLink:false,
         isPrivate:true,
     },
     {
-        path: '/comic/volumes',
+        path: '/volumes',
         exact: true,
         component: () => <VolumesScreen/>,
         title:'Çizgi Romanlar',
@@ -56,7 +52,7 @@ export const routes = [
         isPrivate: false,
     },
     {
-        path: '/comic/volumes/:volumeId',
+        path: '/volumes/:volumeId',
         component: () => <VolumesDetailScreen/>,
         title:'Volume Detail',
         isLink:false,

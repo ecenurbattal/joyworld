@@ -7,7 +7,7 @@ const Dropdown = ({route}) => {
     return (
         <Wrapper>
             <DropButton>
-                <Link to={route.path}>{route.title}</Link>
+                {route.title}
             </DropButton>
             <DropdownContent>
                 {route.links.map(link => (

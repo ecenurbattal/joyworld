@@ -45,7 +45,7 @@ const CharactersScreen = () => {
     }
 
     const handleShowDetailClick = (character) => {
-        history.push(`/comic/characters/${character.id}`,character.api_detail_url);
+        history.push(`/characters/${character.id}`,character.api_detail_url);
     };
 
     const handleSearchChange = (event) => {
