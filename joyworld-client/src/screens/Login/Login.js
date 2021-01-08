@@ -4,6 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import {
   Box,
+  Title,
   ErrorMessage,
   FormContainer,
   RouteText,
@@ -41,6 +42,7 @@ const Login = () => {
 
   return (
     <Box>
+      <Title>Giriş Yap</Title>
       <FormContainer onSubmit={handleSubmit}>
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <Input
