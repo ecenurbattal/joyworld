@@ -1,15 +1,15 @@
 import React from 'react'
-import {CardContent, CardWrapper} from './Characters.styles';
+import {CardContent, CardWrapper} from '../Card/Card.styles';
 
 const CharacterItem = ({character,onShowDetail}) => {
 
     return (
-        <CardWrapper data-testid='characterCardWrapper'
+        <CardWrapper 
             onClick={() => {
             onShowDetail && onShowDetail(character)
             }}
         >
-            <img data-testid="characterItemImage" width="250px" height="190px" src={character?.image.medium_url} alt={character&&character.name}/>
+            <img width="250px" height="190px" src={character?.image.medium_url} alt={character&&character.name}/>
             <CardContent>
                 <h3>{character?.name}</h3>
                 {character?.deck && <hr />}

@@ -1,6 +1,6 @@
 import React from 'react';
 import CharacterItem from './CharacterItem';
-import {Wrapper} from './Characters.styles';
+import {Wrapper} from '../Card/Card.styles';
 
 const Characters = ({characters,onShowDetail}) => {
     return (

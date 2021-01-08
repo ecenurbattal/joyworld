@@ -1,7 +1,7 @@
 import axios from 'axios';
 //https://cors-anywhere.herokuapp.com/
 const instance = axios.create({
-    baseURL:'https://comicvine.gamespot.com/api',
+    baseURL:'http://comicvine.gamespot.com/api',
     headers:{ 'Access-Control-Allow-Origin': '*'},
     params: {
         api_key:'b1e1d27f0279baff924cb89c039596e6f7eb36ee',
@@ -36,6 +36,37 @@ export const getFilteredCharacters = (value) => {
             field_list : 'image,deck,name,id,api_detail_url',
             limit: '20',
             sort: 'count_of_issue_appearances:desc',
+        }
+    })
+}
+
+export const getVolumes = () => {
+    return instance.get('/volumes',{
+        params: {
+            field_list : 'image,deck,name,id,api_detail_url',
+            limit: '20',
+            sort: 'count_of_issue:desc',
+        }
+    })
+}
+
+export const getVolume = (url) => {
+    return instance.get('/',{
+        baseURL:`${url}`,
+        params: {
+            field_list : 'id,character_credits,concept_credits,deck,image,start_year,name,publisher',
+        }
+    })
+}
+
+export const getFilteredVolumes = (value) => {
+    return instance.get('/search', {
+        params: {
+            query: `${value}`,
+            resources: 'volume',
+            field_list : 'image,deck,name,id,api_detail_url',
+            limit: '20',
+            sort: 'count_of_issue:desc',
         }
     })
 }

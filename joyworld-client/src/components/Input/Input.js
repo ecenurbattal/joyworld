@@ -9,7 +9,7 @@ const Input = forwardRef((props, ref) => {
         },
     }));
 
-    return <input role="input" ref={inputRef} {...props} required/>;
+    return <input ref={inputRef} {...props} required/>;
 });
 
 export default Input;
