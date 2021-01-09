@@ -6,8 +6,11 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "http-proxy-middleware": "^1.0.6",
     "mongoose": "^5.11.9",
-    "nodemon": "^2.0.6"
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.6",
+    "request": "^2.88.2"
   },
   "devDependencies": {},
   "scripts": {

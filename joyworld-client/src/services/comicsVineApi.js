@@ -1,8 +1,8 @@
 import axios from 'axios';
 //https://cors-anywhere.herokuapp.com/
+//'http://comicvine.gamespot.com/api'
 const instance = axios.create({
-    baseURL:'http://comicvine.gamespot.com/api',
-    headers:{ 'Access-Control-Allow-Origin': '*'},
+    baseURL:'http://localhost:8080/api',
     params: {
         api_key:'b1e1d27f0279baff924cb89c039596e6f7eb36ee',
         format: 'json',

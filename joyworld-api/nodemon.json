@@ -2,6 +2,8 @@
     "env": {
         "MONGO_USER": "ecenb",
         "MONGO_PASSWORD": "ece123",
-        "MONGO_DB": "joy-world"
+        "MONGO_DB": "joy-world",
+        "COMV_SERVICE_URL":"http://comicvine.gamespot.com",
+        "PORT":8080
     }
 }

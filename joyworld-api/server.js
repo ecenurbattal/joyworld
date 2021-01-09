@@ -39,6 +39,32 @@ app.post('/signin', (req,res) => {
         }
 });
 
+// app.use((req, res, next) => {
+//     res.header('Access-Control-Allow-Origin', '*');
+//     next();
+// });
+
+
+// app.get(process.env.COMV_SERVICE_URL,createProxyMiddleware({
+//     target: process.env.COMV_SERVICE_URL,
+//     changeOrigin: true,
+//     pathRewrite: {
+//         [`^${process.env.COMV_SERVICE_URL}`]: '',
+//     }
+// }))
+
+// app.get('/comicvine', (req,res) => {
+//     request(
+//         { url: 'http://comicvine.gamespot.com/api/characters'},
+//         (error, response, body) => {
+//             if(error || response.statusCode!==200){
+//                 return res.status(500).json({type:'error', message: error.message})
+//             } else {
+//                 res.json(JSON.parse(body))
+//             }
+//         }
+//     )
+// })
 
 app.post('/register',(req,res) => {
 
