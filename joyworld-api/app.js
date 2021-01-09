@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const morgan = require('morgan');
-const {createProxyMiddleware} = require('http-proxy-middleware');
 const request = require('request');
 
 
@@ -35,20 +34,10 @@ const corsOptions = {
 
 app.options('*', cors(corsOptions))
 
-app.use('/api',cors(corsOptions), (req,res) => {
-    console.log(req)
-    const request_url = `${process.env.COMV_SERVICE_URL}${req.url}`
-    req.pipe(request({qs:req.query, uri:request_url})).pipe(res)
+app.use('/comworld/api',cors(corsOptions), (req,res) => {
+    const request_url = `${process.env.COMV_SERVICE_URL}${req.url.replace(`${req.baseUrl}-`,'')}`
+    req.pipe(request(request_url)).pipe(res)
 })
-
-
-// app.get('/api',createProxyMiddleware({
-//     target: process.env.COMV_SERVICE_URL,
-//     changeOrigin: true,
-//     pathRewrite: {
-//         [`^/api`]: '',
-//     }
-// }))
 
 
 app.listen(process.env.PORT, () => {

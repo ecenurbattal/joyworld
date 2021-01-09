@@ -3,7 +3,7 @@
         "MONGO_USER": "ecenb",
         "MONGO_PASSWORD": "ece123",
         "MONGO_DB": "joy-world",
-        "COMV_SERVICE_URL":"http://comicvine.gamespot.com",
+        "COMV_SERVICE_URL":"http://comicvine.gamespot.com/api",
         "PORT":8080
     }
 }
