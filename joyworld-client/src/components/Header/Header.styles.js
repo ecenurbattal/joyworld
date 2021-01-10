@@ -60,7 +60,8 @@ export const Menu = styled.ul`
     @media (max-width: 768px) {
         display: ${(props) => props.display};
         & > li a,
-        & > div a {
+        & > div a,
+        & > div button {
             font-size: 15px;
         }
     }

@@ -2,7 +2,7 @@ import axios from 'axios';
 //https://cors-anywhere.herokuapp.com/
 //'http://comicvine.gamespot.com/api'
 const instance = axios.create({
-    baseURL:'http://localhost:8080/comworld/api',
+    baseURL:'http://localhost:8080/comicvine/api',
     params: {
         api_key:'b1e1d27f0279baff924cb89c039596e6f7eb36ee',
         format: 'json',
@@ -21,7 +21,7 @@ export const getCharacters = () => {
 
 export const getCharacter = (url) => {
     return instance.get('/',{
-        baseURL:`${url}`,
+        baseURL:`http://localhost:8080/comicvine/api/${url.replace('https://comicvine.gamespot.com/api','')}`,
         params: {
             field_list : 'id,team_enemies,team_friends,deck,gender,image,movies,name,origin,powers,publisher,real_name,teams,volume_credits',
         }
@@ -52,7 +52,7 @@ export const getVolumes = () => {
 
 export const getVolume = (url) => {
     return instance.get('/',{
-        baseURL:`${url}`,
+        baseURL:`http://localhost:8080/comicvine/api/${url.replace('https://comicvine.gamespot.com/api','')}`,
         params: {
             field_list : 'id,character_credits,concept_credits,deck,image,start_year,name,publisher',
         }

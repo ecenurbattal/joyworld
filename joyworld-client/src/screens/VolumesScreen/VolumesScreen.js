@@ -24,7 +24,7 @@ const VolumesScreen = () => {
                 setLoading(true)
                 try {
                     const {data:{results}} = await getFilteredVolumes(term);
-                    if(!!term) {setVolumes(results)}
+                    if(!!term && !!results.length) {setVolumes(results)}
                 } catch (err) {
                     setError(err)
                 }
@@ -37,7 +37,6 @@ const VolumesScreen = () => {
         setLoading(true);
         try {
             const {data:{results}} = await getVolumes();
-            console.log(results)
             setVolumes(results);
         } catch(err){
             setError(err);
@@ -64,7 +63,7 @@ const VolumesScreen = () => {
         }
     }
 
-    if (isLoading || !volumes.length) {
+    if (isLoading) {
         return <Loader/>
     }
     

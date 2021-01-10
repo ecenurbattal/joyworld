@@ -24,7 +24,7 @@ const CharactersScreen = () => {
                 setLoading(true)
                 try {
                     const {data:{results}} = await getFilteredCharacters(term);
-                    if(!!term) {setCharacters(results)}
+                    if(!!term && !!results.length) {setCharacters(results)}
                 } catch (err) {
                     setError(err)
                 }
@@ -63,9 +63,10 @@ const CharactersScreen = () => {
         }
     }
 
-    if (isLoading || !characters.length) {
+    if (isLoading) {
         return <Loader/>
     }
+    
     
     if (error) {
         return <p>Error: {error}</p>;
