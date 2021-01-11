@@ -26,7 +26,7 @@ const VolumesScreen = () => {
                     const {data:{results}} = await getFilteredVolumes(term);
                     if(!!term && !!results.length) {setVolumes(results)}
                 } catch (err) {
-                    setError(err)
+                    setError("Sunucu ile ilgili bir hata oluştu, lütfen daha sonra tekrar deneyiniz.")
                 }
                 setLoading(false);
             }
@@ -39,7 +39,7 @@ const VolumesScreen = () => {
             const {data:{results}} = await getVolumes();
             setVolumes(results);
         } catch(err){
-            setError(err);
+            setError("Sunucu ile ilgili bir hata oluştu, lütfen daha sonra tekrar deneyiniz.")
         }
         setLoading(false);
     }
@@ -68,7 +68,7 @@ const VolumesScreen = () => {
     }
     
     if (error) {
-        return <p>Error: {error}</p>;
+        return <p style={{color:"white",textAlign:"center",fontSize:"30px"}}>{error}</p>;
     }
 
     return (

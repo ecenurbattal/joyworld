@@ -26,7 +26,7 @@ const CharactersScreen = () => {
                     const {data:{results}} = await getFilteredCharacters(term);
                     if(!!term && !!results.length) {setCharacters(results)}
                 } catch (err) {
-                    setError(err)
+                    setError("Sunucu ile ilgili bir hata oluştu, lütfen daha sonra tekrar deneyiniz.")
                 }
                 setLoading(false);
             }
@@ -39,7 +39,7 @@ const CharactersScreen = () => {
             const {data:{results}} = await getCharacters();
             setCharacters(results);
         } catch(err){
-            setError(err);
+            setError("Sunucu ile ilgili bir hata oluştu, lütfen daha sonra tekrar deneyiniz.");
         }
         setLoading(false);
     }
@@ -69,7 +69,7 @@ const CharactersScreen = () => {
     
     
     if (error) {
-        return <p>Error: {error}</p>;
+        return <p style={{color:"white",textAlign:"center",fontSize:"30px"}}>{error}</p>;
     }
 
     return (
