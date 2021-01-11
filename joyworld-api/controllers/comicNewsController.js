@@ -7,6 +7,16 @@ module.exports.getNews = (req,res) => {
     const url = 'https://fanzade.com/comicsfan/cizgi-roman-haber/';
 
 
+const getFirstDegreeChild = (item,childIndex) => {
+    return item.children[childIndex]
+}
+
+const getSecondDegreeChild = (item,firstChildIndex,secondChildIndex) => {
+    return item.children[firstChildIndex].children[secondChildIndex]
+}
+
+const uniqueArray = a => [...new Set(a.map(o => JSON.stringify(o)))].map(s => JSON.parse(s))
+
 const getNodes = (html) => {
     const data = [];
 
@@ -14,16 +24,16 @@ const getNodes = (html) => {
 
     const news = dom.window.document.querySelectorAll('.p-feat a');
     news.forEach(item => {
-        if(item.children[0]){
+        if(getFirstDegreeChild(item,0) && item.getAttribute('href').includes('/comicsfan')){
             data.push({
                 title: item.getAttribute('title'),
                 href: item.getAttribute('href'),
-                image: item.children[0].children[0].getAttribute('data-src')
+                image: getSecondDegreeChild(item,0,0).getAttribute('data-src')
             })
         }
     });
-
-    return data;
+    
+    return uniqueArray(data);
 }
 
     try{
