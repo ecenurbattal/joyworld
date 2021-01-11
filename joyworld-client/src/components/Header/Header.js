@@ -20,7 +20,8 @@ const Header = ({drawerClickHandler}) => {
         <Wrapper>
             <Title onClick={handleTitleClick}>JoyWorld</Title>
             <InlineContainer>
-                <Menu margin="0">
+                <DrawerToggleButton onClick={drawerClickHandler}/>
+                <Menu display="none" margin="0">
                     {routes.filter((route) => !!route.isLink)
                         .map((route) => (
                             route.isDropdown ? <Dropdown route={route}/> : (
@@ -31,7 +32,7 @@ const Header = ({drawerClickHandler}) => {
                         ))
                     }
                 </Menu>
-                <Menu display="none" margin="auto">
+                <Menu margin="auto">
                     {!isAuthenticated ? (
                     <>
                         <li>
@@ -48,7 +49,7 @@ const Header = ({drawerClickHandler}) => {
                     </>
                     )}
                 </Menu>
-                <DrawerToggleButton onClick={drawerClickHandler}/>
+               
             </InlineContainer>
             
         </Wrapper>

@@ -57,7 +57,7 @@ export const Menu = styled.ul`
         font-size: 22px;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 858px) {
         display: ${(props) => props.display};
         & > li a,
         & > div a,

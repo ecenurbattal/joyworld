@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const ToggleButton = styled.button`
-    margin-left: auto;
+    margin-left: 15px;
+    margin-bottom: 8px;
     display:flex;
     flex-direction: column;
     justify-content: space-around;
@@ -18,7 +19,7 @@ export const ToggleButton = styled.button`
         outline:none;
     }
 
-    @media (min-width: 769px){
+    @media (min-width: 858px){
         display: none;
     }
 `;
@@ -30,16 +31,16 @@ export const ToggleButtonLine = styled.div`
 `;
 
 export const Wrapper = styled.nav`
-    height: 30%;
+    height: 45%;
     background: rgb(24, 24, 24);
     box-shadow: 1px 0px 7px rgba(0,0,0,0.5);
     position:fixed;
-    top:16.5%;
-    right:0;
+    top:112px;
+    left:0;
     width: 70%;
     max-width: 200px;
     z-index: 200;
-    transform: ${(props) => props.show ? `translateX(0)` : `translateX(100%)`};
+    transform: ${(props) => props.show ? `translateX(0)` : `translateX(-100%)`};
     transition: transform 0.3s ease-out;
 `;
 
@@ -50,19 +51,21 @@ export const SideDrawerList = styled.ul`
     flex-direction: column;
     justify-content: center;
 
-    & > li {
+    & > li,
+    & > div {
         margin: 0.5rem 0;
     }
 
-    & > div {
-        margin 1rem 0;
-    }
 
-    & > li a {
+    & > li a,
+    & > div button {
         color: white;
         text-decoration: none;
         font-size: 1.2rem;
+        padding:0;
+        font-family: Sedgwick Ave, cursive;
     }
+
 
     & > li a:hover,
     & > li a:active {

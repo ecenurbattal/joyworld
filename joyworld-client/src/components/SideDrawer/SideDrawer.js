@@ -1,30 +1,23 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {Wrapper, SideDrawerList} from './SideDrawer.styles';
-import SessionContext from '../../contexts/SessionContext';
-import Cart from '../Cart/Cart';
-import SignOut from '../SignOut/SignOut';
+import {Link} from 'react-router-dom';
+import {routes} from '../../config/Router';
+import Dropdown from '../Dropdown/Dropdown';
 
 const SideDrawer = ({show}) => {
-    const {isAuthenticated} = useContext(SessionContext);
 
     return (
         <Wrapper show={show}>
             <SideDrawerList>
-                {!isAuthenticated ? (
-                    <>
-                        <li>
-                            <a href='/login'>Giriş Yap</a>
-                        </li>
-                        <li>
-                            <a href='/register'>Kayıt Ol</a>
-                        </li>
-                        </>
-                    ) : (
-                    <>
-                        <Cart/>
-                        <SignOut/>
-                    </>
-                    )}
+                {routes.filter((route) => !!route.isLink)
+                        .map((route) => (
+                            route.isDropdown ? <Dropdown route={route}/> : (
+                            <li key={`route-${route.title}`}>
+                                <Link to={route.path}>{route.title}</Link>
+                            </li>
+                            )
+                        ))
+                    }
             </SideDrawerList>
         </Wrapper>
     )
