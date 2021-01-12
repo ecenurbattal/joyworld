@@ -43,6 +43,7 @@ export const Title = styled.div`
     text-align: center;
     font-weight: 900;
     margin: 5px;
+    font-family:Permanent Marker, cursive;
 `;
 
 export const NewsWrapper = styled.div`
@@ -90,7 +91,6 @@ export const ActiveNewsWrapper = styled.div`
     transition: 0.3s ease-out;
     &:hover {
         width: 96%;
-        height:370px;
     }
 
     border-radius: 20px;
@@ -112,4 +112,9 @@ export const ActiveNewsTitle = styled.a`
     font-family:Passero One, cursive;
     text-align: center;
     margin-top: 10px;
+`;
+
+export const ActiveNewsSummary = styled.p`
+    text-align:center;
+    color:#2d3436;
 `;

@@ -39,16 +39,18 @@ const Home = () => {
     const [activeTabIndex, setActiveTabIndex] = useState(0);
 
     const [activeComicNewsIndex,setActiveComicNewsIndex] = useState(0);
-    const [activeBookNewsIndex,setActiveBookNewsIndex] = useState(0);
+    const [activeBooksNewsIndex,setActiveBooksNewsIndex] = useState(0);
 
     const [comicNews, setComicNews] = useState([]);
     const [currentComicNewsPage,setCurrentComicNewsPage] = useState(1);
 
-    const [currentBookNewsPage, setCurrentBookNewsPage] = useState(1);
+    const [booksNews,setBooksNews] = useState([]);
+    const [currentBooksNewsPage, setCurrentBooksNewsPage] = useState(1);
 
     const [newsPerPage] = useState(4);
 
     const comicNewsUrl = 'http://localhost:8080/comicnews';
+    const booksNewsUrl = 'http://localhost:8080/booksnews'
 
 
     useEffect(() => {
@@ -67,10 +69,10 @@ const Home = () => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            setActiveBookNewsIndex((activeBookNewsIndex+1)%newsPerPage)
+            setActiveBooksNewsIndex((activeBooksNewsIndex+1)%newsPerPage)
         }, 5000)
         return () => clearTimeout(timer);
-    }, [activeBookNewsIndex,newsPerPage]);
+    }, [activeBooksNewsIndex,newsPerPage]);
 
     useEffect(() => {
         const getComicNews = async () => {
@@ -91,8 +93,28 @@ const Home = () => {
         getComicNews();
     },[])
 
+    useEffect(() => {
+        const getBooksNews = async () => {
+            setLoading(true)
+            try {
+                await axios.get(booksNewsUrl)
+                        .then(response => {
+                            setBooksNews(response.data)
+                        })
+                        .catch(error => {
+                            console.log(error)
+                        })
+            } catch(err){
+                console.log(err)
+            }
+            setLoading(false)
+        }
+        getBooksNews();
+    },[])
+
+
     const currentComicNews = getCurrentItems(comicNews, currentComicNewsPage, newsPerPage)
-    const currentBookNews = getCurrentItems(comicNews, currentBookNewsPage, newsPerPage)
+    const currentBooksNews = getCurrentItems(booksNews, currentBooksNewsPage, newsPerPage)
 
     if(isLoading){
         return <Loader/>
@@ -117,14 +139,14 @@ const Home = () => {
                 paginate = {(number) => setCurrentComicNewsPage(number)}
                 />
                 <News
-                news={currentBookNews}
+                news={currentBooksNews}
                 title='Edebiyat Dünyası Haberleri'
-                activeIndex={activeBookNewsIndex}
-                onIndexChange={(index) => setActiveBookNewsIndex(index)}
+                activeIndex={activeBooksNewsIndex}
+                onIndexChange={(index) => setActiveBooksNewsIndex(index)}
 
                 itemsPerPage={newsPerPage}
-                totalItems={comicNews.length}
-                paginate={(number) => setCurrentBookNewsPage(number)} 
+                totalItems={booksNews.length}
+                paginate={(number) => setCurrentBooksNewsPage(number)} 
                 />
             </ContainerWrapper>
         </div>

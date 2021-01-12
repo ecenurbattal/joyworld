@@ -1,19 +1,12 @@
 module.exports.getNews = (req,res) => {
     const axios = require('axios');
     const jsdom = require('jsdom');
+    const {getFirstDegreeChild,getThirdDegreeChild,getFifthDegreeChild} = require('../utils/domChildUtils')
 
     const {JSDOM} = jsdom;
 
     const url = 'https://fanzade.com/comicsfan/cizgi-roman-haber/';
 
-
-const getFirstDegreeChild = (item,childIndex) => {
-    return item.children[childIndex]
-}
-
-const getSecondDegreeChild = (item,firstChildIndex,secondChildIndex) => {
-    return item.children[firstChildIndex].children[secondChildIndex]
-}
 
 const uniqueArray = a => [...new Set(a.map(o => JSON.stringify(o)))].map(s => JSON.parse(s))
 
@@ -22,13 +15,15 @@ const getNodes = (html) => {
 
     const dom = new JSDOM(html)
 
-    const news = dom.window.document.querySelectorAll('.p-feat a');
+    const news = dom.window.document.querySelectorAll('.p-wrap');
     news.forEach(item => {
-        if(getFirstDegreeChild(item,0) && item.getAttribute('href').includes('/comicsfan')){
+        // console.log(getElementInsideElement(item,'entry-summary'))
+        if(getFirstDegreeChild(item,2)){
             data.push({
-                title: item.getAttribute('title'),
-                href: item.getAttribute('href'),
-                image: getSecondDegreeChild(item,0,0).getAttribute('data-src')
+                title:  getThirdDegreeChild(item,0,0,0).getAttribute('title'),
+                href:  getThirdDegreeChild(item,0,0,0).getAttribute('href'),
+                image: getFifthDegreeChild(item,0,0,0,0,0).getAttribute('data-src'),
+                summary: getFirstDegreeChild(item,2).textContent.replace('\t\t\t\t\t\t','')
             })
         }
     });
