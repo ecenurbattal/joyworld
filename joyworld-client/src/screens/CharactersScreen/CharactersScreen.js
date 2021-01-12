@@ -4,6 +4,8 @@ import Characters from '../../components/Characters/Characters';
 import { getCharacters, getFilteredCharacters } from '../../services/comicsVineApi';
 import Loader from '../../components/Loader/Loader';
 import SearchBar from '../../components/SearchBar/SearchBar';
+import { getCurrentItems } from '../../utils/paginationUtils';
+import Pagination from '../../components/Pagination/Pagination';
 
 
 const CharactersScreen = () => {
@@ -12,6 +14,12 @@ const CharactersScreen = () => {
     const [error,setError] = useState('');
     const [value,setValue] = useState('');
     const [term, setTerm] = useState('');
+
+    const [charactersPerPage] = useState(10);
+
+    const [currentCharactersPage,setCurrentCharactersPage] = useState(1);
+
+    const currentCharacters = getCurrentItems(characters,currentCharactersPage,charactersPerPage)
 
     const history = useHistory();
 
@@ -63,7 +71,7 @@ const CharactersScreen = () => {
         }
     }
 
-    if (isLoading) {
+    if (isLoading||!characters.length) {
         return <Loader/>
     }
     
@@ -73,7 +81,7 @@ const CharactersScreen = () => {
     }
 
     return (
-        <div>
+        <div style={{display:"flex",flexDirection:"column"}}>
             <SearchBar 
                 placeHolder="Karakter Ara..."
                 value={value}
@@ -82,11 +90,20 @@ const CharactersScreen = () => {
                 onKeyPress={handleKeyPress}
             />
             <Characters
-                characters={characters}
+                characters={currentCharacters}
                 onShowDetail={handleShowDetailClick}
             />
+            <div style={{display:"flex",justifyContent:"center",marginTop:"25px"}}>
+                <Pagination
+                itemsPerPage={charactersPerPage}
+                totalItems={characters.length}
+                paginate = {(number) => setCurrentCharactersPage(number)}
+                />
+            </div>
         </div>
     )
 }
 
 export default CharactersScreen
+
+

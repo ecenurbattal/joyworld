@@ -4,6 +4,8 @@ import { getVolumes, getFilteredVolumes } from '../../services/comicsVineApi';
 import Loader from '../../components/Loader/Loader';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import Volumes from '../../components/Volumes/Volumes';
+import { getCurrentItems } from '../../utils/paginationUtils';
+import Pagination from '../../components/Pagination/Pagination';
 
 
 const VolumesScreen = () => {
@@ -12,6 +14,12 @@ const VolumesScreen = () => {
     const [error,setError] = useState('');
     const [value,setValue] = useState('');
     const [term, setTerm] = useState('');
+
+    const [volumesPerPage] = useState(10);
+
+    const [currentVolumesPage,setCurrentVolumesPage] = useState(1);
+
+    const currentVolumes = getCurrentItems(volumes,currentVolumesPage,volumesPerPage)
 
     const history = useHistory();
 
@@ -63,7 +71,7 @@ const VolumesScreen = () => {
         }
     }
 
-    if (isLoading) {
+    if (isLoading||!volumes.length) {
         return <Loader/>
     }
     
@@ -72,7 +80,7 @@ const VolumesScreen = () => {
     }
 
     return (
-        <div>
+        <div style={{display:"flex",flexDirection:"column"}}>
             <SearchBar 
                 placeHolder="Çizgi Roman Ara..."
                 value={value}
@@ -81,9 +89,16 @@ const VolumesScreen = () => {
                 onKeyPress={handleKeyPress}
             />
             <Volumes
-                volumes={volumes}
+                volumes={currentVolumes}
                 onShowDetail={handleShowDetailClick}
             />
+            <div style={{display:"flex",justifyContent:"center",marginTop:"25px"}}>
+                <Pagination
+                itemsPerPage={volumesPerPage}
+                totalItems={volumes.length}
+                paginate = {(number) => setCurrentVolumesPage(number)}
+                />
+            </div>
         </div>
     )
 }

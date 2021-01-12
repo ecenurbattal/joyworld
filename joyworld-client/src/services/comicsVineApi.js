@@ -13,7 +13,7 @@ export const getCharacters = () => {
     return instance.get('/characters',{
         params: {
             field_list : 'image,deck,name,id,api_detail_url',
-            limit: '20',
+            limit: '50',
             sort: 'count_of_issue_appearances:desc',
         }
     })
@@ -34,7 +34,7 @@ export const getFilteredCharacters = (value) => {
             query: `${value}`,
             resources: 'character',
             field_list : 'image,deck,name,id,api_detail_url',
-            limit: '20',
+            limit: '50',
             sort: 'count_of_issue_appearances:desc',
         }
     })
@@ -44,7 +44,7 @@ export const getVolumes = () => {
     return instance.get('/volumes',{
         params: {
             field_list : 'image,deck,name,id,api_detail_url',
-            limit: '20',
+            limit: '50',
             sort: 'count_of_issue:desc',
         }
     })
@@ -65,7 +65,7 @@ export const getFilteredVolumes = (value) => {
             query: `${value}`,
             resources: 'volume',
             field_list : 'image,deck,name,id,api_detail_url',
-            limit: '20',
+            limit: '50',
             sort: 'count_of_issue:desc',
         }
     })
