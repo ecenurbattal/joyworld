@@ -41,6 +41,9 @@ app.use('/comicvine/api',cors(corsOptions), (req,res) => {
 const comicNewsRouter = require('./routes/comicNewsRouter')
 app.use('/comicnews',comicNewsRouter);
 
+const booksNewsRouter = require('./routes/booksNewsRouter');
+app.use('/booksnews',booksNewsRouter);
+
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on ${process.env.PORT}`);
 })
