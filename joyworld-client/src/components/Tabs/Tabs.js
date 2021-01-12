@@ -6,17 +6,15 @@ const Tabs = ({ tabs, activeIndex = 0, onIndexChange }) => {
         <Wrapper>
             <TabButtons>
                 {tabs.map((item, index) => (
-                <>
-                    <TabButton data-testid='tabButton'
+                    <TabButton 
                     isActive={activeIndex === index}
                     onClick={() => onIndexChange(index)}
                     >
                     {item.header()}
                     </TabButton>
-                </>
                 ))}
             </TabButtons>
-            <TabContent data-testid='tabContent' bgImage={tabs[activeIndex].bgImage()}>{tabs[activeIndex].content()}</TabContent>
+            <TabContent bgImage={tabs[activeIndex].bgImage()}>{tabs[activeIndex].content()}</TabContent>
         </Wrapper>
     );
 };
