@@ -5,7 +5,6 @@ export const ContainerWrapper = styled.div`
     flex-direction:row;
     justify-content: center;
     margin-top: 5vh;
-    
 
     @media (max-width:767px) {
         flex-direction: column;
@@ -18,7 +17,9 @@ export const Wrapper = styled.div`
     flex-direction:column;
     align-items:center;
     border: 2px solid white;
-    width: 45%;
+    width: 50%;
+
+    margin: 5px;
 
     @media (max-width:767px) {
         width: 100%;
@@ -28,6 +29,14 @@ export const Wrapper = styled.div`
 
 `;
 
+export const InlineWrapper = styled.div`
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    width:100%;
+`;
+
+
 export const Title = styled.div`
     font-size:30px;
     color:white;
@@ -36,7 +45,36 @@ export const Title = styled.div`
     margin: 5px;
 `;
 
-export const ItemWrapper = styled.div`
+export const NewsWrapper = styled.div`
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    width:100%;
+`;
+
+export const NewsItemWrapper = styled.div`
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    align-items:center;
+    margin: 5px;
+`
+
+export const NewsItemImage = styled.img`
+    width:50%;
+    height: 100px;
+`;
+
+export const NewsItemTitle = styled.a`
+    font-size: 12px;
+    color:white;
+    width: 100%;
+    font-family:Passero One, cursive;
+    text-align: center;
+    margin-top: 5px;
+`;
+
+export const ActiveNewsWrapper = styled.div`
     display:flex;
     flex-direction:column;
     justify-content:center;
@@ -52,7 +90,7 @@ export const ItemWrapper = styled.div`
     transition: 0.3s ease-out;
     &:hover {
         width: 96%;
-        height: 330px;
+        height:370px;
     }
 
     border-radius: 20px;
@@ -62,12 +100,12 @@ export const ItemWrapper = styled.div`
 
 `;
 
-export const ItemImage = styled.img`
+export const ActiveNewsImage = styled.img`
     width:100%;
     height:220px;
 `;
 
-export const ItemTitle = styled.a`
+export const ActiveNewsTitle = styled.a`
     font-size: 20px;
     color:white;
     width: 100%;

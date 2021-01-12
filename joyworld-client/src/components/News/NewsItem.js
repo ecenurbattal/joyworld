@@ -1,12 +1,12 @@
 import React from 'react'
-import { ItemImage, ItemTitle, ItemWrapper } from './News.styles'
+import { NewsItemImage, NewsItemTitle, NewsItemWrapper } from './News.styles'
 
-const NewsItem = ({newsItem}) => {
+const NewsItem = ({newsItem,onIndexChange,index}) => {
     return (
-        <ItemWrapper>
-            <ItemImage src={newsItem.image}></ItemImage>
-            <ItemTitle href={newsItem.href}>{newsItem.title}</ItemTitle>
-        </ItemWrapper>
+        <NewsItemWrapper onMouseOver={() => onIndexChange(index)}>
+            <NewsItemImage src={newsItem?.image}></NewsItemImage>
+            <NewsItemTitle href={newsItem?.href}>{newsItem?.title}</NewsItemTitle>
+        </NewsItemWrapper>
     )
 }
 
