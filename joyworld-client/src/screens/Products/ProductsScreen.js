@@ -95,8 +95,6 @@ const ProductsScreen = () => {
             marginBottom="30px" 
             height="30px"
             width="150px" 
-            backgroundColor="red"
-            color="white"
             text="Yeni ürün ekle"
             onClick={handleAddProductButtonClick}
             />

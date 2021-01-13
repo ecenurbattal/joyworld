@@ -1,16 +1,13 @@
 import React from 'react'
+import { ButtonWrapper } from './Button.styles';
 
 const Button = ({text,onClick,icon,...restProps}) => {
     return (
-        <button style={{
-            ...restProps,
-            border:"2px solid #7d5fff",
-            borderRadius:"10px"
-            }}
+        <ButtonWrapper style={{ ...restProps }}
             onClick={onClick}>
             {icon}
             {text} 
-        </button>
+        </ButtonWrapper>
     )
 }
 

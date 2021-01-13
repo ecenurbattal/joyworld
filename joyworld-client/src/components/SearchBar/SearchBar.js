@@ -20,17 +20,10 @@ const SearchBar = ({placeHolder,value,onInputChange,onButtonClick,onKeyPress}) =
                 marginLeft="2%"
                 text="Ara"
                 onClick={onButtonClick}
-                backgroundImage="linear-gradient(
-                    to right,
-                    purple,
-                    rgba(0, 200, 200), 
-                    rgba(50, 200, 130)
-                )"
                 width="4rem"
                 height="2.5rem"
                 fontSize="17px"
                 fontWeight="500"
-                color="white"
             />
         </Wrapper>
         
