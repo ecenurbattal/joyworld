@@ -5,8 +5,7 @@ import useOutsideAlerter from '../../hooks/useOutsideAlerter';
 import { upsertProductToChart } from '../../utils/cartUtils';
 import Button from '../Button/Button';
 import Counter from '../Counter/Counter';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
+import {FaShoppingCart} from 'react-icons/fa'
 
 import {
   CartContent,
@@ -18,7 +17,6 @@ import {
 } from './Cart.styles';
 
 const Cart = () => {
-  const shoppingCartIcon = <FontAwesomeIcon icon={faShoppingCart}/>
   const history = useHistory();
   const [isContentOpen, setContentOpen] = useState(false);
   const cartContentRef = useRef(null);
@@ -53,20 +51,18 @@ const Cart = () => {
   return (
     <Wrapper>
       <Button
-        backgroundColor='transparent'
         fontSize='20px'
-        color='white'
-        icon={shoppingCartIcon}
+        icon={<FaShoppingCart/>}
         role='cartButton'
         text={`${!!cart.length ? ` (${cart.length})` : ''} `}
         onClick={() => setContentOpen((prevState) => !prevState)}
       />
 
-      <CartContent data-testid="cartContent" isOpen={isContentOpen} ref={cartContentRef}>
+      <CartContent isOpen={isContentOpen} ref={cartContentRef}>
         <CartContentList>
           {cart.map((item) => (
             <CartContentListItem key={`product-${item.product.id}`}>
-              <Image data-testid="cartProductImage" src={item.product.image} alt={item.product.name} />
+              <Image src={item.product.image} alt={item.product.name} />
               <CartContentDetail>
                 <h4>{item.product.name}</h4>
                 <Counter
