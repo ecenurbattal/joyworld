@@ -116,7 +116,7 @@ const Home = () => {
     const currentComicNews = getCurrentItems(comicNews, currentComicNewsPage, newsPerPage)
     const currentBooksNews = getCurrentItems(booksNews, currentBooksNewsPage, newsPerPage)
 
-    if(isLoading){
+    if(isLoading || !currentBooksNews.length || !currentComicNews.length){
         return <Loader/>
     }
 
