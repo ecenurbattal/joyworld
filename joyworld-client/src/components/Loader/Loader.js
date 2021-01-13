@@ -1,12 +1,17 @@
 import React from 'react';
-import {Wrapper,Item} from './Loader.styles';
+import { Letter, Wrapper } from './Loader.styles';
 
 const Loader = () => {
+    var str = 'yükleniyor';
+    const letters = str.split('');
     return (
         <Wrapper>
-            <Item>Yükleniyor...</Item>
+            {letters.map((item,index) => (
+                <Letter index={index}>
+                    {item}
+                </Letter>
+            ))}
         </Wrapper>
     )
 }
-
-export default Loader
+export default Loader;
