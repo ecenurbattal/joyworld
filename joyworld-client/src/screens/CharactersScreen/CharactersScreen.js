@@ -28,6 +28,10 @@ const CharactersScreen = () => {
     },[]);
 
     useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [currentCharactersPage])
+
+    useEffect(() => {
             const filteredCharacters = async () => {
                 setLoading(true)
                 try {

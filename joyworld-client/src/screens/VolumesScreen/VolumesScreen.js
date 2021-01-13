@@ -28,6 +28,10 @@ const VolumesScreen = () => {
     },[]);
 
     useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [currentVolumesPage])
+
+    useEffect(() => {
             const filteredVolumes = async () => {
                 setLoading(true)
                 try {
