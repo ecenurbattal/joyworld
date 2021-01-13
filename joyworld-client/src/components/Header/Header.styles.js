@@ -7,6 +7,7 @@ export const Wrapper = styled.div`
     z-index: 1;
     padding: 0 2em;
 
+    transition: top 0.5s;
 
     background-image: linear-gradient(
         to right, 
@@ -34,6 +35,7 @@ export const Menu = styled.ul`
     
     list-style:none;
     margin-left: ${(props) => props.margin};
+    margin-top: 10px;
 
 
     & > li,
@@ -75,6 +77,11 @@ export const Title = styled.h1`
     font-family:Permanent Marker, cursive;
     font-size: 75px;
     cursor: pointer;
+
+    transition: opacity 0.5s linear;
+    visibility: ${(props) => props.showTitle ? 'hidden' : 'visible' };
+    position: ${(props) => props.showTitle ? 'absolute' : '' };
+    opacity: ${(props) => props.showTitle ? '0' : '1'};
 
     @media (max-width: 768px){
         font-size: 50px;

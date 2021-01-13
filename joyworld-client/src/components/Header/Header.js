@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import {routes} from '../../config/Router';
 import {Wrapper, Title, Menu, InlineContainer} from './Header.styles';
@@ -13,12 +13,31 @@ import Dropdown from '../Dropdown/Dropdown';
 const Header = ({drawerClickHandler}) => {
     const {isAuthenticated} = useContext(SessionContext)
     const history = useHistory();
+
+    const [showTitle,setShowTitle] = useState(false);
+
+    useEffect(()=>{
+        window.addEventListener('scroll', checkScrollTop)
+        return function cleanup() {
+            window.removeEventListener('scroll', checkScrollTop)
+        }
+    })
+
+    const checkScrollTop = () => {
+        if (!showTitle && window.pageYOffset > 120){
+            setShowTitle(true)
+        } else if (showTitle && window.pageYOffset <= 120){
+            setShowTitle(false)
+        }
+    };
+
+
     const handleTitleClick = () => {
         history.push('/');
     }
     return (
-        <Wrapper>
-            <Title onClick={handleTitleClick}>JoyWorld</Title>
+        <Wrapper showTitle={showTitle}>
+            <Title showTitle={showTitle} onClick={handleTitleClick}>JoyWorld</Title>
             <InlineContainer>
                 <DrawerToggleButton onClick={drawerClickHandler}/>
                 <Menu display="none" margin="0">
