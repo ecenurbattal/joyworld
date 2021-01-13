@@ -11,6 +11,7 @@ import Header from './components/Header/Header';
 import { useState } from 'react';
 import SideDrawer from './components/SideDrawer/SideDrawer';
 import Backdrop from './components/Backdrop/Backdrop';
+import ScrollTopArrow from './components/ScrollTopArrow/ScrollTopArrow';
 
 function App() {
   const [isAuthenticated, setAuthenticated] = useState(false);
@@ -46,6 +47,7 @@ function App() {
                 <Header drawerClickHandler={drawerToggleClickHandler} />
                 <SideDrawer show={sideDrawerOpen}/>
                 {sideDrawerOpen && <Backdrop onClick={backdropClickHandler}/>}
+                <ScrollTopArrow/>
                 <Content />
                 <Footer />
               </Container>
