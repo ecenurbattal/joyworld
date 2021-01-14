@@ -1,7 +1,7 @@
 module.exports.getNews = (req,res) => {
     const axios = require('axios');
     const jsdom = require('jsdom');
-    const {getFourthDegreeChild,getThirdDegreeChild,getSecondDegreeChild} = require('../utils/domChildUtils')
+    const {getElement} = require('../utils/domChildUtils')
 
     const {JSDOM} = jsdom;
 
@@ -16,10 +16,10 @@ module.exports.getNews = (req,res) => {
         const news = dom.window.document.querySelectorAll('.article-wrap-inner');
         news.forEach(item => {
             data.push({
-                title: getFourthDegreeChild(item,0,0,0,0).textContent,
-                href: getFourthDegreeChild(item,0,0,0,0).getAttribute('href'),
-                image: getThirdDegreeChild(item,1,0,0).getAttribute('src'),
-                summary: getSecondDegreeChild(item,1,2).textContent
+                title: getElement(item,'article-title entry-title').children[0].textContent,
+                href: getElement(item,'article-title entry-title').children[0].getAttribute('href'),
+                image: getElement(item,'pp-excerpt-img').getAttribute('src'),
+                summary: getElement(item,'article-content').children[2].textContent
             })
         })
         return data;
@@ -31,9 +31,9 @@ module.exports.getNews = (req,res) => {
             res.status(200).send((getNodes(response.data)))
         })
         .catch(error => {
-            res.status(500).send({message:error})
+            res.sendStatus(500)
         })
     } catch(error){
-        res.status(500).send({message:error})
+        res.sendStatus(500)
     }
 }
