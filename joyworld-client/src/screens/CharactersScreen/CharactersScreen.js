@@ -75,7 +75,7 @@ const CharactersScreen = () => {
         }
     }
 
-    if (isLoading||!characters.length) {
+    if (isLoading||(!characters.length&&!error)) {
         return <Loader/>
     }
     

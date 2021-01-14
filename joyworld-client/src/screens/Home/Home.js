@@ -35,6 +35,7 @@ const initialTabs = [
 
 const Home = () => {
     const [isLoading,setLoading] = useState(false);
+    const [error,setError] = useState('');
 
     const [activeTabIndex, setActiveTabIndex] = useState(0);
 
@@ -83,10 +84,10 @@ const Home = () => {
                             setComicNews(response.data)
                         })
                         .catch(error => {
-                            console.log(error)
+                            setError(error.message)
                         })
             } catch(err){
-                console.log(err)
+                setError(err.message)
             }
             setLoading(false)
         }
@@ -102,10 +103,10 @@ const Home = () => {
                             setBooksNews(response.data)
                         })
                         .catch(error => {
-                            console.log(error)
+                            setError(error.message)
                         })
             } catch(err){
-                console.log(err)
+                setError(err.message)
             }
             setLoading(false)
         }
@@ -116,8 +117,12 @@ const Home = () => {
     const currentComicNews = getCurrentItems(comicNews, currentComicNewsPage, newsPerPage)
     const currentBooksNews = getCurrentItems(booksNews, currentBooksNewsPage, newsPerPage)
 
-    if(isLoading || !currentBooksNews.length || !currentComicNews.length){
+    if(isLoading || ((!currentBooksNews.length || !currentComicNews.length) &&!error)){
         return <Loader/>
+    }
+
+    if (error) {
+        return <p style={{color:"white",textAlign:"center",fontSize:"30px"}}>{error}</p>;
     }
 
     return (

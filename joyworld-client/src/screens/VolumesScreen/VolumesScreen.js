@@ -75,7 +75,7 @@ const VolumesScreen = () => {
         }
     }
 
-    if (isLoading||!volumes.length) {
+    if (isLoading||(!volumes.length&&!error)) {
         return <Loader/>
     }
     
