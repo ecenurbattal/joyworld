@@ -52,6 +52,7 @@ const Cart = () => {
     <Wrapper>
       <Button
         fontSize='20px'
+        width="33px"
         icon={<FaShoppingCart/>}
         role='cartButton'
         text={`${!!cart.length ? ` (${cart.length})` : ''} `}

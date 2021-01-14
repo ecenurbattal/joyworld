@@ -6,7 +6,7 @@ const ActiveNews = ({newsItem}) => {
         <ActiveNewsWrapper>
             <ActiveNewsImage src={newsItem?.image}></ActiveNewsImage>
             <ActiveNewsTitle href={newsItem?.href}>{newsItem?.title}</ActiveNewsTitle>
-            <ActiveNewsSummary>{newsItem?.summary && <hr />}
+            <ActiveNewsSummary>{newsItem?.summary && <hr color='#2d3436' />}
                 {newsItem?.summary && newsItem?.summary.length > 100
                 ? newsItem?.summary.substr(0,100) + '...'
                 : newsItem?.summary}</ActiveNewsSummary>

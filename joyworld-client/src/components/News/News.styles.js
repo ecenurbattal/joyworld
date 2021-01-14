@@ -116,5 +116,5 @@ export const ActiveNewsTitle = styled.a`
 
 export const ActiveNewsSummary = styled.p`
     text-align:center;
-    color:#2d3436;
+    color:black;
 `;
