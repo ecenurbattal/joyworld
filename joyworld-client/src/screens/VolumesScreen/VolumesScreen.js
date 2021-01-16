@@ -6,6 +6,7 @@ import SearchBar from '../../components/SearchBar/SearchBar';
 import Volumes from '../../components/Volumes/Volumes';
 import { getCurrentItems } from '../../utils/paginationUtils';
 import Pagination from '../../components/Pagination/Pagination';
+import InternalError from '../../components/Error/InternalError';
 
 
 const VolumesScreen = () => {
@@ -38,7 +39,7 @@ const VolumesScreen = () => {
                     const {data:{results}} = await getFilteredVolumes(term);
                     if(!!term && !!results.length) {setVolumes(results)}
                 } catch (err) {
-                    setError("Sunucu ile ilgili bir hata oluştu, lütfen daha sonra tekrar deneyiniz.")
+                    setError(500)
                 }
                 setLoading(false);
             }
@@ -51,7 +52,7 @@ const VolumesScreen = () => {
             const {data:{results}} = await getVolumes();
             setVolumes(results);
         } catch(err){
-            setError("Sunucu ile ilgili bir hata oluştu, lütfen daha sonra tekrar deneyiniz.")
+            setError(500)
         }
         setLoading(false);
     }
@@ -80,7 +81,8 @@ const VolumesScreen = () => {
     }
     
     if (error) {
-        return <p style={{color:"white",textAlign:"center",fontSize:"30px"}}>{error}</p>;
+        if(error===500) return <InternalError/>
+        else return <h1>{error}</h1>
     }
 
     return (

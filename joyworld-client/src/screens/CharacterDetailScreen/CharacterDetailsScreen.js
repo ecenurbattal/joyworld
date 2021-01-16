@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { getCharacter } from '../../services/comicsVineApi';
 import Loader from '../../components/Loader/Loader';
 import CharacterDetails from '../../components/CharacterDetails/CharacterDetails';
+import InternalError from '../../components/Error/InternalError';
 
 const CharacterDetailsScreen = () => {
 
@@ -19,7 +20,7 @@ const CharacterDetailsScreen = () => {
                 const {data:{results}} = await getCharacter(state);
                 setCharacter(results);
             } catch (err){
-                setError(err);
+                setError(500);
             }
             setLoading(false);
         }
@@ -31,7 +32,8 @@ const CharacterDetailsScreen = () => {
     }
     
     if (error) {
-        return <p>Error: {error}</p>;
+        if(error===500) return <InternalError/>
+        else return <h1>{error}</h1>
     }
     
     return (

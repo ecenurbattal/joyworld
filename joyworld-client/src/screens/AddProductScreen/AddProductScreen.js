@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import Button from '../../components/Button/Button';
+import InternalError from '../../components/Error/InternalError';
 import { Box, FormContainer } from '../../components/FormElements/WrappedFormElements';
 import Input from '../../components/Input/Input';
 import Loader from '../../components/Loader/Loader';
@@ -67,7 +68,7 @@ const AddProductScreen = () => {
                 }
             })
         } catch(err){
-            setError(err)
+            setError(500)
         }
         setLoading(false);
     }
@@ -77,7 +78,8 @@ const AddProductScreen = () => {
     }
     
     if (error) {
-        return <p>Error: {error}</p>;
+        if(error===500) return <InternalError/>
+        else return <h1>{error}</h1>
     }
     
 

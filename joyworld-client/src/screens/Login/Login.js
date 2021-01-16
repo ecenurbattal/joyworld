@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 import Button from '../../components/Button/Button';
+import InternalError from '../../components/Error/InternalError';
 import {
   Box,
   Title,
@@ -19,32 +20,38 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const [error, setError] = useState('');
+  const [logError, setLogError] = useState('');
+  const [error,setError] = useState('');
   const {setAuthenticated} = useContext(SessionContext);
   
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError('');
+    setLogError('');
     try {
       const isUser = username==='ecenb'&& password==='ece123'
       if (isUser) {
         history.push('/');
         setAuthenticated(true);
       } else {
-        setError('Kullanıcı adı veya parola yanlış.');
+        setLogError('Kullanıcı adı veya parola yanlış.');
       }
     } catch(err){
-      setError(err)
+      setError(500)
     }
     
   };
+
+  if (error) {
+    if(error===500) return <InternalError/>
+    else return <h1>{error}</h1>
+  }
 
   return (
     <Box>
       <Title>Giriş Yap</Title>
       <FormContainer onSubmit={handleSubmit}>
-        {error && <ErrorMessage>{error}</ErrorMessage>}
+        {logError && <ErrorMessage>{logError}</ErrorMessage>}
         <Input
           style={{height:"30px",width:"100%"}}
           type="text"

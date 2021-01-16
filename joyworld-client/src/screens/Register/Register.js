@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 import Button from '../../components/Button/Button';
+import InternalError from '../../components/Error/InternalError';
 import {
     Box,
     Title,
@@ -16,8 +17,8 @@ const Register = () => {
     const [user,setUser] = useState({});
     const history = useHistory();
 
+    const [regError, setRegError] = useState('');
     const [error, setError] = useState('');
-
     const [users,setUsers] = useState([]);
 
     const [status,setStatus] = useState(false)
@@ -54,18 +55,18 @@ const Register = () => {
 
     const handleSubmit =  async (event) => {
         event.preventDefault();
-        setError('');
+        setRegError('');
         const isUser = users.some(item => item.username===user.username||item.email===user.email) 
         if(!isUser) {
             try{
                 //post request
                 setStatus(true);
             } catch (err){
-                setError(err);
+                setError(500);
             }
         }
         else {
-            setError("Kullanıcı adı veya e-posta sistemde kayıtlı.")
+            setRegError("Kullanıcı adı veya e-posta sistemde kayıtlı.")
         }
     }
     
@@ -81,12 +82,17 @@ const Register = () => {
         )
     }
 
+    if (error) {
+        if(error===500) return <InternalError/>
+        else return <h1>{error}</h1>
+    }
+
 
     return (
         <Box>
             <Title>Kayıt Ol</Title>
             <FormContainer onSubmit={handleSubmit}>
-                {error && <ErrorMessage>{error}</ErrorMessage>}
+                {regError && <ErrorMessage>{regError}</ErrorMessage>}
                 <Input
                 style={{height:"30px",width:"100%"}}
                 type="text"

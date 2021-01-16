@@ -6,6 +6,7 @@ import Loader from '../../components/Loader/Loader';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import { getCurrentItems } from '../../utils/paginationUtils';
 import Pagination from '../../components/Pagination/Pagination';
+import InternalError from '../../components/Error/InternalError';
 
 
 const CharactersScreen = () => {
@@ -38,7 +39,7 @@ const CharactersScreen = () => {
                     const {data:{results}} = await getFilteredCharacters(term);
                     if(!!term && !!results.length) {setCharacters(results)}
                 } catch (err) {
-                    setError("Sunucu ile ilgili bir hata oluştu, lütfen daha sonra tekrar deneyiniz.")
+                    setError(500)
                 }
                 setLoading(false);
             }
@@ -51,7 +52,7 @@ const CharactersScreen = () => {
             const {data:{results}} = await getCharacters();
             setCharacters(results);
         } catch(err){
-            setError("Sunucu ile ilgili bir hata oluştu, lütfen daha sonra tekrar deneyiniz.");
+            setError(500);
         }
         setLoading(false);
     }
@@ -81,7 +82,8 @@ const CharactersScreen = () => {
     
     
     if (error) {
-        return <p style={{color:"white",textAlign:"center",fontSize:"30px"}}>{error}</p>;
+        if(error===500) return <InternalError/>
+        else return <h1>{error}</h1>
     }
 
     return (

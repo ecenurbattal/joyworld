@@ -7,6 +7,7 @@ import SearchBar from '../../components/SearchBar/SearchBar';
 import Loader from '../../components/Loader/Loader';
 import Button from '../../components/Button/Button';
 import { useHistory } from 'react-router-dom';
+import InternalError from '../../components/Error/InternalError';
 
 const ProductsScreen = () => {
     const [products,setProducts] = useState([]);
@@ -24,7 +25,7 @@ const ProductsScreen = () => {
                 const {data} = await getProducts()
                 setProducts(data);
             } catch(err){
-                setError(err);
+                setError(500);
             }
             setLoading(false);
         }
@@ -42,7 +43,7 @@ const ProductsScreen = () => {
                 if(!!term) {setProducts(filteredProducts)}
                 else {setProducts(data)}
             } catch (err) {
-                setError(err)
+                setError(500)
             }
             setLoading(false)
         }
@@ -79,7 +80,8 @@ const ProductsScreen = () => {
     }
     
     if (error) {
-        return <p>Error: {error}</p>;
+        if(error===500) return <InternalError/>
+        else return <h1>{error}</h1>
     }
 
     return (
