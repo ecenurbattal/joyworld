@@ -44,6 +44,10 @@ export const Title = styled.div`
     font-weight: 900;
     margin: 5px;
     font-family:Permanent Marker, cursive;
+
+    @media (max-width:400px){
+        font-size: 23px;
+    }
 `;
 
 export const NewsWrapper = styled.div`
@@ -51,6 +55,10 @@ export const NewsWrapper = styled.div`
     flex-direction:column;
     align-items:center;
     width:100%;
+
+    @media (max-width:544px){
+        display:none;
+    }
 `;
 
 export const NewsItemWrapper = styled.div`
@@ -112,6 +120,10 @@ export const ActiveNewsTitle = styled.a`
     font-family:Passero One, cursive;
     text-align: center;
     margin-top: 10px;
+
+    @media (max-width:399px){
+        font-size: 17px;
+    }
 `;
 
 export const ActiveNewsSummary = styled.p`

@@ -21,14 +21,14 @@ export const TabButton = styled.button`
         rgb(0, 200, 200), 
         rgb(50, 200, 130)
     );
-  width: 150px;
+  width: 130px;
   height: 50px;
   font-family: Sedgwick Ave, cursive;
   font-size: 20px;
   font-weight:500;
 
-  @media (max-width: 376px){
-    font-size: 15px;
+  @media (max-width: 465px){
+    font-size: 12px;
   }
 
   border: 1px solid ${(props) => (props.isActive ? 'red' : 'gray')};
@@ -41,10 +41,11 @@ export const TabContent = styled.div`
   padding: 2em;
   margin-top: 10px;
   width: 100%;
-  min-height: 40vh;
+  min-height: 45vh;
   background: url(${(props) => props.bgImage});
   background-size:cover;
   background-repeat:no-repeat;
+  background-position: ${(props) => props.position};
   border-radius:10px;
 
   border: 7px solid #d3d3d3;
