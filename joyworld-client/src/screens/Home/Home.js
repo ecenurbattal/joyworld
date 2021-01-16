@@ -1,18 +1,23 @@
 import React, { useState, useEffect} from 'react'
 import WelcomeTab from '../../components/Tabs/WelcomeTab';
-import CharactersTab from '../../components/Tabs/CharactersTab';
+import ComicTab from '../../components/Tabs/ComicTab';
 import ProductsTab from '../../components/Tabs/ProductsTab';
 import Tabs from '../../components/Tabs/Tabs';
 
 import welcomeBgImage from '../../images/welcomeBgImage.jpg';
-import charactersBgImage from '../../images/charactersBgImage.jpg';
+import comicBgImage from '../../images/comicBgImage.jpg';
 import productsBgImage from '../../images/productsBgImage.jpg';
+import booksBgImage from '../../images/booksBgImage.jpg';
+import forumBgImage from '../../images/forumBgImage.jpg';
 
 import {ContainerWrapper} from '../../components/News/News.styles';
 import News from '../../components/News/News';
 import axios from 'axios';
 import { getCurrentItems } from '../../utils/paginationUtils';
 import Loader from '../../components/Loader/Loader';
+import InternalError from '../../components/Error/InternalError';
+import BooksTab from '../../components/Tabs/BooksTab';
+import ForumTab from '../../components/Tabs/ForumTab';
 
 const initialTabs = [
     {
@@ -21,14 +26,24 @@ const initialTabs = [
         bgImage: () => welcomeBgImage,
     },
     {
-        header: () => 'Karakterler',
-        content: () => <CharactersTab/>,
-        bgImage: () => charactersBgImage,
+        header: () => 'Çizgi Roman',
+        content: () => <ComicTab/>,
+        bgImage: () => comicBgImage,
+    },
+    {
+        header: () => 'Kitaplar',
+        content: () => <BooksTab/>,
+        bgImage: () => booksBgImage,
     },
     {
         header: () => 'Ürünler',
         content: () => <ProductsTab/>,
         bgImage:() => productsBgImage,
+    },
+    {
+        header: () => 'Forum',
+        content: () => <ForumTab/>,
+        bgImage:() => forumBgImage,
     },
 ];
 
@@ -56,7 +71,7 @@ const Home = () => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            setActiveTabIndex((activeTabIndex+1)%3)
+            setActiveTabIndex((activeTabIndex+1)%initialTabs.length)
         }, 5000)
         return () => clearTimeout(timer);
     }, [activeTabIndex]);
@@ -84,7 +99,7 @@ const Home = () => {
                             setComicNews(response.data)
                         })
                         .catch(error => {
-                            setError(error.message)
+                            setError(500)
                         })
             } catch(err){
                 setError(err.message)
@@ -103,7 +118,7 @@ const Home = () => {
                             setBooksNews(response.data)
                         })
                         .catch(error => {
-                            setError(error.message)
+                            setError(500)
                         })
             } catch(err){
                 setError(err.message)
@@ -122,7 +137,8 @@ const Home = () => {
     }
 
     if (error) {
-        return <p style={{color:"white",textAlign:"center",fontSize:"30px"}}>{error}</p>;
+        if(error===500) return <InternalError/>
+        else return <h1>{error}</h1>
     }
 
     return (
