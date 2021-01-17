@@ -1,7 +1,9 @@
-module.exports.getNews = (req,res) => {
-    const axios = require('axios');
-    const jsdom = require('jsdom');
-    const {getElement} = require('../utils/domChildUtils')
+import axios from 'axios'
+import jsdom from 'jsdom'
+import {getElement} from '../utils/domChildUtils.js';
+
+export const getNews = async (req,res) => {
+
 
     const {JSDOM} = jsdom;
 
@@ -26,14 +28,14 @@ module.exports.getNews = (req,res) => {
     }
 
     try{
-        axios.get(url)
+        await axios.get(url)
         .then(response => {
-            res.status(200).send((getNodes(response.data)))
+            res.status(200).json((getNodes(response.data)))
         })
         .catch(error => {
-            res.sendStatus(500)
+            res.status(500).json({message:error.message});
         })
     } catch(error){
-        res.sendStatus(500)
+        res.status(500).json({message:error.message});
     }
 }

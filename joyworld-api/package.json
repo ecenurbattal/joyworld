@@ -2,6 +2,7 @@
   "name": "joyworld-api",
   "version": "1.0.0",
   "description": "",
+  "type":"module",
   "main": "index.js",
   "dependencies": {
     "axios": "^0.21.1",
