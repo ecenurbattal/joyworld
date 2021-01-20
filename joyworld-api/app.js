@@ -1,17 +1,24 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 import cors from 'cors';
 import morgan from 'morgan';
 import request from 'request';
+import passport from 'passport';
+import cookieParser from 'cookie-parser';
 import { ErrorHandler } from './app/helpers/error.js';
+import {applyPassportStrategy} from './config/passport.js';
 
 
 const app = express();
+dotenv.config();
 
 const PORT = process.env.PORT || 8080;
 
+applyPassportStrategy(passport);
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 app.use(morgan('dev'));
 
 const corsOptions = {
@@ -60,10 +67,11 @@ mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${
     useCreateIndex: true
 }).then(() => {
     console.log('Database is connected!');
+    app.listen(PORT, () => {
+        console.log(`Server is running on ${PORT}`);
+    });
 }).catch(error => {
     console.log(error)
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on ${process.env.PORT}`);
-})
+
