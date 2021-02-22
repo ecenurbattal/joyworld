@@ -43,6 +43,9 @@ app.use('/booksnews',booksNewsRouter);
 import usersRouter from './app/routes/usersRouter.js';
 app.use('/users',usersRouter);
 
+import authRouter from './app/routes/authRouter.js';
+app.use('/auth',authRouter);
+
 
 app.all('*', (req, res, next) => {
     next(new ErrorHandler(404,`Can't find ${req.originalUrl} on this server!`));
