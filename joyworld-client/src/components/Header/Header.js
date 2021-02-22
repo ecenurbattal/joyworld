@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import {routes} from '../../config/Router';
 import {Wrapper, Title, Menu, InlineContainer} from './Header.styles';
 import Cart from '../Cart/Cart';
@@ -45,7 +45,7 @@ const Header = ({drawerClickHandler}) => {
                         .map((route) => (
                             route.isDropdown ? <Dropdown route={route}/> : (
                             <li key={`route-${route.title}`}>
-                                <Link to={route.path}>{route.title}</Link>
+                                <a href={route.path}>{route.title}</a>
                             </li>
                             )
                         ))
@@ -55,10 +55,10 @@ const Header = ({drawerClickHandler}) => {
                     {!isAuthenticated ? (
                     <>
                         <li>
-                            <Link to='/login'>Giriş Yap</Link>
+                            <a href='/login'>Giriş Yap</a>
                         </li>
                         <li>
-                            <Link to='/register'>Kayıt Ol</Link>
+                            <a href='/register'>Kayıt Ol</a>
                         </li>
                         </>
                     ) : (

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import {Wrapper,DropButton,DropdownContent} from './Dropdown.styles';
 import {routes} from '../../config/Router';
 
@@ -13,7 +12,7 @@ const Dropdown = ({route}) => {
                 {route.links.map(link => (
                     routes.filter(routeList => routeList.title===link)
                     .map(currentRoute => (
-                        <Link to={currentRoute.path}>{currentRoute.title}</Link>
+                        <a href={currentRoute.path}>{currentRoute.title}</a>
                     ))
                 ))}
             </DropdownContent>

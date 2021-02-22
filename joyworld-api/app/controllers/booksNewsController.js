@@ -1,8 +1,10 @@
 import axios from 'axios'
 import jsdom from 'jsdom'
 import {getElement} from '../utils/domChildUtils.js';
+import {ErrorHandler} from '../helpers/error.js';
+import errorMessages from '../../config/errorMessages.js';
 
-export const getNews = async (req,res) => {
+export const getNews = async (req,res,next) => {
 
 
     const {JSDOM} = jsdom;
@@ -28,14 +30,13 @@ export const getNews = async (req,res) => {
     }
 
     try{
-        await axios.get(url)
-        .then(response => {
-            res.status(200).json((getNodes(response.data)))
-        })
-        .catch(error => {
-            res.status(500).json({message:error.message});
-        })
+        const {data} = await axios.get(url)
+        if(data){
+            res.status(200).json(getNodes(data));
+        } else {
+            return next(new ErrorHandler(500,errorMessages.SERVER_ERROR))
+        }
     } catch(error){
-        res.status(500).json({message:error.message});
+        return next(new ErrorHandler(500,errorMessages.SERVER_ERROR));
     }
 }
