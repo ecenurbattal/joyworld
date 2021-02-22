@@ -1,16 +1,6 @@
 import styled from 'styled-components';
 
 
-
-export const Parts = styled.div`
-    display:flex;
-    flex-direction:row;
-    width:80%;
-    justify-content: center;
-    max-height: 125%;
-`
-
-
 export const Content = styled.div`
     display:flex;
     flex-direction:column;
