@@ -11,6 +11,7 @@ import {
     RouteText,
 } from '../../components/FormElements/WrappedFormElements';
 import Input from '../../components/Input/Input';
+import {register} from '../../services/Auth/authService';
 
 const Register = () => {
 
@@ -19,29 +20,9 @@ const Register = () => {
 
     const [regError, setRegError] = useState('');
     const [error, setError] = useState('');
-    const [users,setUsers] = useState([]);
 
     const [status,setStatus] = useState(false)
     const [countdown,setCountdown] = useState(3);
-
-    // useEffect(() => {
-    //     const init = async () => {
-    //         try {
-    //             const {data} = await getUsers()
-    //             setUsers(data)
-    //         } catch(err){
-    //             setError(err)
-    //         }
-    //     }
-    //     init();
-    // },[])
-
-    useEffect(() => {
-        setUsers([{
-            username:'ecenb',
-            password:'ece123'
-        }])
-    },[])
 
     useEffect(() => {
         if(status){
@@ -52,31 +33,34 @@ const Register = () => {
         }
     },[status,countdown])
 
+    const goToHomePage = () => {
+        history.push('/');
+        window.location.reload();
+    }
 
     const handleSubmit =  async (event) => {
         event.preventDefault();
         setRegError('');
-        const isUser = users.some(item => item.username===user.username||item.email===user.email) 
-        if(!isUser) {
             try{
                 //post request
+                const {data:{data}} = await register(user);
+                if (data.token) {
+                    localStorage.setItem('user-data',data);
+                }
                 setStatus(true);
             } catch (err){
-                setError(500);
+                if(err.status==='fail') setRegError(err.message)
+                else setError(err.status)
             }
         }
-        else {
-            setRegError("Kullanıcı adı veya e-posta sistemde kayıtlı.")
-        }
-    }
     
     if (status) {
         return (
             <div>
                 <p style={{color:"white",fontWeight:"800",fontSize:"45px",textAlign:"center"}}>
-                    Başarıyla kayıt oldunuz. Giriş sayfasına yönlendiriliyorsunuz <br/>
+                    Başarıyla kayıt oldunuz. Ana sayfaya yönlendiriliyorsunuz <br/>
                     <p>{countdown} SANİYE</p>
-                    {!countdown&&history.push('/login')}
+                    {!countdown&&goToHomePage()}
                 </p>
             </div>
         )

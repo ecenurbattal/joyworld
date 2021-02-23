@@ -1,11 +1,10 @@
-import React, { useContext } from 'react'
-import SessionContext from '../../contexts/SessionContext';
+import React from 'react'
 import {Wrapper} from './SignOut.styles';
+import {logout} from '../../services/Auth/authService';
 
 const SignOut = () => {
-    const {setAuthenticated} = useContext(SessionContext);
     const handleSignOutClick = () => {
-        setAuthenticated(false);
+        logout();
     }
     return (
         <Wrapper>

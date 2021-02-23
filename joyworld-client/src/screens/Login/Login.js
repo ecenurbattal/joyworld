@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 import Button from '../../components/Button/Button';
@@ -11,8 +11,7 @@ import {
   RouteText,
 } from '../../components/FormElements/WrappedFormElements';
 import Input from '../../components/Input/Input';
-
-import SessionContext from '../../contexts/SessionContext';
+import { login } from '../../services/Auth/authService';
 
 const Login = () => {
   const history = useHistory();
@@ -22,22 +21,21 @@ const Login = () => {
 
   const [logError, setLogError] = useState('');
   const [error,setError] = useState('');
-  const {setAuthenticated} = useContext(SessionContext);
   
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLogError('');
     try {
-      const isUser = username==='ecenb'&& password==='ece123'
-      if (isUser) {
+      const {data:{data}} = await login({username,password})
+      if (data.token) {
+        localStorage.setItem('user-data',JSON.stringify(data));
         history.push('/');
-        setAuthenticated(true);
-      } else {
-        setLogError('Kullanıcı adı veya parola yanlış.');
+        window.location.reload();
       }
     } catch(err){
-      setError(500)
+        if(err.status==='fail') setLogError(err.message)
+        else setError(err.status)
     }
     
   };

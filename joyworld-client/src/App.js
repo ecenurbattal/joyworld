@@ -14,8 +14,7 @@ import Backdrop from './components/Backdrop/Backdrop';
 import ScrollTopArrow from './components/ScrollTopArrow/ScrollTopArrow';
 
 function App() {
-  const [isAuthenticated, setAuthenticated] = useState(false);
-  const [user, setUser] = useState({});
+  const [isAuthenticated, setAuthenticated] = useState(!!localStorage.getItem('user-data'));
   const [cart, updateCart] = useState([]);
 
   const [sideDrawerOpen, setSideDrawerOpen] = useState(false);
@@ -33,8 +32,6 @@ function App() {
           value={{
               isAuthenticated,
               setAuthenticated,
-              user,
-              setUser,
           }}
         >
             <CartContext.Provider
