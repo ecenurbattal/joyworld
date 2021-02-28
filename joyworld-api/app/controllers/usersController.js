@@ -79,9 +79,17 @@ export const updateUser = catchAsync(async(req,res,next) => {
         const user = await findUserByUsername(req.params.username);
         if(user) {
             const newData = req.body
-            if(newData.password) {
+            if(newData.password&&newData.oldPassword) {
+                const isMatch = await bcrypt.compare(req.body.oldPassword,user.password);
+                if(!isMatch) return next(new ErrorHandler(400,errorMessages.USER_INVALID_CREDENTIALS));
                 const hashedPassword = await bcrypt.hash(req.body.password,10);
                 newData.password = hashedPassword;
+            }
+            if(newData.trustPoint) {
+                newData.trustPoint = {
+                    point: ((((user.trustPoint.point)*user.trustPoint.count) + Number(req.body.trustPoint)) / (user.trustPoint.count+1)).toFixed(2)%6,
+                    count: user.trustPoint.count + 1
+                }
             }
             //const newData = Object.assign(user,req.body)
             const updatedUser = await updateUserById(user._id,newData);

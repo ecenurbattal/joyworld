@@ -27,6 +27,23 @@ const userSchema = new Schema({
         trim:true,
         minlength:8
     },
+    trustPoint: {
+        count: {
+            type:Number,
+            default: 0,
+            trim:true,
+        },
+        point : {
+            type:Number,
+            default: 0,
+            trim:true,
+        }
+    },
+    description: {
+        type:String,
+        trim:true,
+        maxlength:250,
+    },
     avatar: {
         type:String,
     },

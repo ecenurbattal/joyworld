@@ -76,6 +76,9 @@ export const updateValidator = (req,res,next) => {
         if (body.email){
             if(!validateEmail(body.email)) message = errorMessages.USER_DATA_EMAIL_INVALID;
         }
+        if(body.description) {
+            if(body.description.length > 250) message = errorMessages.USER_DATA_DESCRIPTION_INVALID;
+        }
     } else {
         message = errorMessages.USER_DATA_INVALID;
     }

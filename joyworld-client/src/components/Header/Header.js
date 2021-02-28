@@ -7,6 +7,7 @@ import SessionContext from '../../contexts/SessionContext';
 import SignOut from '../SignOut/SignOut';
 import DrawerToggleButton from '../SideDrawer/DrawerToggleButton';
 import Dropdown from '../Dropdown/Dropdown';
+import { getCurrentUser } from '../../services/Auth/authService';
 
 
 
@@ -64,6 +65,7 @@ const Header = ({drawerClickHandler}) => {
                     ) : (
                     <>
                         <Cart/>
+                        <li><a href={`/profile/${getCurrentUser().user.username}`}>Profilim</a></li>
                         <SignOut/>
                     </>
                     )}

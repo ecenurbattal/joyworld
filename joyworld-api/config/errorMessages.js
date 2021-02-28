@@ -8,6 +8,7 @@ const errorMessages = {
     USER_DATA_PASSWORD_INVALID: "password must have at least 8 characters",
     USER_DATA_NAME_INVALID: "Name must not be empty",
     USER_DATA_EMAIL_INVALID: "Email is not valid",
+    USER_DATA_DESCRIPTION_INVALID: "Description can be up to 250 characters",
     USER_USERNAME_TAKEN: "The username is taken. Please choose another.",
     USER_EMAIL_TAKEN: "The email is taken. Please choose another.",
     // POST_DATA_TITLE_INVALID: "Title must not be empty",

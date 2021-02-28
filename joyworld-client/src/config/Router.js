@@ -12,6 +12,7 @@ import BooksScreen from '../screens/BooksScreen/BooksScreen';
 import ForumScreen from '../screens/ForumScreen/ForumScreen';
 import AddPostScreen from '../screens/AddPostScreen/AddPostScreen';
 import NotFound from '../components/Error/NotFound';
+import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
 
 export const routes = [
     {
@@ -21,6 +22,13 @@ export const routes = [
         title:'Ana Sayfa',
         isLink:true,
         isPrivate:false,
+    },
+    {
+        path:'/profile/:username',
+        component: () => <ProfileScreen/>,
+        title:'Profil',
+        isLink:false,
+        isPrivate:true
     },
     {
         title: 'Çizgi Roman',
@@ -99,6 +107,7 @@ export const routes = [
     },
     {
         path: '/login',
+        exact:true,
         component: () => <Login/>,
         title:'Login',
         isLink:false,
