@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 import Button from '../../components/Button/Button';
@@ -11,9 +11,12 @@ import {
     RouteText,
 } from '../../components/FormElements/WrappedFormElements';
 import Input from '../../components/Input/Input';
+import SessionContext from '../../contexts/SessionContext';
 import {register} from '../../services/Auth/authService';
 
 const Register = () => {
+
+    const {isAuthenticated} = useContext(SessionContext);
 
     const [user,setUser] = useState({});
     const history = useHistory();
@@ -45,11 +48,11 @@ const Register = () => {
                 //post request
                 const {data:{data}} = await register(user);
                 if (data.token) {
-                    localStorage.setItem('user-data',data);
+                    localStorage.setItem('user-data',JSON.stringify(data));
                 }
                 setStatus(true);
             } catch (err){
-                if(err.status==='fail') setRegError(err.message)
+                if(['400'].includes(err)!==-1) setRegError('Kullanıcı adı veya email kullanılıyor.') 
                 else setError(err.status)
             }
         }
@@ -70,6 +73,10 @@ const Register = () => {
         if(error===500) return <InternalError/>
         else return <h1>{error}</h1>
     }
+
+    if(isAuthenticated){
+        history.push('/')
+      }
 
 
     return (

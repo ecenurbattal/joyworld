@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import SessionContext from '../../contexts/SessionContext';
 
 import Button from '../../components/Button/Button';
 import InternalError from '../../components/Error/InternalError';
@@ -14,18 +15,19 @@ import Input from '../../components/Input/Input';
 import { login } from '../../services/Auth/authService';
 
 const Login = () => {
-  const history = useHistory();
+  const history = useHistory(); 
+
+  const {isAuthenticated} = useContext(SessionContext);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const [logError, setLogError] = useState('');
+  const [logError, setLogError] = useState();
   const [error,setError] = useState('');
   
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLogError('');
     try {
       const {data:{data}} = await login({username,password})
       if (data.token) {
@@ -34,11 +36,14 @@ const Login = () => {
         window.location.reload();
       }
     } catch(err){
-        if(err.status==='fail') setLogError(err.message)
-        else setError(err.status)
+      if(['400','404'].includes(err)!==-1) setLogError('Kullanıcı adı veya şifre yanlış.') 
+      else setError(err.status)
     }
-    
   };
+
+  if(isAuthenticated){
+    history.push('/')
+  }
 
   if (error) {
     if(error===500) return <InternalError/>

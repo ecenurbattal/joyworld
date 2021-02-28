@@ -72,7 +72,7 @@ const Home = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setActiveTabIndex((activeTabIndex+1)%initialTabs.length)
-        }, 5000)
+        }, 10000)
         return () => clearTimeout(timer);
     }, [activeTabIndex]);
 

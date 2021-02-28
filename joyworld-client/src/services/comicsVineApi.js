@@ -54,7 +54,7 @@ export const getVolume = (url) => {
     return instance.get('/',{
         baseURL:`http://localhost:8080/comicvine/api/${url.replace('https://comicvine.gamespot.com/api','')}`,
         params: {
-            field_list : 'id,character_credits,concept_credits,deck,image,start_year,name,publisher',
+            field_list : 'id,deck,image,start_year,name,publisher,first_issue,last_issue',
         }
     })
 }
