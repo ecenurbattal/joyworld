@@ -20,7 +20,7 @@ const CharacterDetailsScreen = () => {
                 const {data:{results}} = await getCharacter(state);
                 setCharacter(results);
             } catch (err){
-                setError(500);
+                setError(err);
             }
             setLoading(false);
         }
@@ -32,7 +32,7 @@ const CharacterDetailsScreen = () => {
     }
     
     if (error) {
-        if(error===500) return <InternalError/>
+        if(['500'].includes(error)!==-1) return <InternalError/>
         else return <h1>{error}</h1>
     }
     

@@ -14,7 +14,6 @@ const VolumesScreen = () => {
     const [isLoading,setLoading] = useState(true);
     const [error,setError] = useState('');
     const [value,setValue] = useState('');
-    const [term, setTerm] = useState('');
 
     const [volumesPerPage] = useState(10);
 
@@ -32,19 +31,16 @@ const VolumesScreen = () => {
         window.scrollTo(0, 0)
     }, [currentVolumesPage])
 
-    useEffect(() => {
-            const filteredVolumes = async () => {
-                setLoading(true)
-                try {
-                    const {data:{results}} = await getFilteredVolumes(term);
-                    if(!!term && !!results.length) {setVolumes(results)}
-                } catch (err) {
-                    setError(500)
-                }
-                setLoading(false);
-            }
-            filteredVolumes();
-    },[term])
+    const filteredVolumes = async () => {
+        setLoading(true)
+        try {
+            const {data:{results}} = await getFilteredVolumes(value);
+            if(!!value && !!results.length) {setVolumes(results)}
+        } catch (err) {
+            setError(500)
+        }
+        setLoading(false);
+    }
 
     const init =  async () => {
         setLoading(true);
@@ -67,12 +63,12 @@ const VolumesScreen = () => {
     }
 
     const handleSearchButtonClicked = () => {
-        setTerm(value);
+        filteredVolumes();
     }
 
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
-            setTerm(value);
+            filteredVolumes();
         }
     }
 

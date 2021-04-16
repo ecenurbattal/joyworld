@@ -14,7 +14,6 @@ const CharactersScreen = () => {
     const [isLoading,setLoading] = useState(true);
     const [error,setError] = useState('');
     const [value,setValue] = useState('');
-    const [term, setTerm] = useState('');
 
     const [charactersPerPage] = useState(10);
 
@@ -32,19 +31,16 @@ const CharactersScreen = () => {
         window.scrollTo(0, 0)
     }, [currentCharactersPage])
 
-    useEffect(() => {
-            const filteredCharacters = async () => {
-                setLoading(true)
-                try {
-                    const {data:{results}} = await getFilteredCharacters(term);
-                    if(!!term && !!results.length) {setCharacters(results)}
-                } catch (err) {
-                    setError(500)
-                }
-                setLoading(false);
-            }
-            filteredCharacters();
-    },[term])
+    const filteredCharacters = async () => {
+        setLoading(true)
+        try {
+            const {data:{results}} = await getFilteredCharacters(value);
+            if(!!value && !!results.length) {setCharacters(results)}
+        } catch (err) {
+            setError(err)
+        }
+        setLoading(false);
+    }
 
     const init =  async () => {
         setLoading(true);
@@ -67,12 +63,12 @@ const CharactersScreen = () => {
     }
 
     const handleSearchButtonClicked = () => {
-        setTerm(value);
+        filteredCharacters();
     }
 
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
-            setTerm(value);
+            filteredCharacters();
         }
     }
 
@@ -82,7 +78,7 @@ const CharactersScreen = () => {
     
     
     if (error) {
-        if(error===500) return <InternalError/>
+        if(['500'].includes(error)!==-1) return <InternalError/>
         else return <h1>{error}</h1>
     }
 
