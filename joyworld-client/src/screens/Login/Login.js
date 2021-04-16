@@ -56,27 +56,33 @@ const Login = () => {
       <FormContainer onSubmit={handleSubmit}>
         {logError && <ErrorMessage>{logError}</ErrorMessage>}
         <Input
-          style={{height:"30px",width:"100%"}}
+          style={{height:"30px",width:"65%"}}
           type="text"
           name="username"
           placeholder="Kullanıcı Adı"
           autoComplete="off"
+          required={true}
           value={username}
           onChange={(event) => {
             setUsername(event.target.value);
           }}
         />
         <Input
-          style={{height:"30px",width:"100%"}}
+          style={{height:"30px",width:"65%"}}
           type="password"
           name="password"
           placeholder="Şifre"
+          required={true}
           value={password}
           onChange={(event) => {
             setPassword(event.target.value);
           }}
         />
-        <Button type="submit" text="Giriş Yap" />
+        <Button 
+        type="submit" 
+        text="Giriş Yap" 
+        minWidth='45%'
+        />
           <RouteText>Hesabın yok mu?
           <Link to='/register'> Kayıt Ol</Link>
           </RouteText>

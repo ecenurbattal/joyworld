@@ -1,10 +1,15 @@
-import React from 'react'
+import React from 'react';
+import {ContentsWrapper, ListItem, ListItemText} from '../Profile.styles';
 
-const ProfileForum = () => {
+const ProfileForum = ({posts}) => {
     return (
-        <div>
-            
-        </div>
+        <ContentsWrapper>
+            {posts.map((post) => (
+                <ListItem>
+                    <ListItemText>{post?.title}</ListItemText>
+                </ListItem>
+            ))}
+        </ContentsWrapper>
     )
 }
 

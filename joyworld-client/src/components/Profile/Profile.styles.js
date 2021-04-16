@@ -37,6 +37,7 @@ export const Content = styled.div`
 
 export const ContentsWrapper = styled.div`
     min-height: 60vh;
+    height:auto;
     background: #009FFF;
     background: linear-gradient(to right, #ec2F4B, #009FFF);
     color: white;
@@ -48,6 +49,7 @@ export const ContentsWrapper = styled.div`
 `;
 
 export const ProfilePic = styled.img`
+    margin-top:10px;
     height: 6rem;
     width: 6rem;
     object-fit: center;
@@ -87,4 +89,22 @@ export const Stat = styled.div`
 export const ProductsWrapper = styled.div`
     display:flex;
     flex-direction:row;
+`;
+
+export const ListItem = styled.div`
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#B33771;
+    padding:7px;
+    margin: 0px 0px 10px 12px;
+    border-radius:10px;
+    min-width: 175px;
+`;
+
+export const ListItemText = styled.p`
+    font-size:16px;
+    text-align:center;
+    color:white;
+    font-family:Passero One, cursive;
 `;

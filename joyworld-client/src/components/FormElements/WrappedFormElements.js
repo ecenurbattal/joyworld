@@ -13,7 +13,11 @@ export const FormContainer = styled.form`
   display: flex;
   padding: 1em;
 
+  min-width:70%;
+
   flex-direction: column;
+  justify-content:center;
+  align-items:center;
 
   & > * {
     margin-bottom: 15px;
@@ -25,14 +29,26 @@ export const Title = styled.p`
   color:white;
   margin-bottom: 20px;
   text-align: center;
+  font-family:Passero One, cursive;
 `
+
+export const SubTitle = styled.p`
+  font-size:30px;
+  font-weight:600;
+  color:white;
+  margin:10px;
+  font-family: Sedgwick Ave, cursive;
+  align-self:${(props) => props.align ? props.align : 'flex-start'}
+`;
+
 export const Box = styled.div`
   display: flex;
   flex-direction: column;
   align-items:center;
   justify-content:center;
-  width: 50%;
-  height:450px;
+  width: 75%;
+  height:auto;
+  min-height:500px;
   margin: auto;
   border: 1px solid #d3d3d3;
   border-radius: 60px;
@@ -58,3 +74,13 @@ export const RouteText = styled.p`
   font-size: 18px;
   color:white;
 `
+
+export const StyledTextArea = styled.textarea`
+    min-width:100%;
+    min-height:200px;
+    max-height:250px;
+    margin-top:10px;
+    border: 2px solid #861657;
+    border-radius:10px;
+`;
+

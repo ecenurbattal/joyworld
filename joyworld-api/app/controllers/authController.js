@@ -4,13 +4,7 @@ import errorMessages from '../../config/errorMessages.js';
 import { ErrorHandler } from '../helpers/error.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-
-
-const catchAsync = fn => {
-    return (req, res, next) => {
-        fn(req, res, next).catch(next);
-    };
-};
+import catchAsync from '../utils/catchAsync.js'
 
 export const register = catchAsync( async (req,res,next) => {
     try {

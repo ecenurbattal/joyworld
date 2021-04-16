@@ -11,6 +11,7 @@ const SearchBar = ({placeHolder,value,onInputChange,onButtonClick,onKeyPress}) =
                 name="search"
                 placeholder={placeHolder}
                 autoComplete="off"
+                required={true}
                 style={{height:"3rem",width:"13rem",border:'3px solid rgb(0, 200, 200)'}}
                 value={value}
                 onChange={onInputChange}

@@ -13,6 +13,8 @@ import ForumScreen from '../screens/ForumScreen/ForumScreen';
 import AddPostScreen from '../screens/AddPostScreen/AddPostScreen';
 import NotFound from '../components/Error/NotFound';
 import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
+import ForumDetailScreen from '../screens/ForumDetail/ForumDetailScreen';
+import BooksDetailsScreen from '../screens/BooksDetails/BooksDetailsScreen';
 
 export const routes = [
     {
@@ -69,10 +71,18 @@ export const routes = [
     },
     {
         path: '/books',
+        exact:true,
         component: () => <BooksScreen/>,
         title:'Kitaplar',
         isLink: true,
         isPrivate: false,
+    },
+    {
+        path:'/books/:bookId',
+        component: () => <BooksDetailsScreen/>,
+        title:'Book Detail',
+        isLink:false,
+        isPrivate:true,
     },
     {
         path: '/products',
@@ -84,6 +94,7 @@ export const routes = [
     },
     {
         path: '/products/new',
+        exact:true,
         component: () => <AddProductScreen/>,
         title:'Add Product',
         isLink:false,
@@ -98,7 +109,15 @@ export const routes = [
         isPrivate: false,
     },
     {
-        path:'/forum/new',
+        path: '/forum/:postId',
+        exact:true,
+        component: () => <ForumDetailScreen/>,
+        title:'Forum Detail',
+        isLink: false,
+        isPrivate: true,
+    },
+    {
+        path:'/post/new',
         exact: true,
         component: () => <AddPostScreen/>,
         title:'Add Post',

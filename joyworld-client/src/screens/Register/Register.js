@@ -85,11 +85,12 @@ const Register = () => {
             <FormContainer onSubmit={handleSubmit}>
                 {regError && <ErrorMessage>{regError}</ErrorMessage>}
                 <Input
-                style={{height:"30px",width:"100%"}}
+                style={{height:"30px",width:"65%"}}
                 type="text"
                 name="name"
                 placeholder="Ad Soyad"
                 autoComplete="off"
+                required={true}
                 value={user.name}
                 onChange={(event) => {
                     setUser({
@@ -99,10 +100,11 @@ const Register = () => {
                 }}
                 />
                 <Input
-                style={{height:"30px",width:"100%"}}
+                style={{height:"30px",width:"65%"}}
                 type="email"
                 name="email"
                 placeholder="E-Posta"
+                required={true}
                 value={user.email}
                 onChange={(event) => {
                     setUser({
@@ -112,11 +114,12 @@ const Register = () => {
                 }}
                 />
                 <Input
-                style={{height:"30px",width:"100%"}}
+                style={{height:"30px",width:"65%"}}
                 type="text"
                 name="username"
                 placeholder="Kullanıcı Adı"
                 autoComplete="off"
+                required={true}
                 value={user.username}
                 onChange={(event) => {
                     setUser({
@@ -126,10 +129,11 @@ const Register = () => {
                 }}
                 />
                 <Input
-                style={{height:"30px",width:"100%"}}
+                style={{height:"30px",width:"65%"}}
                 type="password"
                 name="password"
                 placeholder="Şifre"
+                required={true}
                 value={user.password}
                 onChange={(event) => {
                     setUser({
@@ -138,7 +142,11 @@ const Register = () => {
                     })
                 }}
                 />
-                <Button type="submit" text="Kayıt Ol" />
+                <Button 
+                type="submit" 
+                text="Kayıt Ol" 
+                minWidth='45%'
+                />
                     <RouteText>Hesabın var mı?
                         <Link to='/login'> Giriş Yap</Link>
                     </RouteText>

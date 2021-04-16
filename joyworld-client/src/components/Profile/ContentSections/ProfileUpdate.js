@@ -4,7 +4,7 @@ import {FormContainer,ErrorMessage} from '../../FormElements/WrappedFormElements
 import Input from '../../Input/Input';
 import { ContentsWrapper, ProfilePic } from '../Profile.styles';
 import account from '../../../images/account.png';
-import { updateUser } from '../../../services/userApi';
+import { updateUser } from '../../../services/api';
 
 const ProfileUpdate = ({currentUser}) => {
 
@@ -14,7 +14,7 @@ const ProfileUpdate = ({currentUser}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if((!!user.password&&user.oldPassword)||(!user.password&&user.oldPassword)){
+        if((!!user.password&&!!user.oldPassword)||(!user.password&&!user.oldPassword)){
             sendData();
         } else {
             setError('Eski şifrenizi girdikten sonra yeni şifrenizi giriniz.')
@@ -23,6 +23,7 @@ const ProfileUpdate = ({currentUser}) => {
 
     const sendData = async () => {
         try{
+            // eslint-disable-next-line no-unused-vars
             const {data} = await updateUser(currentUser.username,user);
             window.location.reload();
         } catch(err){
@@ -34,7 +35,7 @@ const ProfileUpdate = ({currentUser}) => {
 
     const handleImageChange = async (event) => {
         event.preventDefault();
-        setSelectedImageLink(URL.createObjectURL(event.target.files[0]))
+        event.target.files[0]&&setSelectedImageLink(URL.createObjectURL(event.target.files[0]))
         if(event.target.files[0]) {
             const reader = new FileReader();
             reader.readAsBinaryString(event.target.files[0])

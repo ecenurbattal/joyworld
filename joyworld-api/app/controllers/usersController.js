@@ -1,14 +1,8 @@
-import User from '../models/user.js';
-import {getAllUsers,findUserByUsername,createUser,deleteUserById,updateUserById, findUserByEmail} from '../services/userService.js';
+import {getAllUsers,findUserByUsername,deleteUserById,updateUserById, findUserByEmail} from '../services/userService.js';
 import errorMessages from '../../config/errorMessages.js';
 import { ErrorHandler } from '../helpers/error.js';
 import bcrypt from 'bcryptjs';
-
-const catchAsync = fn => {
-    return (req, res, next) => {
-        fn(req, res, next).catch(next);
-    };
-};
+import catchAsync from '../utils/catchAsync.js'
 
 export const getUsers = catchAsync(async (req,res,next) => {
     try {

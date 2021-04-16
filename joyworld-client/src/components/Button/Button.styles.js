@@ -6,6 +6,7 @@ export const ButtonWrapper = styled.button`
     color:white;
     background-color:#861657;
     background-image: linear-gradient(326deg, #861657 0%, #ffa69e 74%);
+    font-family:Passero One, cursive;
 
     &:hover {
         background: purple;

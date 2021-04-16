@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import {convertDateToTurkeyTz} from '../utils/dateUtils.js';
 
 const Schema = mongoose.Schema;
 
@@ -59,7 +58,7 @@ const userSchema = new Schema({
             ref:'Post'
         }
     ]
-},{timestamps: { currentTime: () => convertDateToTurkeyTz()}});
+},{timestamps:true});
 
 const User = mongoose.model('User',userSchema);
 

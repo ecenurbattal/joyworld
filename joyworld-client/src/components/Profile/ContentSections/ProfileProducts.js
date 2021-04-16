@@ -1,11 +1,12 @@
 import React from 'react'
+import { ContentsWrapper } from '../Profile.styles';
 
-const ProductsProfile = () => {
+const ProfileProducts = () => {
     return (
-        <div>
+        <ContentsWrapper>
             
-        </div>
+        </ContentsWrapper>
     )
 }
 
-export default ProductsProfile
+export default ProfileProducts;

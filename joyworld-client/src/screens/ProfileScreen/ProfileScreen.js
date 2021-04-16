@@ -6,7 +6,7 @@ import ProfileGeneral from '../../components/Profile/ContentSections/ProfileGene
 import ProfileProducts from '../../components/Profile/ContentSections/ProfileProducts';
 import ProfileUpdate from '../../components/Profile/ContentSections/ProfileUpdate';
 import Profile from '../../components/Profile/Profile';
-import { getUser } from '../../services/userApi';
+import { getUser } from '../../services/api';
 
 
 const ProfileScreen = () => {
@@ -28,7 +28,7 @@ const ProfileScreen = () => {
             isPrivate:false,
         },
         {
-            component: () => <ProfileForum/>,
+            component: () => <ProfileForum posts={user.posts}/>,
             title:'Forum Gönderileri',
             isPrivate:false,
         },

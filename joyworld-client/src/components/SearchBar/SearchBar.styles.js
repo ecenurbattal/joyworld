@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
+    display:flex;
     margin: 25px;
-    text-align:center;
+    align-items:center;
+    justify-content:center;
 `;
