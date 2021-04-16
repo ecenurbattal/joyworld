@@ -4,7 +4,7 @@ import { PageCoverImage, PageCoverTitle, PageWrapper } from './Page.styles';
 const PageCover = React.forwardRef((props,ref) => {
     return (
         <PageWrapper ref={ref}>
-            <PageCoverTitle>{props.children}</PageCoverTitle>
+            <PageCoverTitle fontSize = {props.fontSize}>{props.children}</PageCoverTitle>
             <PageCoverImage src={props.image} alt={props.children}></PageCoverImage>
         </PageWrapper>
     )

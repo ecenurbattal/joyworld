@@ -47,12 +47,14 @@ export const PageFooter = styled.div`
 export const PageCoverTitle = styled.div`
     display:flex;
     justify-content:center;
-    font-size: 5vw;
+    font-size: ${(props) => props.fontSize ? props.fontSize : '5vw'};
     width:100%;
     height:20%;
     margin-top: 20px;
     font-family:Permanent Marker, cursive;
     color:white;
+    text-align:center;
+    margin-bottom:10px;
 `;
 
 export const PageCoverImage = styled.img`
