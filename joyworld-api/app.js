@@ -46,6 +46,9 @@ app.use('/users',usersRouter);
 import authRouter from './app/routes/authRouter.js';
 app.use('/auth',authRouter);
 
+import postsRouter from './app/routes/postsRouter.js';
+app.use('/posts',postsRouter);
+
 
 app.all('*', (req, res, next) => {
     next(new ErrorHandler(404,`Can't find ${req.originalUrl} on this server!`));

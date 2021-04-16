@@ -10,6 +10,10 @@ const commentSchema = Schema({
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
+    },
+    belongTo: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
     }
 }, {timestamps:true});
 

@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import {convertDateToTurkeyTz} from '../utils/dateUtils.js';
+
 
 const Schema = mongoose.Schema;
 
@@ -7,9 +9,13 @@ const postSchema = new Schema({
         type:String,
         required:true
     },
-    body: {
+    content: {
         type:String,
         required:true
+    },
+    tag: {
+        type:String,
+        required:true,
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,

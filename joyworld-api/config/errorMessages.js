@@ -11,10 +11,10 @@ const errorMessages = {
     USER_DATA_DESCRIPTION_INVALID: "Description can be up to 250 characters",
     USER_USERNAME_TAKEN: "The username is taken. Please choose another.",
     USER_EMAIL_TAKEN: "The email is taken. Please choose another.",
-    // POST_DATA_TITLE_INVALID: "Title must not be empty",
-    // POST_DATA_CONTENT_INVALID: "Content must not be empty",
-    // POST_DATA_INVALID: "Post data must be in json format and adhere to the spec",
-    // POST_ID_INVALID: "Post id must be UUID v4",
-    // POST_NOT_FOUND: "The post requested not found",
+    POST_DATA_TITLE_INVALID: "Title must not be empty",
+    POST_DATA_CONTENT_INVALID: "Content must not be empty",
+    POST_DATA_INVALID: "Post data must be in json format and adhere to the spec",
+    POST_NOT_FOUND: "The post requested not found",
+    COMMENT_NOT_FOUND: "The comment requested not found",
 };
 export default errorMessages;
