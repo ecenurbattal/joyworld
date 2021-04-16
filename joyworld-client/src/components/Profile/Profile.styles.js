@@ -46,6 +46,7 @@ export const ContentsWrapper = styled.div`
     flex-direction:column;
     align-items: center;
     justify-content: center;
+    padding:7px;
 `;
 
 export const ProfilePic = styled.img`
@@ -102,9 +103,14 @@ export const ListItem = styled.div`
     min-width: 175px;
 `;
 
-export const ListItemText = styled.p`
+export const ListItemText = styled.a`
     font-size:16px;
     text-align:center;
     color:white;
     font-family:Passero One, cursive;
+
+    &:hover,
+    &:active {
+        color:white
+    }
 `;

@@ -5,7 +5,7 @@ export const getAllUsers = async () => {
 }
 
 export const findUserByUsername = async (userName) => {
-    return await User.findOne({username:userName}).populate({path:'posts',select:'title'});
+    return await User.findOne({username:userName}).populate({path:'posts',select:'title',options:{sort:{updatedAt:-1}}});
 }
 
 export const findUserByEmail = async (mail) => {
