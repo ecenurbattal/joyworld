@@ -10,11 +10,15 @@ const News = ({news,title,activeIndex,onIndexChange,itemsPerPage, totalItems,pag
             <Title>{title} <hr color='white'/></Title>
             <InlineWrapper>
                 <ActiveNews
-                newsItem={news[activeIndex]}
+                newsItem={{
+                    ...news[activeIndex],
+                    summary:news[activeIndex].summary ? news[activeIndex].summary : news[activeIndex].title
+                }}
                 />
                 <NewsWrapper>
                     {news.map((item,index) => (
                         <NewsItem
+                        key={`news${index}`}
                         onIndexChange={onIndexChange}
                         index={index}
                         newsItem={item}

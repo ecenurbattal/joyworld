@@ -1,4 +1,7 @@
 import styled from 'styled-components';
+import {TiTick} from 'react-icons/ti';
+import {ImCross} from 'react-icons/im';
+import {BsTrash} from 'react-icons/bs';
 
 export const Wrapper = styled.div`
     display:flex;
@@ -47,6 +50,7 @@ export const ContentsWrapper = styled.div`
     align-items: center;
     justify-content: center;
     padding:7px;
+    position:relative;
 `;
 
 export const ProfilePic = styled.img`
@@ -94,6 +98,7 @@ export const ProductsWrapper = styled.div`
 
 export const ListItem = styled.div`
     display:flex;
+    flex-direction:column;
     align-items:center;
     justify-content:center;
     background:#B33771;
@@ -101,16 +106,92 @@ export const ListItem = styled.div`
     margin: 0px 0px 10px 12px;
     border-radius:10px;
     min-width: 175px;
+    max-width: 375px;
 `;
 
-export const ListItemText = styled.a`
+
+export const ListItemTitle = styled.h3`
+    text-align:center;
+    font-family:Passero One, cursive;
+    margin:10px;
+`;
+
+export const ListItemNote = styled.div`
     font-size:16px;
     text-align:center;
     color:white;
     font-family:Passero One, cursive;
 
+    & > strong {
+        cursor: auto;
+        color:#a29bfe;
+    }
+
+    width:auto;
+
     &:hover,
     &:active {
         color:white
     }
+`;
+
+export const ListItemText = styled.a`
+    font-size:16px;
+    text-align:center;
+    color:${(props) => props.color ? props.color : 'white'};
+    font-family:Passero One, cursive;
+
+    & > strong {
+        cursor: auto;
+        color:#a29bfe;
+    }
+
+    &:hover,
+    &:active {
+        color:white
+    }
+`;
+
+export const StyledTick = styled(TiTick)`
+    font-size:22px;
+    color:green;
+    margin:5px;
+    cursor:pointer;
+`;
+
+export const StyledCross = styled(ImCross)`
+    font-size:18px;
+    color:red;
+    margin:5px;
+    cursor:pointer;
+`;
+
+export const StyledTrash = styled(BsTrash)`
+    font-size:18px;
+    color:#d3d3d3;
+    cursor:pointer;
+`;
+
+export const SectionWrapper = styled.div`
+    display:flex;
+    min-width:100%;
+    justify-content:space-between;
+`;
+
+export const Section = styled.div`
+    display:flex;
+    flex-direction:column;
+    min-height:70%;
+    justify-content:center;
+    align-items:center;
+    min-width:30%;
+    max-width:45%;
+`;
+
+export const VerticalLine = styled.div`
+    border-left: 3px solid #d3d3d3;
+    height: 80%;
+    position: absolute;
+    top: 25px;
+    left:53.3%;
 `;

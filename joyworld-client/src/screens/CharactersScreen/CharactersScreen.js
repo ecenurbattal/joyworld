@@ -7,6 +7,8 @@ import SearchBar from '../../components/SearchBar/SearchBar';
 import { getCurrentItems } from '../../utils/paginationUtils';
 import Pagination from '../../components/Pagination/Pagination';
 import InternalError from '../../components/Error/InternalError';
+import { ColumnWrapper } from '../../components/FormElements/WrappedFormElements';
+import { OutsideWrapper } from '../../components/Pagination/Pagination.styles';
 
 
 const CharactersScreen = () => {
@@ -83,7 +85,7 @@ const CharactersScreen = () => {
     }
 
     return (
-        <div style={{display:"flex",flexDirection:"column"}}>
+        <ColumnWrapper>
             <SearchBar 
                 placeHolder="Karakter Ara..."
                 value={value}
@@ -95,14 +97,14 @@ const CharactersScreen = () => {
                 characters={currentCharacters}
                 onShowDetail={handleShowDetailClick}
             />
-            <div style={{display:"flex",justifyContent:"center",marginTop:"25px"}}>
+            <OutsideWrapper>
                 <Pagination
                 itemsPerPage={charactersPerPage}
                 totalItems={characters.length}
                 paginate = {(number) => setCurrentCharactersPage(number)}
                 />
-            </div>
-        </div>
+            </OutsideWrapper>
+        </ColumnWrapper>
     )
 }
 

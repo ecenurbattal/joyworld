@@ -68,19 +68,39 @@ export const ErrorMessage = styled.p`
   text-align:center;
 `;
 
+export const Message = styled.p`
+  color:purple;
+  text-align:center;
+  margin-top:7px;
+  font-weight:600;
+`;
+
 export const RouteText = styled.p`
   text-align: center;
-  margin-top: 40px;
+  margin-top: 10px;
   font-size: 18px;
   color:white;
 `
 
 export const StyledTextArea = styled.textarea`
     min-width:100%;
-    min-height:200px;
-    max-height:250px;
+    min-height:${(props) => props.minHeight ? props.minHeight : '200px'};
+    max-height:${(props) => props.maxHeight ? props.maxHeight : '250px'};
     margin-top:10px;
     border: 2px solid #861657;
     border-radius:10px;
+`;
+
+export const RowWrapper = styled.div`
+  display:flex;
+  flex-wrap:wrap;
+  min-width:100%;
+  justify-content:center;
+`;
+
+export const ColumnWrapper = styled.div`
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
 `;
 

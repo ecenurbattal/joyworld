@@ -36,8 +36,8 @@ const Login = () => {
         window.location.reload();
       }
     } catch(err){
-      if(['400','404'].includes(err)!==-1) setLogError('Kullanıcı adı veya şifre yanlış.') 
-      else setError(err.status)
+      if(err.response.data.status==='fail') setLogError('Kullanıcı adı veya şifre yanlış.') 
+      else setError(err.response.status)
     }
   };
 
@@ -83,6 +83,9 @@ const Login = () => {
         text="Giriş Yap" 
         minWidth='45%'
         />
+          <RouteText>Şifreni mi unuttun?
+          <Link to='/forgotpassword'> Şifreni Sıfırla</Link>
+          </RouteText>
           <RouteText>Hesabın yok mu?
           <Link to='/register'> Kayıt Ol</Link>
           </RouteText>

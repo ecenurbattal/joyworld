@@ -9,6 +9,7 @@ import {
     ErrorMessage,
     FormContainer,
     RouteText,
+    Message,
 } from '../../components/FormElements/WrappedFormElements';
 import Input from '../../components/Input/Input';
 import SessionContext from '../../contexts/SessionContext';
@@ -23,6 +24,7 @@ const Register = () => {
 
     const [regError, setRegError] = useState('');
     const [error, setError] = useState('');
+    const [infoMessage,setInfoMessage] = useState();
 
     const [status,setStatus] = useState(false)
     const [countdown,setCountdown] = useState(3);
@@ -36,11 +38,6 @@ const Register = () => {
         }
     },[status,countdown])
 
-    const goToHomePage = () => {
-        history.push('/');
-        window.location.reload();
-    }
-
     const handleSubmit =  async (event) => {
         event.preventDefault();
         setRegError('');
@@ -51,22 +48,17 @@ const Register = () => {
                     localStorage.setItem('user-data',JSON.stringify(data));
                 }
                 setStatus(true);
+                setInfoMessage(`Başarıyla kayıt oldunuz. Ana sayfaya yönlendiriliyorsunuz.`)
+                setRegError(null)
             } catch (err){
-                if(['400'].includes(err)!==-1) setRegError('Kullanıcı adı veya email kullanılıyor.') 
-                else setError(err.status)
+                if(err.response.data.status==='fail') setRegError('Kullanıcı adı veya email kullanılıyor.') 
+                else setError(err.response.status)
             }
         }
     
-    if (status) {
-        return (
-            <div>
-                <p style={{color:"white",fontWeight:"800",fontSize:"45px",textAlign:"center"}}>
-                    Başarıyla kayıt oldunuz. Ana sayfaya yönlendiriliyorsunuz <br/>
-                    <p>{countdown} SANİYE</p>
-                    {!countdown&&goToHomePage()}
-                </p>
-            </div>
-        )
+    if (status&&!countdown) {
+        history.push('/');
+        window.location.reload();
     }
 
     if (error) {
@@ -83,6 +75,7 @@ const Register = () => {
         <Box>
             <Title>Kayıt Ol</Title>
             <FormContainer onSubmit={handleSubmit}>
+                {infoMessage&& <Message>{`${infoMessage} ${countdown} saniye...`}</Message>}
                 {regError && <ErrorMessage>{regError}</ErrorMessage>}
                 <Input
                 style={{height:"30px",width:"65%"}}

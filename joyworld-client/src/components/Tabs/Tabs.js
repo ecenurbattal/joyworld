@@ -6,7 +6,8 @@ const Tabs = ({ tabs, activeIndex = 0, onIndexChange }) => {
         <Wrapper>
             <TabButtons>
                 {tabs.map((item, index) => (
-                    <TabButton 
+                    <TabButton
+                    key={`tab${index}`} 
                     isActive={activeIndex === index}
                     onClick={() => onIndexChange(index)}
                     >

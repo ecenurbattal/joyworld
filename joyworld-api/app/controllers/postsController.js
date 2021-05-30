@@ -1,10 +1,10 @@
-import {getAllPosts,createNewPost, getAllPostsWithoutContent,search, findPost, findPostsByTag, updatePostById, deletePostById, deleteCommentFromPost} from '../services/postService.js';
+import {getAllPosts,createNewPost, getAllPostsWithoutContent,search, findPost, updatePostById, deletePostById, deleteCommentFromPost} from '../services/postService.js';
 import errorMessages from '../../config/errorMessages.js';
 import { ErrorHandler } from '../helpers/error.js';
 import catchAsync from '../utils/catchAsync.js';
 import Post from '../models/post.js';
 import Comment from '../models/comment.js';
-import { findUserById, updateUserById } from '../services/userService.js';
+import { deletePostFromUser, findUserById, updateUserById } from '../services/userService.js';
 import { createNewComment, deleteCommentById, deleteCommentsByPost, getComment, updateCommentById } from '../services/commentService.js';
 
 export const getPosts = catchAsync(async (req,res,next) => {
@@ -83,24 +83,12 @@ export const getPost = catchAsync(async(req,res,next) => {
     }
 })
 
-export const searchPostsByTag = catchAsync(async(req,res,next) => {
-    try {
-        const posts = await findPostsByTag(req.body.tag)
-        res.status(200).json({
-            message:'Posts fetched successfully',
-            data:posts,
-        })
-    } catch(error){
-        throw new ErrorHandler(500,errorMessages.SERVER_ERROR);
-    }
-})
-
 export const updatePost = catchAsync(async(req,res,next) => {
     try {
         const post = await findPost(req.params.id);
         if(post) {
             const newData = req.body;
-            const updatedPost = await updatePostById(post.id,newData);
+            const updatedPost = await updatePostById(post._id,newData);
             res.status(200).json({
             message:'Post updated successfully',
             data:updatedPost
@@ -121,6 +109,7 @@ export const deletePost = catchAsync(async(req,res,next) => {
             const postId = post._id;
             const deletedPost = await deletePostById(postId);
             await deleteCommentsByPost(postId);
+            await deletePostFromUser(post.createdBy,postId);
             res.status(200).json({
                 message:'Post deleted successfully',
                 data:deletedPost,

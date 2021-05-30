@@ -18,6 +18,7 @@ import Loader from '../../components/Loader/Loader';
 import InternalError from '../../components/Error/InternalError';
 import BooksTab from '../../components/Tabs/BooksTab';
 import ForumTab from '../../components/Tabs/ForumTab';
+import { ColumnWrapper } from '../../components/FormElements/WrappedFormElements';
 
 const initialTabs = [
     {
@@ -142,7 +143,7 @@ const Home = () => {
     }
 
     return (
-        <div style={{display:"flex",flexDirection:"column",minHeight:"100vh"}}>
+        <ColumnWrapper>
             <Tabs
             tabs={initialTabs}
             activeIndex={activeTabIndex}
@@ -170,7 +171,7 @@ const Home = () => {
                 paginate={(number) => setCurrentBooksNewsPage(number)} 
                 />
             </ContainerWrapper>
-        </div>
+        </ColumnWrapper>
     )
 }
 

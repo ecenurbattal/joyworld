@@ -44,7 +44,7 @@ const Header = ({drawerClickHandler}) => {
                 <Menu display="none" margin="0">
                     {routes.filter((route) => !!route.isLink)
                         .map((route) => (
-                            route.isDropdown ? <Dropdown route={route}/> : (
+                            route.isDropdown ? <Dropdown key={`route-${route.title}`} route={route}/> : (
                             <li key={`route-${route.title}`}>
                                 <a href={route.path}>{route.title}</a>
                             </li>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { getCurrentItems } from '../../../utils/paginationUtils';
 import Pagination from '../../Pagination/Pagination';
+import { OutsideWrapper } from '../../Pagination/Pagination.styles';
 import {ContentsWrapper, ListItem, ListItemText} from '../Profile.styles';
 
 const ProfileForum = ({posts}) => {
@@ -20,13 +21,13 @@ const ProfileForum = ({posts}) => {
                     >{post?.title}</ListItemText>
                 </ListItem>
             ))}
-            <div style={{display:"flex",justifyContent:"center",marginTop:"15px"}}>
+            <OutsideWrapper>
                 <Pagination
                 itemsPerPage={postsPerPage}
                 totalItems={posts.length}
                 paginate = {(number) => setCurrentPostsPage(number)}
                 />
-            </div>
+            </OutsideWrapper>
         </ContentsWrapper>
     )
 }

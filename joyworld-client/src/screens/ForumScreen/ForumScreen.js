@@ -7,6 +7,7 @@ import Forum from '../../components/Forum/Forum';
 import Loader from '../../components/Loader/Loader';
 import Menu from '../../components/Menu/Menu';
 import Pagination from '../../components/Pagination/Pagination';
+import { OutsideWrapper } from '../../components/Pagination/Pagination.styles';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import { getFilteredPosts, getPosts, getPostsWithTagFilter } from '../../services/api';
 import { getCurrentItems } from '../../utils/paginationUtils';
@@ -137,13 +138,13 @@ const ForumScreen = () => {
            posts={currentPosts}
            onShowDetail={handleShowDetailClick}
            />
-           <div style={{display:"flex",justifyContent:"center",marginTop:"25px"}}>
+           <OutsideWrapper>
                 <Pagination
                 itemsPerPage={postsPerPage}
                 totalItems={posts.length}
                 paginate = {(number) => setCurrentPostsPage(number)}
                 />
-            </div>
+            </OutsideWrapper>
         </div>
     )
 }

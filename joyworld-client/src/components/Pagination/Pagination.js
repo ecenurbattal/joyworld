@@ -10,8 +10,9 @@ const Pagination = ({itemsPerPage, totalItems,paginate}) => {
 
     return (
         <Wrapper>
-            {pageNumbers.map(number => (
+            {pageNumbers.map((number,index) => (
                 <PageNumberWrapper
+                key={`paginationPage${index}`}
                 onClick={() => paginate(number)}>
                     {number}
                 </PageNumberWrapper>

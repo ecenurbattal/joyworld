@@ -19,7 +19,6 @@ const VolumeDetailsScreen = () => {
             try {
                 const {data:{results}} = await getVolume(state);
                 setVolume(results);
-                console.log(results)
             } catch (err){
                 setError(err);
             }

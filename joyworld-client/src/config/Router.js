@@ -15,6 +15,9 @@ import NotFound from '../components/Error/NotFound';
 import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
 import ForumDetailScreen from '../screens/ForumDetail/ForumDetailScreen';
 import BooksDetailsScreen from '../screens/BooksDetails/BooksDetailsScreen';
+import ProductsDetailScreen from '../screens/ProductsDetailScreen/ProductsDetailScreen';
+import ForgotPasswordScreen from '../screens/ForgotPasswordScreen/ForgotPasswordScreen';
+import ResetPasswordScreen from '../screens/ResetPasswordScreen/ResetPasswordScreen';
 
 export const routes = [
     {
@@ -101,6 +104,14 @@ export const routes = [
         isPrivate:true,
     },
     {
+        path:'/products/:productId',
+        exact:true,
+        component: () => <ProductsDetailScreen/>,
+        title:'Products Detail',
+        isLink:false,
+        isPrivate:true
+    },
+    {
         path: '/forum',
         exact: true,
         component: () => <ForumScreen/>,
@@ -136,6 +147,20 @@ export const routes = [
         path: '/register',
         component: () => <Register/>,
         title:'Register',
+        isLink:false,
+        isPrivate:false,
+    },
+    {
+        path:'/forgotpassword',
+        component: () => <ForgotPasswordScreen/>,
+        title:'Forgot Password',
+        isLink:false,
+        isPrivate:false,
+    },
+    {
+        path:'/resetpassword/:resetToken',
+        component: () => <ResetPasswordScreen/>,
+        title:'Reset Password',
         isLink:false,
         isPrivate:false,
     },

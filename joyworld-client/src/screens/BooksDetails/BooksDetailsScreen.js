@@ -19,7 +19,6 @@ const BooksDetailsScreen = () => {
             try {
                 const {data} = await getBook(bookId);
                 setBook(data);
-                console.log(data)
             } catch(err) {
                 setError(err)
             }

@@ -7,7 +7,10 @@ const Loader = () => {
     return (
         <Wrapper>
             {letters.map((item,index) => (
-                <Letter index={index}>
+                <Letter
+                key={`loaderLetter${index}`}
+                index={index}
+                >
                     {item}
                 </Letter>
             ))}

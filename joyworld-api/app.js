@@ -8,6 +8,7 @@ import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import { ErrorHandler } from './app/helpers/error.js';
 import {applyPassportStrategy} from './config/passport.js';
+import connectDB from './config/db.js';
 
 
 const app = express();
@@ -49,6 +50,9 @@ app.use('/auth',authRouter);
 import postsRouter from './app/routes/postsRouter.js';
 app.use('/posts',postsRouter);
 
+import productsRouter from './app/routes/productsRouter.js';
+app.use('/products',productsRouter);
+
 
 app.all('*', (req, res, next) => {
     next(new ErrorHandler(404,`Can't find ${req.originalUrl} on this server!`));
@@ -64,20 +68,32 @@ app.use((err, req, res, next) => {
     });
 });
 
-mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${
-    process.env.MONGO_PASSWORD}@joyworld.n89cd.mongodb.net/${
-    process.env.MONGO_DB}?retryWrites=true&w=majority`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true
-}).then(() => {
-    console.log('Database is connected!');
-    app.listen(PORT, () => {
-        console.log(`Server is running on ${PORT}`);
-    });
-}).catch(error => {
-    console.log(error)
+// mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${
+//     process.env.MONGO_PASSWORD}@joyworld.n89cd.mongodb.net/${
+//     process.env.MONGO_DB}?retryWrites=true&w=majority`, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//     useFindAndModify: false,
+//     useCreateIndex: true
+// }).then(() => {
+//     console.log('Database is connected!');
+//     app.listen(PORT, () => {
+//         console.log(`Server is running on ${PORT}`);
+//     });
+// });
+
+
+//database and server
+
+connectDB();
+
+const server = app.listen(PORT, () => {
+    console.log(`Server is running on ${PORT}`);
+})
+
+process.on("unhandledRejection", (err, promise) => {
+    console.log(`Logged Error: ${err.message}`);
+    server.close(() => process.exit(1));
 });
 
 

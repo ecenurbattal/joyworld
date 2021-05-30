@@ -11,8 +11,8 @@ const FilterBar = ({iconColor,optionList,onChange,selectedValue,...restProps}) =
             value={selectedValue}
             {...restProps}
             >
-                {optionList?.map((option) => (
-                    <option value={option}>{option}</option>
+                {optionList?.map((option,index) => (
+                    <option key={`filterBarOption${index}`} value={option}>{option}</option>
                 ))}
             </StyledSelect>
         </Wrapper>

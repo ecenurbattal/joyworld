@@ -18,7 +18,11 @@ export const PageNumberWrapper = styled.a`
 
     &:hover {
         background-color: #ddd;
-    }
+    }  
+`;
 
-    
+export const OutsideWrapper = styled.div`
+    display:flex;
+    justify-content:center;
+    margin-top:25px;
 `;

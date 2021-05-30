@@ -7,6 +7,8 @@ import Volumes from '../../components/Volumes/Volumes';
 import { getCurrentItems } from '../../utils/paginationUtils';
 import Pagination from '../../components/Pagination/Pagination';
 import InternalError from '../../components/Error/InternalError';
+import { ColumnWrapper } from '../../components/FormElements/WrappedFormElements';
+import { OutsideWrapper } from '../../components/Pagination/Pagination.styles';
 
 
 const VolumesScreen = () => {
@@ -82,7 +84,7 @@ const VolumesScreen = () => {
     }
 
     return (
-        <div style={{display:"flex",flexDirection:"column"}}>
+        <ColumnWrapper>
             <SearchBar 
                 placeHolder="Çizgi Roman Ara..."
                 value={value}
@@ -94,14 +96,14 @@ const VolumesScreen = () => {
                 volumes={currentVolumes}
                 onShowDetail={handleShowDetailClick}
             />
-            <div style={{display:"flex",justifyContent:"center",marginTop:"25px"}}>
+            <OutsideWrapper>
                 <Pagination
                 itemsPerPage={volumesPerPage}
                 totalItems={volumes.length}
                 paginate = {(number) => setCurrentVolumesPage(number)}
                 />
-            </div>
-        </div>
+            </OutsideWrapper>
+        </ColumnWrapper>
     )
 }
 

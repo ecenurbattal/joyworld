@@ -12,8 +12,11 @@ const fadeIn = keyframes`
 
 export const StyledFaArrowCircleUp = styled(FaArrowCircleUp)`
     position: fixed;
+    display:flex;
+    align-self:center;
     color:purple;
-    width: 100%;
+    //max-width: 100%;
+    min-width: 10%;
     bottom: 55px;
     height: 50px;
     z-index: 1000;

@@ -19,12 +19,12 @@ const getNodes = (html) => {
 
     const news = dom.window.document.querySelectorAll('.p-wrap');
     news.forEach(item => {
-        if(getElement(item,'entry-summary')){
+        if(getElement(item,'p-flink').getAttribute('href').includes('cizgi-roman-haber')){
             data.push({
                 title:  getElement(item,'p-flink').getAttribute('title'),
                 href:  getElement(item,'p-flink').getAttribute('href'),
                 image: getElement(item,'rb-iwrap').children[0].getAttribute('data-lazy-src'),
-                summary: getElement(item,'entry-summary').textContent.replace('\t\t\t\t\t\t','')
+                //summary: getElement(item,'entry-summary').textContent.replace('\t\t\t\t\t\t','')
             })
         }
     });

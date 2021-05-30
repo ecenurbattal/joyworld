@@ -11,7 +11,7 @@ const SideDrawer = ({show}) => {
             <SideDrawerList>
                 {routes.filter((route) => !!route.isLink)
                         .map((route) => (
-                            route.isDropdown ? <Dropdown route={route}/> : (
+                            route.isDropdown ? <Dropdown key={`route-${route.title}`} route={route}/> : (
                             <li key={`route-${route.title}`}>
                                 <Link to={route.path}>{route.title}</Link>
                             </li>

@@ -132,6 +132,8 @@ const ProfileUpdate = ({currentUser}) => {
                 }}
                 />
                 <Button type="submit" text="Güncelle" />
+                {/* <Button type="button" text="Hesabı Sil" onClick={(event) => {
+                }}/> */}
             </FormContainer>
         </ContentsWrapper>
     )

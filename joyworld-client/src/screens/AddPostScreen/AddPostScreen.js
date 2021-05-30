@@ -93,6 +93,7 @@ const AddPostScreen = () => {
                 <StyledTextArea
                     name='content'
                     placeholder='İçeriği Giriniz...'
+                    value={post.content}
                     onChange={(event) => {
                         setPost({
                             ...post,

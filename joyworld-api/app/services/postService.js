@@ -29,9 +29,6 @@ export const findPost = async (id) => {
     .populate({path:'comments',populate:{path:'createdBy',select:'username -_id',Comment},options:{sort:{updatedAt:-1}}})
 }
 
-export const findPostsByTag = async (tag) => {
-    return await Post.find({tag:tag}).sort({updatedAt:-1});
-}
 
 export const updatePostById = async (postId,newData) => {
     return await Post.findByIdAndUpdate(postId,newData, {new:true}).populate('posts')

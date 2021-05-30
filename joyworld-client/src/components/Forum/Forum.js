@@ -5,7 +5,8 @@ const Forum = ({posts,onShowDetail}) => {
     return (
         <div>
             {posts.map((post,i) => (
-                <ForumItem 
+                <ForumItem
+                    key={post._id} 
                     post={post}
                     i={i}
                     onShowDetail={onShowDetail}

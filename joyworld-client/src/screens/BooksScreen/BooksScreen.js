@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router';
 import Books from '../../components/Books/Books';
 import InternalError from '../../components/Error/InternalError';
+import { ColumnWrapper } from '../../components/FormElements/WrappedFormElements';
 import Loader from '../../components/Loader/Loader';
 import Pagination from '../../components/Pagination/Pagination';
+import { OutsideWrapper } from '../../components/Pagination/Pagination.styles';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import { getBooks } from '../../services/googleBooksApi';
 import { getCurrentItems } from '../../utils/paginationUtils';
@@ -85,27 +87,26 @@ const BooksScreen = () => {
 
 
     return (
-        <div style={{display:"flex",flexDirection:"column"}}>
-            {console.log(books)}
-        <SearchBar 
-            placeHolder="Kitap Ara..."
-            value={value}
-            onInputChange={handleSearchChange}
-            onButtonClick={handleSearchButtonClicked}
-            onKeyPress={handleKeyPress}
-        />
-        <Books
-            books={currentBooks}
-            onShowDetail={handleShowDetailClick}
-        />
-        <div style={{display:"flex",justifyContent:"center",marginTop:"25px"}}>
-            <Pagination
-            itemsPerPage={booksPerPage}
-            totalItems={books.length}
-            paginate = {(number) => setCurrentBooksPage(number)}
+        <ColumnWrapper>
+            <SearchBar 
+                placeHolder="Kitap Ara..."
+                value={value}
+                onInputChange={handleSearchChange}
+                onButtonClick={handleSearchButtonClicked}
+                onKeyPress={handleKeyPress}
             />
-        </div>
-    </div>
+            <Books
+                books={currentBooks}
+                onShowDetail={handleShowDetailClick}
+            />
+            <OutsideWrapper>
+                <Pagination
+                itemsPerPage={booksPerPage}
+                totalItems={books.length}
+                paginate = {(number) => setCurrentBooksPage(number)}
+                />
+            </OutsideWrapper>
+    </ColumnWrapper>
     )
 }
 
