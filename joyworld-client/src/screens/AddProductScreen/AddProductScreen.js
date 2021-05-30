@@ -22,21 +22,11 @@ const AddProductScreen = () => {
         setDragId(ev.currentTarget.id);
     };
 
-    // const blobToBase64 = (blob) => {
-    //     var reader = new FileReader();
-    //     reader.readAsDataURL(blob); 
-    //     reader.onloadend = function() {
-    //         var base64data = reader.result;                
-    //         return base64data.substr (base64data.indexOf (',') + 1)
-    //     }
-    // };
+
 
     const handleDrop = (ev) => {
         const dragBox = selectedImagesLinks.find((box) => box.id === dragId);
         const dropBox = selectedImagesLinks.find((box) => box.id === ev.currentTarget.id);
-
-        // const draggedImage = product.images.find((image) => image === blobToBase64(URL.revokeObjectURL(dragBox.link)))
-        // const droppedImage = product.images.find((image) => image === blobToBase64(URL.revokeObjectURL(dropBox.link)))
 
         const dragBoxOrder = dragBox.order;
         const dropBoxOrder = dropBox.order;
