@@ -16,5 +16,11 @@ const errorMessages = {
     POST_DATA_INVALID: "Post data must be in json format and adhere to the spec",
     POST_NOT_FOUND: "The post requested not found",
     COMMENT_NOT_FOUND: "The comment requested not found",
+    PRODUCT_DATA_TITLE_INVALID: "Title must not be empty",
+    PRODUCT_DATA_INVALID: "Product data must be in json format and adhere to the spec",
+    PRODUCT_NOT_FOUND: "The product requested not found",
+    EXCHANGE_NOT_FOUND:"Requested exchanges not found",
+    EMAIL_NOT_SEND:'Email could not be send',
+    INVALID_RESET_TOKEN:'Invalid Reset Token',
 };
 export default errorMessages;

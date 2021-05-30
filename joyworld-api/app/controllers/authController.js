@@ -1,10 +1,12 @@
 import User from '../models/user.js';
-import {createUser,findUserByUsername} from '../services/userService.js';
+import {createUser,findUserByEmail,findUserByResetToken,findUserByUsername, updateUserById} from '../services/userService.js';
 import errorMessages from '../../config/errorMessages.js';
 import { ErrorHandler } from '../helpers/error.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 import catchAsync from '../utils/catchAsync.js'
+import sendEmail from '../utils/sendEmail.js';
 
 export const register = catchAsync( async (req,res,next) => {
     try {
@@ -51,5 +53,76 @@ export const login = catchAsync( async (req,res,next) => {
         }
     } catch(error) {
         throw new ErrorHandler(500,errorMessages.SERVER_ERROR);
+    }
+})
+
+export const forgotPassword = catchAsync( async (req,res,next) => {
+    try {
+        const user = await findUserByEmail(req.body.email)
+        if(!user) {
+            return next(new ErrorHandler(404,errorMessages.USER_NOT_FOUND))
+        }
+
+        const resetToken = crypto.randomBytes(20).toString("hex")
+        const resetPasswordToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+
+        const resetPasswordExpire = Date.now() + 10 * (60 * 1000)
+
+        await updateUserById(user._id,{
+            resetPasswordToken,
+            resetPasswordExpire
+        })
+
+        const resetUrl = `${process.env.CLIENT_URL}/resetpassword/${resetToken}`;
+
+        const message = `
+            <h1>Parola sıfırlama isteğinde bulundunuz.</h1>
+            <p>Lütfen aşağıdaki linke tıklayınız:</p>
+            <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
+        `;
+
+        try {
+            await sendEmail({
+                to: user.email,
+                subject:'Şifre Sıfırlama İsteği',
+                text: message
+            })
+
+            res.status(200).json({
+                message:'Success',
+                data:'Email sent successfully'
+            })
+        } catch(err) {
+            await updateUserById(user._id,{
+                resetPasswordToken:undefined,
+                resetPasswordExpire:undefined
+            })
+            return next(new ErrorHandler(500,errorMessages.EMAIL_NOT_SEND))
+        }
+    } catch(err) {
+        throw new ErrorHandler(500,errorMessages.SERVER_ERROR)
+    }
+})
+
+export const resetPassword = catchAsync(async(req,res,next) => {
+    const resetPasswordToken = crypto.createHash("sha256").update(req.params.resetToken).digest("hex");
+    try {
+        const user = await findUserByResetToken(resetPasswordToken)
+        if(!user){
+            return next(new ErrorHandler(400,errorMessages.INVALID_RESET_TOKEN))
+        }
+        const hashedPassword = await bcrypt.hash(req.body.password,10);
+        await updateUserById(user._id,{
+            password:hashedPassword,
+            resetPasswordToken:undefined,
+            resetPasswordExpire:undefined
+        })
+
+        res.status(200).json({
+            message:'Success',
+            data:'Password Reset Success'
+        })
+    } catch(err){
+        throw new ErrorHandler(500,errorMessages.SERVER_ERROR)
     }
 })

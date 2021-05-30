@@ -19,3 +19,11 @@ export const getCurrentUser = () => {
 export const logout = () => {
     return localStorage.removeItem('user-data')
 }
+
+export const forgotPassword = (email) => {
+    return instance.post('/forgotpassword',{email})
+}
+
+export const resetPassword = (password,resetToken) => {
+    return instance.patch(`/resetpassword/${resetToken}`,{password});
+}
