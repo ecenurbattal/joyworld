@@ -1,18 +1,20 @@
-import React, { useContext } from 'react';
-import SessionContext from '../../contexts/SessionContext';
+import { getCurrentUser } from '../../services/Auth/authService';
 import Button from '../Button/Button';
-import { CardContent, CardWrapper } from './Products.styles';
+import { CardContent, CardWrapper } from '../Card/Card.styles';
 
-const ProductItem = ({ product, onAddToCart }) => {
-  const {user} = useContext(SessionContext);
+const ProductItem = ({ product, onAddToCart, onShowDetail }) => {
   return (
-    <CardWrapper>
-      <img data-testid="productImage" width="250px" height="190px" src={product.image} alt={product.name} />
+    <CardWrapper
+      onClick= {() => {
+        onShowDetail && onShowDetail(product)
+      }}
+    >
+      <img width="250px" height="190px" src={"data:image/png;base64," + product.images[0]} alt={product.title} />
       <CardContent>
-        <h3>{product.name}</h3>
+        <h3>{product.title}</h3>
         <h4>{product.price} TL</h4>
-        <p><strong>Ürünün Sahibi: </strong>{product.createdBy}</p>
-        {(product.createdBy!==user.username)&&<Button
+        <p><strong>Ürünün Sahibi: </strong>{product.createdBy.username}</p>
+        {(product.createdBy.username!==getCurrentUser().user.username)&&<Button
           text="Sepete Ekle"
           onClick={(event) => {
             event.stopPropagation();

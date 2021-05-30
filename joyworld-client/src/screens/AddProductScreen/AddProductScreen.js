@@ -2,52 +2,103 @@ import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import Button from '../../components/Button/Button';
 import InternalError from '../../components/Error/InternalError';
-import { Box, FormContainer } from '../../components/FormElements/WrappedFormElements';
+import FilterBar from '../../components/FilterBar/FilterBar';
+import { Box, FormContainer, Message, RowWrapper, StyledTextArea, SubTitle } from '../../components/FormElements/WrappedFormElements';
+import ImageBox from '../../components/ImageBox/ImageBox';
 import Input from '../../components/Input/Input';
 import Loader from '../../components/Loader/Loader';
-import { createNewProduct, getCurrentUser } from '../../services/api';
-import uploadImage from '../../services/uploadImageApi';
+import { createProduct } from '../../services/api';
+import { getCurrentUser } from '../../services/Auth/authService';
+
 
 const AddProductScreen = () => {
     const history = useHistory();
-    const user = {username:'ecenb'}
-    const [selectedImage, setSelectedImage] = useState();
-    const [selectedImageLink, setSelectedImageLink] = useState("http://placehold.it/200");
+    const [selectedImagesLinks,setSelectedImagesLinks] = useState([]);
+    const [dragId, setDragId] = useState();
+
+    const tagsList = ['Genel','Çizgi Roman','Kitap']
+
+    const handleDrag = (ev) => {
+        setDragId(ev.currentTarget.id);
+    };
+
+    // const blobToBase64 = (blob) => {
+    //     var reader = new FileReader();
+    //     reader.readAsDataURL(blob); 
+    //     reader.onloadend = function() {
+    //         var base64data = reader.result;                
+    //         return base64data.substr (base64data.indexOf (',') + 1)
+    //     }
+    // };
+
+    const handleDrop = (ev) => {
+        const dragBox = selectedImagesLinks.find((box) => box.id === dragId);
+        const dropBox = selectedImagesLinks.find((box) => box.id === ev.currentTarget.id);
+
+        // const draggedImage = product.images.find((image) => image === blobToBase64(URL.revokeObjectURL(dragBox.link)))
+        // const droppedImage = product.images.find((image) => image === blobToBase64(URL.revokeObjectURL(dropBox.link)))
+
+        const dragBoxOrder = dragBox.order;
+        const dropBoxOrder = dropBox.order;
+
+        const newBoxState = selectedImagesLinks.map((box) => {
+        if (box.id === dragId) {
+            box.order = dropBoxOrder;
+        }
+        if (box.id === ev.currentTarget.id) {
+            box.order = dragBoxOrder;
+        }
+        return box;
+        });
+        setSelectedImagesLinks(newBoxState);
+    }
     
 
     const [product, setProduct] = useState({
-        createdBy:user.username
+        createdBy:getCurrentUser().user._id,
+        images:[],
+        category:'Genel'
     });
 
-    const [currentUserProducts,setCurrentUserProducts] = useState([]);
+
     const [isLoading,setLoading] = useState(false);
     const [error,setError] = useState('');
 
     useEffect(() => {
-        const init = async () => {
-            try{
-                const {data} = await getCurrentUser(user.username)
-                setCurrentUserProducts(data[0].products)
-            } catch(err){
-                setError(err)
+        setProduct((prevProduct) => {
+            return {...prevProduct,
+                images:selectedImagesLinks.sort((a,b) => a.order-b.order).map((image) => image.link)
             }
-        }
-        init();
-    },[user.username,setCurrentUserProducts])
+        })
+    },[selectedImagesLinks])
     
     const handleImageChange = async (event) => {
-        setSelectedImage(event.target.files[0])
-        setSelectedImageLink(URL.createObjectURL(event.target.files[0]))
+        event.preventDefault();
+        const files = event.target.files
+        const fileArray = [];
+        if(files&&files[0]){
+            for(let i=0;i<files.length;i++) {
+                if(i===files.length-1) {
+                    fileToBase64(files[i],(base64String) => {
+                        fileArray.push({id:`Box-${i}`,link:base64String,order:i})
+                    },() => setSelectedImagesLinks(fileArray))
+                } 
+                else {
+                    fileToBase64(files[i],(base64String) => {
+                        fileArray.push({id:`Box-${i}`,link:base64String,order:i})
+                    })
+                }
+            };
+        }
     }
-    
-    const submitAllData = async (currentProduct,currentUserProducts,user) => {
-        try{
-            // eslint-disable-next-line no-unused-vars
-            const {postData} = await createNewProduct(currentProduct,currentUserProducts,user.id);
-            history.push('/products')
-            
-        } catch (err) {
-            setError(err);
+
+    const fileToBase64 = (file,...callbacks) => {
+        let reader = new FileReader();
+        reader.readAsBinaryString(file)
+        reader.onloadend = (readerEvt) => {
+            var binaryString = readerEvt.target.result;
+            callbacks&&callbacks[0]&&callbacks[0](btoa(binaryString))
+            callbacks&&callbacks[1]&&callbacks[1]()
         }
     }
 
@@ -56,17 +107,8 @@ const AddProductScreen = () => {
         setLoading(true);
         setError('');
         try{
-            const fd = new FormData();
-            fd.append('image',selectedImage,selectedImage.name)
-            await uploadImage.post('/upload',fd)
-            .then (res => {
-                if(res.data.success){
-                    submitAllData({
-                        ...product,
-                        image:res.data.data.image.url
-                    },currentUserProducts,user)
-                }
-            })
+            const {data:{data}} = await createProduct(product);
+            history.push(`/products/${data._id}`)
         } catch(err){
             setError(500)
         }
@@ -86,32 +128,105 @@ const AddProductScreen = () => {
     return (
         <Box>
             <FormContainer onSubmit={handleSubmit}>
-                <img style={{width:"200px",height:"200px"}} id="uploadedImage" src={selectedImageLink} alt="yüklenen resim"/>
-                Resim Ekle <Input
+                <RowWrapper>
+                     {selectedImagesLinks&& (
+                    selectedImagesLinks.sort((a,b) => a.order-b.order).map((image,index) => (
+                        <ImageBox
+                        key={index}
+                        image={"data:image/png;base64," + image.link}
+                        boxNumber={image.id}
+                        handleDrag={handleDrag}
+                        handleDrop={handleDrop}
+                        />
+                    ))
+                    )}
+                    {selectedImagesLinks.length > 1 && 
+                    <Message>Ürünler sayfasında ilk sıradaki resim gözükecektir. Sürükleyip bırakarak resimlerin sırasını düzenleyebilirsiniz.</Message>}
+                </RowWrapper>
+               
+                <Input
                     type="file"
                     name="post[image]"
                     accept="image/*"
+                    multiple={true}
+                    style={{marginTop:'30px',marginBottom:'30px'}}
                     onChange = {(event) => {
                         handleImageChange(event)
                     }}
                 />
+                <SubTitle
+                    style={{alignSelf:'center'}}
+                >Ürün Başlığı</SubTitle>
                 <Input
                     type="text"
-                    name="post[name]"
-                    placeholder="Ürün Adı"
+                    name="post[title]"
+                    placeholder="Ürün Başlığı"
                     value={product.name}
+                    required={true}
+                    style={{height:'40px',width:'50%'}}
                     onChange={(event) => {
                         setProduct({
                             ...product,
-                            name:event.target.value
+                            title:event.target.value
                         })
                     }}
                 />
+                 <SubTitle
+                    style={{alignSelf:'center'}}
+                >Ürün Açıklaması</SubTitle>
+                <StyledTextArea
+                    name='description'
+                    placeholder='Açıklama giriniz...'
+                    value={product.description}
+                    onChange={(event) => {
+                        setProduct({
+                            ...product,
+                            description:event.target.value
+                        })
+                    }}
+                />
+                <SubTitle
+                    style={{alignSelf:'flex-end'}}
+                >Kategori</SubTitle>
+                <FilterBar
+                    optionList={tagsList}
+                    onChange={(event) => setProduct({
+                        ...product,
+                        category:event.target.value
+                    })}
+                    selectedValue={product?.tag}
+                    background={'#B33771'}
+                    color={'white'}
+                />
+                 <SubTitle
+                    style={{alignSelf:'center'}}
+                >Ürün Adeti</SubTitle>
+                 <Input
+                    type="number"
+                    name="post[count]"
+                    placeholder="Adet"
+                    value={product.count}
+                    required={true}
+                    min={1}
+                    style={{height:'40px'}}
+                    onChange={(event) => {
+                        setProduct({
+                            ...product,
+                            count:event.target.value
+                        })
+                    }}
+                />
+                 <SubTitle
+                    style={{alignSelf:'center'}}
+                >Ürün Fiyatı</SubTitle>
                 <Input
                     type="number"
                     name="post[price]"
                     placeholder="Fiyat"
                     value={product.price}
+                    required={true}
+                    min={5}
+                    style={{height:'40px'}}
                     onChange={(event) => {
                         setProduct({
                             ...product,
@@ -119,7 +234,7 @@ const AddProductScreen = () => {
                         })
                     }}
                 />
-                <Button text="Oluştur" type="submit"/>
+                <Button text="Oluştur" type="submit" marginTop='20px'/>
             </FormContainer>
         </Box>
     )

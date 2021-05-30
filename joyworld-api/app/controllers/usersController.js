@@ -3,6 +3,8 @@ import errorMessages from '../../config/errorMessages.js';
 import { ErrorHandler } from '../helpers/error.js';
 import bcrypt from 'bcryptjs';
 import catchAsync from '../utils/catchAsync.js'
+import { createNewExchange, deleteExchangeById, findExchange, getExchangesForBidder, getExchangesForOwner, updateExchangeById } from '../services/exchangeService.js';
+import Exchange from '../models/exchange.js';
 
 export const getUsers = catchAsync(async (req,res,next) => {
     try {
@@ -115,5 +117,82 @@ export const deleteUser = catchAsync(async (req,res,next) => {
         }
     } catch(err) {
         throw new ErrorHandler(500,errorMessages.SERVER_ERROR)
+    }
+})
+
+
+//exchanges
+
+export const getExchanges = catchAsync(async(req,res,next) => {
+    try {
+        // const exchanges = req.body.bidder ? (await getExchangesForBidder(req.body.bidder)) : 
+        // (req.body.owner ? await getExchangesForOwner(req.body.owner) : null)
+
+        const user = await findUserByUsername(req.params.username)
+        if(user) {
+            const offeredExchanges = await getExchangesForOwner(user._id);
+            const bidExchanges = await getExchangesForBidder(user._id);
+                res.status(200).json({
+                    message:'Exchanges fetched succesfully',
+                    data:{
+                        offeredExchanges:offeredExchanges,
+                        bidExchanges:bidExchanges
+                    }
+                })
+        } else {
+            return next(new ErrorHandler(404,errorMessages.USER_NOT_FOUND))
+        }
+    } catch(error) {
+        throw new ErrorHandler(500,errorMessages.SERVER_ERROR)
+    }
+});
+
+
+export const createExchanges = catchAsync(async(req,res,next) => {
+    try {
+        const newExchange = new Exchange(req.body)
+        const exchange = await createNewExchange(newExchange);
+        res.status(201).json({
+            message:'Exchange created successfully',
+            data:exchange,
+        })
+    } catch(error){
+        throw new ErrorHandler(500,errorMessages.SERVER_ERROR)
+    }
+})
+
+export const updateExchange = catchAsync(async(req,res,next) => {
+    try {
+        const exchange = await findExchange(req.params.id);
+        if(exchange) {
+            const newData = req.body;
+            const updatedExchange = await updateExchangeById(exchange._id,newData);
+            res.status(200).json({
+                message:'Exchange updated successfully',
+                data:updatedExchange,
+            })
+        } else {
+            return next(new ErrorHandler(404,errorMessages.EXCHANGE_NOT_FOUND));
+        }
+    } catch(error) {
+        throw new ErrorHandler(500,errorMessages.SERVER_ERROR);
+    }
+})
+
+export const deleteExchange = catchAsync(async(req,res,next) => {
+    try {
+        const exchange = await findExchange(req.params.id);
+        if(exchange) {
+            const exchangeId = exchange._id;
+            const deletedExchange = await deleteExchangeById(exchangeId);
+            res.status(200).json({
+                message:'Exchange deleted successfully',
+                data:deletedExchange,
+            })
+        } else {
+            return next(new ErrorHandler(404,errorMessages.EXCHANGE_NOT_FOUND));
+        }
+    } catch(error) {
+        throw new ErrorHandler(500,errorMessages.SERVER_ERROR);
     }
 })

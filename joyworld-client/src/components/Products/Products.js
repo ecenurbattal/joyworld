@@ -3,7 +3,7 @@ import ProductItem from './ProductItem';
 
 import { Wrapper } from './Products.styles';
 
-const Products = ({ products, onAddToCart }) => {
+const Products = ({ products, onAddToCart, onShowDetail }) => {
   return (
     <Wrapper>
       {products?.map((product) => (
@@ -11,6 +11,7 @@ const Products = ({ products, onAddToCart }) => {
           key={product.id}
           product={product}
           onAddToCart={onAddToCart}
+          onShowDetail={onShowDetail}
         />
       ))}
     </Wrapper>

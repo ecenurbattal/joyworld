@@ -1,10 +1,32 @@
-import React from 'react'
-import { ContentsWrapper } from '../Profile.styles';
+import React, { useState } from 'react'
+import { getCurrentItems } from '../../../utils/paginationUtils';
+import Pagination from '../../Pagination/Pagination';
+import { OutsideWrapper } from '../../Pagination/Pagination.styles';
+import { ContentsWrapper, ListItem, ListItemText } from '../Profile.styles';
 
-const ProfileProducts = () => {
+const ProfileProducts = ({products}) => {
+    const [productsPerPage] = useState(5);
+
+    const [currentProductsPage,setCurrentProductsPage] = useState(1);
+
+    const currentProducts = getCurrentItems(products,currentProductsPage,productsPerPage);
+
     return (
         <ContentsWrapper>
-            
+            {currentProducts.map((product) => (
+                <ListItem>
+                    <ListItemText
+                        href={`/products/${product._id}`}
+                    >{product?.title}</ListItemText>
+                </ListItem>
+            ))}
+            <OutsideWrapper>
+                <Pagination
+                itemsPerPage={productsPerPage}
+                totalItems={products.length}
+                paginate = {(number) => setCurrentProductsPage(number)}
+                />
+            </OutsideWrapper>
         </ContentsWrapper>
     )
 }

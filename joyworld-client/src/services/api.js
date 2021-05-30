@@ -16,6 +16,24 @@ export const updateUser = (username, newData) => {
     return instance.patch(`/users/${username}`,newData)
 }
 
+//exchange
+
+export const getExchanges = (username) => {
+    return instance.get(`/users/${username}/exchanges`)
+}
+
+export const createExchange = (exchange) => {
+    return instance.post(`/users/exchanges`,exchange)
+}
+
+export const updateExchange = (id,newData) => {
+    return instance.patch(`/users/exchanges/${id}`,newData);
+}
+
+export const deleteExchange = (id) => {
+    return instance.delete(`/users/exchanges/${id}`);
+}
+
 //posts
 
 export const getPosts = () => {
@@ -70,22 +88,41 @@ export const deleteComment = (postId,commentId) => {
 }
 
 
-
+//products
 
 
 export const getProducts = () => {
     return instance.get('/products')
 }
 
-export const createNewProduct = (product,currentUserProducts,id) => {
-    return (
-        instance.post('/products',product),
-        instance.put(`/users/${id}`,{
-                products:[
-                    ...currentUserProducts,
-                    product
-                ]
-            }
-        )
-    )
+export const createProduct = (product) => {
+    return instance.post('/products',product);
+}
+
+export const getProduct = (productId) => {
+    return instance.get(`/products/${productId}`)
+}
+
+export const getFilteredProducts = (value) => {
+    return instance.get('/products/search',{
+        params:{
+            query:`${value}`
+        }
+    })
+}
+
+export const getProductsWithCategoryFilter = (selectedValue) => {
+    return instance.get('/products',{
+        params:{
+            category:`${selectedValue}`
+        }
+    })
+}
+
+export const updateProduct = (productId,newData) => {
+    return instance.patch(`/products/${productId}`,newData);
+}
+
+export const deleteProduct = (productId) => {
+    return instance.delete(`/products/${productId}`)
 }

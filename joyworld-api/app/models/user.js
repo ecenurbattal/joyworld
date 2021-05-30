@@ -52,18 +52,6 @@ const userSchema = new Schema({
             ref:'Product'
         }
     ],
-    // exchangeOffers: [
-    //     {
-    //         offers:{
-    //             type:mongoose.Schema.Types.ObjectId,
-    //             ref:'Exchange'
-    //          },
-    //          seen:{
-    //             type:Boolean,
-    //             default:false
-    //          }
-    //     }
-    // ],
     posts: [
         {
             type: mongoose.Schema.Types.ObjectId,

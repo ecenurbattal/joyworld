@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
+import InternalError from '../../components/Error/InternalError';
 import Loader from '../../components/Loader/Loader';
+import ProfileExchanges from '../../components/Profile/ContentSections/ProfileExchanges';
 import ProfileForum from '../../components/Profile/ContentSections/ProfileForum';
 import ProfileGeneral from '../../components/Profile/ContentSections/ProfileGeneral';
 import ProfileProducts from '../../components/Profile/ContentSections/ProfileProducts';
 import ProfileUpdate from '../../components/Profile/ContentSections/ProfileUpdate';
 import Profile from '../../components/Profile/Profile';
-import { getUser } from '../../services/api';
+import { deleteExchange, getExchanges, getUser, updateExchange } from '../../services/api';
 
 
 const ProfileScreen = () => {
@@ -33,10 +35,19 @@ const ProfileScreen = () => {
             isPrivate:false,
         },
         {
+            component: () => <ProfileExchanges 
+                exchanges={user.exchanges} 
+                onChangeStatusOP = {handleChangeStatusOP}
+                onDeleteBP = {handleDeleteBP}
+            />,
+            title:'Takas İstekleri',
+            isPrivate:true,
+        },
+        {
             component: () => <ProfileUpdate currentUser={user}/>,
             title:'Bilgileri Güncelle',
             isPrivate:true,
-        }
+        },
     ]
 
     useEffect(() => {
@@ -44,19 +55,68 @@ const ProfileScreen = () => {
             setLoading(true)
             try {
                 const {data:{data}} = await getUser(username)
-                console.log(data)
                 setUser(data)
             } catch(err){
-                setError(err)
+                // if(['400','404'].includes(err)!==-1) setError('Kullanıcı bulunamadı') 
+                //else setError(500)
+                setError(500)
             }
             setLoading(false)
         }
         init();
     },[username])
     
+
+    useEffect(() => {
+        const init = async () => {
+            setLoading(true)
+            try {
+                const {data:{data}} = await getExchanges(username)
+                setUser(prevState => {
+                    return {
+                        ...prevState,
+                        exchanges:data
+                    }
+                })
+                console.log(data)
+            } catch(err){
+                // if(['400','404'].includes(err)!==-1) setError('Kullanıcı bulunamadı') 
+                //else setError(500)
+                setError(500)
+            }
+            setLoading(false)
+        }
+        init();
+    },[username])
+
+    const handleChangeStatusOP = async (opID,isAccept) => {
+        const status = isAccept ? 'Kabul Edildi' : 'Reddedildi'
+        try {
+            const {data:{data}} = await updateExchange(opID,{status:status})
+            window.location.reload();
+        } catch(err) {
+            setError(500)
+        }
+    }
+
+    const handleDeleteBP = async (bpId) => {
+        try {
+            const {data:{data}} = await deleteExchange(bpId);
+            window.location.reload();
+        } catch(error) {
+            setError(500)
+        }
+    }
+
     if (isLoading||(!user&&!error)) {
         return <Loader/>
     }
+
+    if (error) {
+        if(error===500) return <InternalError/>
+        else return <h1>{error}</h1>
+    }
+
     
     return (
         <div>

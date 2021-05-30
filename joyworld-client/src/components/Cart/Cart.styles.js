@@ -26,13 +26,14 @@ export const CartContentList = styled.ul`
 
 export const CartContentListItem = styled.li`
   display: flex;
-  padding: 10px;
+  //padding: 10px;
 `;
 
 export const Image = styled.img`
   width: 100px;
-  height: 60px;
-  padding: 10px 5px 0;
+  height: 130px;
+  padding: 7px 5px 0 0;
+  margin:auto;
 `;
 
 export const CartContentDetail = styled.div`

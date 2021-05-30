@@ -51,9 +51,7 @@ const Cart = () => {
   return (
     <Wrapper>
       <Button
-        fontSize='20px'
         icon={<FaShoppingCart/>}
-        role='cartButton'
         text={`${!!cart.length ? ` (${cart.length})` : ''} `}
         onClick={() => setContentOpen((prevState) => !prevState)}
       />
@@ -61,10 +59,10 @@ const Cart = () => {
       <CartContent isOpen={isContentOpen} ref={cartContentRef}>
         <CartContentList>
           {cart.map((item) => (
-            <CartContentListItem key={`product-${item.product.id}`}>
-              <Image src={item.product.image} alt={item.product.name} />
+            <CartContentListItem key={item.product._id}>
+              <Image src={`data:image/png;base64,${item.product.images[0]}`} alt={item.product.title} />
               <CartContentDetail>
-                <h4>{item.product.name}</h4>
+                <h4>{item.product.title}</h4>
                 <Counter
                   value={item.qty}
                   onIncrement={() => handleIncrement(item)}
