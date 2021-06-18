@@ -5,6 +5,19 @@ export const getQty = (currentCart, product) => {
   return existProduct ? existProduct.qty : 0;
 };
 
+// export const add = (cart,product) => {
+//   if(cart.length === 0) return 1;
+//   const qty = cart.map((item) => {
+//     if(item.product.createdBy._id !== product.createdBy._id){
+//       if (window.confirm('Sepetinize farklı kullanıcılardan ürün ekleyemezsiniz. Sepeti boşaltıp bu ürünü eklemek ister misiniz?')) return 1;
+//       else return -2;
+//     } else {
+//       return getQty(cart,product)===product.count ? 0 : 1
+//     }
+//   })
+//   return Number(qty);
+// }
+
 export const upsertProductToChart = (cart, product, isAdd = true) => {
   const currentQty = getQty(cart, product);
 
@@ -22,3 +35,10 @@ export const upsertProductToChart = (cart, product, isAdd = true) => {
     firstItem.product.title.localeCompare(secondItem.product.title)
   );
 };
+
+export const getTotalPrice = (cart) => {
+  const totalPrice = cart.reduce((previousValue, currentItem) => {
+    return previousValue + currentItem.product.price * currentItem.qty;
+  }, 0);
+  return totalPrice;
+}

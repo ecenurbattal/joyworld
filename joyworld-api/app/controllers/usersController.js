@@ -1,10 +1,12 @@
-import {getAllUsers,findUserByUsername,deleteUserById,updateUserById, findUserByEmail} from '../services/userService.js';
+import {getAllUsers,findUserByUsername,deleteUserById,updateUserById, findUserByEmail, findUserById} from '../services/userService.js';
+import {findProductsByUser} from '../services/productService.js';
 import errorMessages from '../../config/errorMessages.js';
 import { ErrorHandler } from '../helpers/error.js';
 import bcrypt from 'bcryptjs';
 import catchAsync from '../utils/catchAsync.js'
 import { createNewExchange, deleteExchangeById, findExchange, getExchangesForBidder, getExchangesForOwner, updateExchangeById } from '../services/exchangeService.js';
 import Exchange from '../models/exchange.js';
+import { getOrdersForBuyer, getOrdersForOwner } from '../services/orderService.js';
 
 export const getUsers = catchAsync(async (req,res,next) => {
     try {
@@ -121,6 +123,21 @@ export const deleteUser = catchAsync(async (req,res,next) => {
 })
 
 
+export const getProductsByUser = catchAsync( async(req,res,next) => {
+    try {
+        const user = await findUserByUsername(req.params.username);
+        if(!user) return next(new ErrorHandler(404,errorMessages.USER_NOT_FOUND))
+        const products = await findProductsByUser(user._id);
+        res.status(200).json({
+            message:'Products fetched successfully',
+            data:products,
+        });
+    } catch(error){
+        throw new ErrorHandler(500,errorMessages.SERVER_ERROR)
+    }
+})
+
+
 //exchanges
 
 export const getExchanges = catchAsync(async(req,res,next) => {
@@ -195,4 +212,44 @@ export const deleteExchange = catchAsync(async(req,res,next) => {
     } catch(error) {
         throw new ErrorHandler(500,errorMessages.SERVER_ERROR);
     }
-})
+});
+
+
+//orders
+
+export const getOrders = catchAsync(async(req,res,next) => {
+    try {
+        const user = await findUserByUsername(req.params.username);
+        if(user) {
+            const received = await getOrdersForBuyer(user._id);
+            const sold = await getOrdersForOwner(user._id);
+            res.status(200).json({
+                message:'Orders fetched successfully',
+                data:{
+                    received,
+                    sold
+                }
+            })
+        } else {
+            return next(new ErrorHandler(404,errorMessages.USER_NOT_FOUND))
+        }
+    } catch(error) {
+        throw new ErrorHandler(500,errorMessages.SERVER_ERROR);
+    }
+});
+
+export const getIyzicoAccountId = catchAsync(async(req,res,next)=> {
+    try {
+        const user = await findUserByUsername(req.params.username);
+        if(user){
+            res.status(200).json({
+                message:'Iyzico account id fetched successfully',
+                data:user.subMerchantId
+            })
+        } else {
+            return next(new ErrorHandler(404,errorMessages.USER_NOT_FOUND));
+        }
+    } catch(error){
+        throw new ErrorHandler(500,errorMessages.SERVER_ERROR);
+    }
+});

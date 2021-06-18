@@ -6,7 +6,7 @@ export const getAllProducts = async () => {
 
 export const getAllProductsWithoutDescription = async(queryList) => {
     const findQuery = queryList ? queryList.category ? {category:decodeURI(queryList.category)} : {} : {}
-    return await Product.find(findQuery,{description:0,__v:0}).populate({path:'createdBy',select:'username'}).sort({updatedAt:-1})
+    return await Product.find(findQuery,{description:0,__v:0}).populate({path:'createdBy',select:'username'}).sort({createdAt:-1})
 }
 
 export const createNewProduct = async (product) => {
@@ -19,7 +19,7 @@ export const search = async (query) => {
             {title:{$regex: query, $options: 'i'}},
             //{description:{$regex: query, $options: 'i'}}
         ],
-    },{description:0,__v:0}).populate({path:'createdBy',select:'username'}).sort({updatedAt:-1})
+    },{description:0,__v:0}).populate({path:'createdBy',select:'username'}).sort({createdAt:-1})
 }
 
 export const findProduct = async (id) => {
@@ -32,5 +32,32 @@ export const updateProductById = async (productId,newData) => {
 
 export const deleteProductById = async (productId) => {
     return await Product.findByIdAndDelete(productId).populate('products');
+}
+
+export const findProductsByUser = async (userId) => {
+    return await Product.find({createdBy:userId}).populate('products').sort({createdAt:-1})
+}
+
+export const updateProductsByCart = async (cart) => {
+    // const ids = cart.map((item) => (
+    //     item.product
+    // ))
+    // const qtys = cart.map((item) => (
+    //     -(item.qty)
+    // ))
+    // console.log(ids);
+    // console.log(qtys);
+    // return await Product.updateMany(
+    //     {_id: {$in:ids}},
+    //     {$inc:{"count":qtys}},
+    //     {multi:true}
+    // )
+    const updatedProducts = cart.forEach( async (element) => {
+        return await Product.updateOne(
+            {_id:element.product},
+            {$inc:{"count":-(element.qty)}}
+        )
+    });
+    return updatedProducts;
 }
 

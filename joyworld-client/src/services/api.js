@@ -16,6 +16,15 @@ export const updateUser = (username, newData) => {
     return instance.patch(`/users/${username}`,newData)
 }
 
+export const getProductsByUser = (username) => {
+    return instance.get(`/users/${username}/products`)
+}
+
+export const getIyzicoAccountId = (username) => {
+    return instance.get(`/users/${username}/iyzico`)
+}
+
+
 //exchange
 
 export const getExchanges = (username) => {
@@ -125,4 +134,35 @@ export const updateProduct = (productId,newData) => {
 
 export const deleteProduct = (productId) => {
     return instance.delete(`/products/${productId}`)
+}
+
+
+
+//payment
+
+export const createPaymentRequest = (request) => {
+    return instance.post(`/payment`,request)
+}
+
+
+export const createSubMerchant = (request) => {
+    return instance.post(`/payment/submerchant`,request)
+}
+
+//order
+
+export const getOrders = (username) => {
+    return instance.get(`/users/${username}/orders`)
+}
+
+export const createOrder = (order) => {
+    return instance.post(`/orders`,order)
+}
+
+export const updateOrder = (id,newData) => {
+    return instance.patch(`/orders/${id}`,newData);
+}
+
+export const deleteOrder = (id) => {
+    return instance.delete(`/orders/${id}`);
 }

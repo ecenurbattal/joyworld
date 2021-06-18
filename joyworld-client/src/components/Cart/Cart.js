@@ -2,10 +2,11 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import CartContext from '../../contexts/CartContext';
 import useOutsideAlerter from '../../hooks/useOutsideAlerter';
-import { upsertProductToChart } from '../../utils/cartUtils';
+import { getTotalPrice, upsertProductToChart } from '../../utils/cartUtils';
 import Button from '../Button/Button';
 import Counter from '../Counter/Counter';
-import {FaShoppingCart} from 'react-icons/fa'
+import {FaShoppingCart} from 'react-icons/fa';
+import {getCurrentUser} from '../../services/Auth/authService';
 
 import {
   CartContent,
@@ -24,6 +25,10 @@ const Cart = () => {
   const { cart, updateCart } = useContext(CartContext);
 
   useEffect(() => {
+    updateCart(JSON.parse(localStorage.getItem(`cart${getCurrentUser().user._id}`)) ? JSON.parse(localStorage.getItem(`cart${getCurrentUser().user._id}`)) : [])
+  },[updateCart])
+
+  useEffect(() => {
     if(!!cart.length){setContentOpen(true)}
   },[cart.length])
 
@@ -32,6 +37,11 @@ const Cart = () => {
       setContentOpen(false);
     }
   });
+
+  useEffect(() => {
+    !!cart.length ? localStorage.setItem(`cart${getCurrentUser().user._id}`,JSON.stringify(cart)) : 
+    (localStorage.getItem(`cart${getCurrentUser().user._id}`) && localStorage.removeItem(`cart${getCurrentUser().user._id}`))
+  },[cart])
 
 
   const handleIncrement = (cartItem) => {
@@ -43,10 +53,6 @@ const Cart = () => {
       upsertProductToChart(prevCart, cartItem.product, false)
     );
   };
-
-  const totalPrice = cart.reduce((previousValue, currentItem) => {
-    return previousValue + currentItem.product.price * currentItem.qty;
-  }, 0);
 
   return (
     <Wrapper>
@@ -73,11 +79,11 @@ const Cart = () => {
           ))}
           {!cart.length && <p>Sepetinize henüz bir ürün eklemediniz. </p>}
         </CartContentList>
-        <h5>Toplam Tutar: {totalPrice.toFixed(2)}</h5>
+        <h5>Toplam Tutar: {getTotalPrice(cart).toFixed(2)}</h5>
         <Button
-          text="Ödeme"
+          text="Sepeti Onayla"
           onClick={() => {
-            history.push('/checkout',totalPrice);
+            history.push('/checkout');
           }}
         />
       </CartContent>

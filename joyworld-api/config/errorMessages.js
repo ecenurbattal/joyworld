@@ -22,5 +22,6 @@ const errorMessages = {
     EXCHANGE_NOT_FOUND:"Requested exchanges not found",
     EMAIL_NOT_SEND:'Email could not be send',
     INVALID_RESET_TOKEN:'Invalid Reset Token',
+    ORDER_NOT_FOUND:'The order requested not found',
 };
 export default errorMessages;

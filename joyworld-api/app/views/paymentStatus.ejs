@@ -1,0 +1,60 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+  h2 {
+    margin:25px;
+    text-align: center;
+    display: inline;
+  }
+
+  .loader {
+  border: 10px solid #f3f3f3; /* Light grey */
+  border-top: 10px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 2s linear infinite;
+  margin-left: 7px;
+  display: inline;
+}
+
+.container {
+  display:inline;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+<script>
+
+  const countDown = function setCountDown() {
+      setTimeout(() => {
+        window.location.replace('http://localhost:3000')
+      },3000)
+    }
+
+  document.addEventListener("DOMContentLoaded", countDown);
+
+  document.removeEventListener("DOMContentLoaded", () => {
+    clearTimeout(countDown)
+  });
+
+</script>
+<body>
+    <% if(error!=undefined){ %>
+        <h2><%=error%></h2>
+      <% } else{ %>  
+        <div class="container">
+          <h2>Ödeme başarılı. Ana sayfaya yönlendiriliyorsunuz </h2>
+          <div class="loader"></div>
+        </div>
+     <% } %>
+</body>
+</html>

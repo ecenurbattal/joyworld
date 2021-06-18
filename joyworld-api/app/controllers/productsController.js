@@ -2,7 +2,7 @@ import errorMessages from '../../config/errorMessages.js';
 import {ErrorHandler} from '../helpers/error.js';
 import catchAsync from '../utils/catchAsync.js';
 import Product from '../models/product.js';
-import { createNewProduct, deleteProductById, findProduct, getAllProducts, getAllProductsWithoutDescription, search, updateProductById } from '../services/productService.js';
+import { createNewProduct, deleteProductById, findProduct, getAllProducts, getAllProductsWithoutDescription, search, updateProductById, findProductsByUser } from '../services/productService.js';
 import { deleteProductFromUser, findUserById, updateUserById } from '../services/userService.js';
 
 export const getProducts = catchAsync(async(req,res,next) => {
@@ -31,7 +31,7 @@ export const getProductsWithoutDescription = catchAsync(async(req,res,next) => {
 
 export const createProduct = catchAsync(async(req,res,next) => {
     try {
-        const newProduct = new Product(req.body)
+        const newProduct = new Product(req.body);
         const user = await findUserById(req.body.createdBy);
         if(!user) return next(new ErrorHandler(404,errorMessages.USER_NOT_FOUND));
         const product = await createNewProduct(newProduct);
@@ -112,3 +112,4 @@ export const deleteProduct = catchAsync(async(req,res,next) => {
         throw new ErrorHandler(500,errorMessages.SERVER_ERROR);
     }
 })
+

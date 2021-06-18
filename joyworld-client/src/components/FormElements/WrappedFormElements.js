@@ -33,7 +33,7 @@ export const Title = styled.p`
 `
 
 export const SubTitle = styled.p`
-  font-size:30px;
+  font-size:25px;
   font-weight:600;
   color:white;
   margin:10px;
@@ -103,4 +103,17 @@ export const ColumnWrapper = styled.div`
   flex-direction:column;
   min-height:100vh;
 `;
+
+export const AutoSizeColumnWrapper = styled.div`
+  display:flex;
+  flex-direction:column;
+`;
+
+export const StyledLabel = styled.label`
+  color:white;
+  text-align:center;
+  margin-left:7px;
+  font-weight:600;
+  font-size:17px;
+`
 

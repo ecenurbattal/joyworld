@@ -5,7 +5,7 @@ import Login from '../screens/Login/Login';
 import ProductsScreen from '../screens/Products/ProductsScreen';
 import Register from '../screens/Register/Register';
 import AddProductScreen from '../screens/AddProductScreen/AddProductScreen';
-import Checkout from '../components/Checkout/Checkout';
+import CheckoutScreen from '../screens/CheckoutScreen/CheckoutScreen';
 import VolumesScreen from '../screens/VolumesScreen/VolumesScreen';
 import VolumesDetailScreen from '../screens/VolumesDetailScreen/VolumesDetailScreen';
 import BooksScreen from '../screens/BooksScreen/BooksScreen';
@@ -18,6 +18,7 @@ import BooksDetailsScreen from '../screens/BooksDetails/BooksDetailsScreen';
 import ProductsDetailScreen from '../screens/ProductsDetailScreen/ProductsDetailScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen/ForgotPasswordScreen';
 import ResetPasswordScreen from '../screens/ResetPasswordScreen/ResetPasswordScreen';
+import PaymentScreen from '../screens/PaymentScreen/PaymentScreen';
 
 export const routes = [
     {
@@ -166,10 +167,17 @@ export const routes = [
     },
     {
         path:'/checkout',
-        component:() => <Checkout/>,
+        component:() => <CheckoutScreen/>,
         title:'Checkout',
         isLink:false,
         isPrivate:true,
+    },
+    {
+        path:'/payment',
+        component:() => <PaymentScreen/>,
+        title:'Payment',
+        isLink:false,
+        isPrivate:true
     },
     {
         component:() => <NotFound/>,

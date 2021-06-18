@@ -15,7 +15,7 @@ const ForgotPasswordScreen = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const{data} = await forgotPassword(email);
+            await forgotPassword(email);
             setInfoMessage('Tarafınıza bir e-posta iletildi. Lütfen gelen kutunuzu kontrol ediniz. Spam kutusunu da kontrol etmeyi unutmayınız.')
         } catch(err){
             if(err.response.status===404){

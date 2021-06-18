@@ -44,11 +44,12 @@ const ProductsDetailScreen = () => {
     const handleExchangeSubmit = async (exchangeInfo) => {
         setLoading(true);
         try {
-            const {data:{data}} = await createExchange(exchangeInfo);
+            await createExchange(exchangeInfo);
             alert('Takas isteği başarıyla gerçekleştirildi. Profilinizdeki takas istekleri kısmından takip edebilirsiniz.')
             window.location.reload();
         } catch(err) {
-            setError(err)
+            if(err.response.status===500) setError(err.response.status)
+            else setError(err.response.data.message)
         }
         setLoading(false)
     }

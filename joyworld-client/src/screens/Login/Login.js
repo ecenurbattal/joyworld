@@ -36,8 +36,9 @@ const Login = () => {
         window.location.reload();
       }
     } catch(err){
-      if(err.response.data.status==='fail') setLogError('Kullanıcı adı veya şifre yanlış.') 
-      else setError(err.response.status)
+      console.log(err)
+      if(err.response?.data?.status==='fail') setLogError('Kullanıcı adı veya şifre yanlış.') 
+      else setError(err.response?.status)
     }
   };
 

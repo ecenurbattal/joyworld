@@ -39,7 +39,9 @@ const ProductsScreen = () => {
             setLoading(true);
             try {
                 const {data:{data}} = await getProducts()
-                setProducts(data);
+                setProducts(data.filter((item) => (
+                    item.count > 0
+                )));
             } catch(err){
                 setError(500);
             }

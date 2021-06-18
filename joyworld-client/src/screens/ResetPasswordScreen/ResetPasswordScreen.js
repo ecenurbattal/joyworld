@@ -44,7 +44,7 @@ const ResetPasswordScreen = () => {
 
     const sendData = async () => {
         try {
-            const {data} = await resetPassword(password,resetToken);
+            await resetPassword(password,resetToken);
             setStatus(true)
             setInfoMessage('Şifreniz başarıyla sıfırlandı. Giriş sayfasına yönlendiriliyorsunuz.')
             setInputErr(null);

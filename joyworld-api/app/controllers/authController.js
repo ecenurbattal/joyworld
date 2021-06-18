@@ -20,12 +20,15 @@ export const register = catchAsync( async (req,res,next) => {
         })
         const user = await createUser(newUser);
         const token = jwt.sign ({id:user._id}, process.env.JWT_SECRET, {expiresIn: 3600});
-        delete user._doc['password'];
         res.status(201).json({
         message:'User created successfully',
         data:{
             token:token,
-            user:user,
+            user:{
+                _id:user._id,
+                username:user.username,
+                name:user.name
+            },
             }
         })
     } catch(err) {
@@ -40,12 +43,15 @@ export const login = catchAsync( async (req,res,next) => {
             const isMatch = await bcrypt.compare(req.body.password,user.password);
             if(!isMatch) return next(new ErrorHandler(400,errorMessages.USER_INVALID_CREDENTIALS));
             const token = jwt.sign ({id:user._id}, process.env.JWT_SECRET, {expiresIn: 3600});
-            delete user._doc['password'];
             res.status(200).json({
             message:'Logged in successfully',
             data:{
                 token:token,
-                user:user,
+                user:{
+                    _id:user._id,
+                    username:user.username,
+                    name:user.name
+                },
                 }
             })
         } else {

@@ -2,7 +2,7 @@ import React from 'react'
 import { getCurrentUser } from '../../services/Auth/authService'
 import Button from '../Button/Button'
 import ExchangeWindow from '../ExchangeWindow/ExchangeWindow'
-import { RowWrapper } from '../FormElements/WrappedFormElements'
+import { RowWrapper, ErrorMessage } from '../FormElements/WrappedFormElements'
 import ImageSlider from '../ImageSlider/ImageSlider'
 import { InformationsWrapper, StyledTime, Wrapper, UserInformationWrapper, StyledCircle, Tag } from './ProductDetail.styles';
 
@@ -24,9 +24,9 @@ const ProductDetail = ({product,currentSlide,onSlideChange,onAddCart,onExchangeS
                     <p>{new Date(product.createdAt).toLocaleString('tr')}</p>
                 </RowWrapper>
                 <h3>{`${product.price} TL`}</h3>
-                <h5>{`${product.count} adet mevcut.`}</h5>
+                {product.count>0 ? <h5>{`${product.count} adet mevcut.`}</h5> : <ErrorMessage>Bu ürün tükendi.</ErrorMessage>}
                 <h6>{`${product.description}`}</h6>
-                {!isCurrentUser && 
+                {!isCurrentUser && product.count > 0 && 
                     <RowWrapper>
                     <Button
                         text='Sepete Ekle'

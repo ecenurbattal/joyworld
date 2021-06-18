@@ -1,5 +1,5 @@
 import express from 'express';
-import mongoose from 'mongoose';
+import path from 'path';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import morgan from 'morgan';
@@ -13,6 +13,15 @@ import connectDB from './config/db.js';
 
 const app = express();
 dotenv.config();
+
+app.set('trust proxy', true)
+
+
+const __dirname = path.resolve(path.dirname(''))
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '/app/views'));
+
+
 
 const PORT = process.env.PORT || 8080;
 
@@ -53,6 +62,11 @@ app.use('/posts',postsRouter);
 import productsRouter from './app/routes/productsRouter.js';
 app.use('/products',productsRouter);
 
+import paymentRouter from './app/routes/paymentRouter.js';
+app.use('/payment',paymentRouter);
+
+import ordersRouter from './app/routes/ordersRouter.js';
+app.use('/orders',ordersRouter);
 
 app.all('*', (req, res, next) => {
     next(new ErrorHandler(404,`Can't find ${req.originalUrl} on this server!`));

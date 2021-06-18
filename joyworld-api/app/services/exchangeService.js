@@ -19,7 +19,7 @@ export const createNewExchange = async (exchange) => {
 }
 
 export const updateExchangeById = async (exId,newData) => {
-    return await Exchange.findByIdAndUpdate(exId,newData, {new:true}).populate('exchanges')
+    return await Exchange.findByIdAndUpdate(exId,newData, {new:true}).populate('exchange')
 }
 
 export const findExchange = async (id) => {

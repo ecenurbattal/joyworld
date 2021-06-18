@@ -57,9 +57,8 @@ const ProfileScreen = () => {
                 const {data:{data}} = await getUser(username)
                 setUser(data)
             } catch(err){
-                // if(['400','404'].includes(err)!==-1) setError('Kullanıcı bulunamadı') 
-                //else setError(500)
-                setError(500)
+                if(err.response.status===500) setError(err.response.status)
+                else setError(err.response.data.message)
             }
             setLoading(false)
         }
@@ -80,9 +79,8 @@ const ProfileScreen = () => {
                 })
                 console.log(data)
             } catch(err){
-                // if(['400','404'].includes(err)!==-1) setError('Kullanıcı bulunamadı') 
-                //else setError(500)
-                setError(500)
+                if(err.response.status===500) setError(err.response.status)
+                else setError(err.response.data.message)
             }
             setLoading(false)
         }
@@ -92,7 +90,7 @@ const ProfileScreen = () => {
     const handleChangeStatusOP = async (opID,isAccept) => {
         const status = isAccept ? 'Kabul Edildi' : 'Reddedildi'
         try {
-            const {data:{data}} = await updateExchange(opID,{status:status})
+            await updateExchange(opID,{status:status})
             window.location.reload();
         } catch(err) {
             setError(500)
@@ -101,7 +99,7 @@ const ProfileScreen = () => {
 
     const handleDeleteBP = async (bpId) => {
         try {
-            const {data:{data}} = await deleteExchange(bpId);
+            await deleteExchange(bpId);
             window.location.reload();
         } catch(error) {
             setError(500)

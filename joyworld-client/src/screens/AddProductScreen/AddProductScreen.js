@@ -3,12 +3,13 @@ import { useHistory } from 'react-router-dom'
 import Button from '../../components/Button/Button';
 import InternalError from '../../components/Error/InternalError';
 import FilterBar from '../../components/FilterBar/FilterBar';
-import { Box, FormContainer, Message, RowWrapper, StyledTextArea, SubTitle } from '../../components/FormElements/WrappedFormElements';
+import { Box, FormContainer, Message, RowWrapper, StyledTextArea, SubTitle, StyledLabel } from '../../components/FormElements/WrappedFormElements';
 import ImageBox from '../../components/ImageBox/ImageBox';
 import Input from '../../components/Input/Input';
 import Loader from '../../components/Loader/Loader';
-import { createProduct } from '../../services/api';
+import { createProduct, createSubMerchant, getIyzicoAccountId } from '../../services/api';
 import { getCurrentUser } from '../../services/Auth/authService';
+import SubMerchantWindow from '../../components/SubMerchantWindow/SubMerchantWindow';
 
 
 const AddProductScreen = () => {
@@ -21,8 +22,6 @@ const AddProductScreen = () => {
     const handleDrag = (ev) => {
         setDragId(ev.currentTarget.id);
     };
-
-
 
     const handleDrop = (ev) => {
         const dragBox = selectedImagesLinks.find((box) => box.id === dragId);
@@ -47,12 +46,28 @@ const AddProductScreen = () => {
     const [product, setProduct] = useState({
         createdBy:getCurrentUser().user._id,
         images:[],
-        category:'Genel'
+        category:'Genel',
+        isİyzicoAllowed:false,
     });
 
 
     const [isLoading,setLoading] = useState(false);
     const [error,setError] = useState('');
+    const [subMerchantId,setSubMerchantId] = useState();
+
+    useEffect(() => {
+        setLoading(true);
+        const init = async () => {
+            try {
+                const {data:{data}} = await getIyzicoAccountId(getCurrentUser().user.username)
+                setSubMerchantId(data);
+            } catch(err){
+                setError(500)
+            }
+            setLoading(false)
+        }
+        init();
+    },[])
 
     useEffect(() => {
         setProduct((prevProduct) => {
@@ -105,13 +120,31 @@ const AddProductScreen = () => {
         setLoading(false);
     }
 
+    const handleSubMerchantSubmit = async (request) => {
+        setLoading(true);
+        setError('');
+        try {
+            const{data:{data}} = await createSubMerchant(request)
+            if(data.status === 'success'){
+                alert('Hesabınız başarıyla oluşturuldu. Artık ödemelerinizi almak için iyzico seçeneğini kullanabilirsiniz.')
+                window.location.reload();
+            } else {
+                setError(data.errorMessage)
+            }
+        } catch(err){
+            if(err.response.status===500) setError(err.response.status)
+            else setError(err.response.data.message)
+        }
+        setLoading(false)
+    }
+
     if (isLoading) {
         return <Loader />;
     }
     
     if (error) {
         if(error===500) return <InternalError/>
-        else return <h1>{error}</h1>
+        else return <h1 style={{color:'white',textAlign:'center'}}>{error}</h1>
     }
     
 
@@ -134,19 +167,18 @@ const AddProductScreen = () => {
                     <Message>Ürünler sayfasında ilk sıradaki resim gözükecektir. Sürükleyip bırakarak resimlerin sırasını düzenleyebilirsiniz.</Message>}
                 </RowWrapper>
                
-                <Input
+               <RowWrapper>
+               <Input
                     type="file"
                     name="post[image]"
                     accept="image/*"
                     multiple={true}
-                    style={{marginTop:'30px',marginBottom:'30px'}}
+                    style={{marginTop:'10px',marginBottom:'30px'}}
                     onChange = {(event) => {
                         handleImageChange(event)
                     }}
                 />
-                <SubTitle
-                    style={{alignSelf:'center'}}
-                >Ürün Başlığı</SubTitle>
+                <SubTitle>Ürün Başlığı</SubTitle>
                 <Input
                     type="text"
                     name="post[title]"
@@ -175,19 +207,8 @@ const AddProductScreen = () => {
                         })
                     }}
                 />
-                <SubTitle
-                    style={{alignSelf:'flex-end'}}
-                >Kategori</SubTitle>
-                <FilterBar
-                    optionList={tagsList}
-                    onChange={(event) => setProduct({
-                        ...product,
-                        category:event.target.value
-                    })}
-                    selectedValue={product?.tag}
-                    background={'#B33771'}
-                    color={'white'}
-                />
+               </RowWrapper>
+                <RowWrapper>
                  <SubTitle
                     style={{alignSelf:'center'}}
                 >Ürün Adeti</SubTitle>
@@ -207,7 +228,7 @@ const AddProductScreen = () => {
                     }}
                 />
                  <SubTitle
-                    style={{alignSelf:'center'}}
+                    style={{marginLeft:'auto'}}
                 >Ürün Fiyatı</SubTitle>
                 <Input
                     type="number"
@@ -224,7 +245,36 @@ const AddProductScreen = () => {
                         })
                     }}
                 />
-                <Button text="Oluştur" type="submit" marginTop='20px'/>
+                <FilterBar
+                    optionList={tagsList}
+                    onChange={(event) => setProduct({
+                        ...product,
+                        category:event.target.value
+                    })}
+                    selectedValue={product?.tag}
+                    background={'#B33771'}
+                    color={'white'}
+                />
+                </RowWrapper>
+               {subMerchantId ? 
+                <RowWrapper>
+                    <Input
+                    style={{alignSelf:'center'}}
+                    type="checkbox"
+                    name="post[isİyzicoAllowed]"
+                    defaultValue={product.isİyzicoAllowed}
+                    onChange={(event) => {
+                        setProduct({
+                            ...product,
+                            isİyzicoAllowed:!(product.isİyzicoAllowed)
+                        })
+                    }}
+                    />
+                    <StyledLabel>İyzico ile Ödeme</StyledLabel>
+                </RowWrapper> :
+                <SubMerchantWindow onSubMerchantSubmit={handleSubMerchantSubmit} />
+                }
+                <Button text="Ürünü Oluştur" type="submit" marginTop='5px'/>
             </FormContainer>
         </Box>
     )
