@@ -1,13 +1,15 @@
 import errorMessages from "../../config/errorMessages.js";
 import { ErrorHandler } from "../helpers/error.js";
 import Order from "../models/order.js";
-import { createNewOrder, deleteOrderById, findOrder, getOrdersForBuyer, getOrdersForOwner, updateOrderById } from "../services/orderService.js";
+import { createNewOrder, deleteOrderById, findOrder, updateOrderById } from "../services/orderService.js";
+import { updateProductsByCart } from "../services/productService.js";
 import catchAsync from "../utils/catchAsync.js";
 
 export const createOrder = catchAsync(async(req,res,next) => {
     try {
         const newOrder = new Order(req.body);
         const order = await createNewOrder(newOrder);
+        if(order.payment==='HARİCİ') await updateProductsByCart(order.cart)
         res.status(201).json({
             message:'Order created successfully',
             data:order,

@@ -8,7 +8,7 @@ const Products = ({ products, onAddToCart, onShowDetail }) => {
     <Wrapper>
       {products?.map((product) => (
         <ProductItem
-          key={product.id}
+          key={product._id}
           product={product}
           onAddToCart={onAddToCart}
           onShowDetail={onShowDetail}

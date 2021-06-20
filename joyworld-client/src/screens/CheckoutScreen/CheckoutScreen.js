@@ -1,28 +1,36 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Checkout from '../../components/Checkout/Checkout';
 import Loader from '../../components/Loader/Loader';
 import {createOrder} from '../../services/api';
 import InternalError from '../../components/Error/InternalError';
+import CartContext from '../../contexts/CartContext';
+import { useHistory } from 'react-router-dom';
+import { getCurrentUser } from '../../services/Auth/authService';
 
 const CheckoutScreen = () => {
 
-    const [orderStatus,setOrderStatus] = useState();
-    const [isLoading,setLoading] = useState();
-    const [error,setError] = useState();
+    const {updateCart} = useContext(CartContext)
+    const [isLoading,setLoading] = useState(false);
+    const [error,setError] = useState('');
+
+    const history = useHistory();
 
     const handleAcceptClick = async (newOrder) => {
+        setLoading(true);
         try {
-            setLoading(true);
             const response = await createOrder(newOrder);
-            console.log(response)
-            setOrderStatus({
-                status:response.status,
-                message:response.data.message
-            })
+            if(response.status===201) {
+                alert('Siparişiniz onaylandı. Devam Eden İşlemler kısmından süreci takip edebilirsiniz.')
+                updateCart([])
+                history.push(`/profile/${getCurrentUser().user.username}`)
+            } else {
+                alert(response.data.message)
+            }
         } catch(err){
             if(err.response.status===500) setError(err.response.status)
             else setError(err.response.data.message)
         }
+        setLoading(false)
     }
 
     if (error) {
@@ -30,7 +38,7 @@ const CheckoutScreen = () => {
         else return <h1>{error}</h1>
     }
 
-    if (isLoading||(!orderStatus.length&&!error)) {
+    if (isLoading) {
         return <Loader/>
     }
 
@@ -38,7 +46,6 @@ const CheckoutScreen = () => {
     return (
         <Checkout
             onAcceptClick={handleAcceptClick}
-            orderStatus={orderStatus}
         />
     )
 }

@@ -5,17 +5,18 @@ import { getTotalPrice } from '../../utils/cartUtils';
 import Button from '../Button/Button';
 import { ItemImage, ItemWrapper, ItemContent, Wrapper } from './Checkout.styles';
 import {getCurrentUser} from '../../services/Auth/authService';
+import { orderEnum, paymentEnum } from '../../config/Constants';
 
 
-const Checkout = ({onAcceptClick,orderStatus}) => {
-    const {cart, updateCart} = useContext(CartContext);
+const Checkout = ({onAcceptClick}) => {
+    const {cart} = useContext(CartContext);
     const history = useHistory();
 
     return (
         <Wrapper>
             {!cart.length ? <h2>Sepetinizde ürün bulunmuyor.</h2> : (
-                cart.map((item) => (
-                    <ItemWrapper>
+                cart.map((item,index) => (
+                    <ItemWrapper key={`checkout${index}`}>
                         <ItemImage src={"data:image/png;base64," + item.product.images[0]} alt={item.product.name}/>
                         <ItemContent>
                         <h2>{item.product.title}</h2>
@@ -39,16 +40,9 @@ const Checkout = ({onAcceptClick,orderStatus}) => {
                             buyer: getCurrentUser().user._id,
                             owner: cart[0].product.createdBy._id,
                             cart:cart,
-                            payment:'EXTERNAL',
-                            status:'Bekliyor'
+                            payment:paymentEnum.EXTERNAL,
+                            status:orderEnum.STILL_PROGRESS
                         })
-                        if(orderStatus?.status===201) {
-                            alert('Siparişiniz onaylandı. Devam Eden İşlemler kısmından süreci takip edebilirsiniz.')
-                            updateCart([])
-                            history.push(`/profile/${getCurrentUser().user.username}`)
-                        } else {
-                            alert(orderStatus?.message)
-                        }
                     }}
                     />
                     <Button

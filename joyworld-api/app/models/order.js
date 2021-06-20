@@ -25,6 +25,9 @@ const orderSchema = new Schema({
     },
     status:{
         type:String
+    },
+    isRated:{
+        type:Boolean
     }
 },{timestamps:true});
 

@@ -25,7 +25,15 @@ const exchangeSchema = new Schema({
     },
     status:{
         type:String
-    }
+    },
+    isRated:{
+        bidder:{
+            type:Boolean
+        },
+        owner:{
+            type:Boolean
+        }
+    },
 },{timestamps:true});
 
 const Exchange = mongoose.model('Exchange',exchangeSchema)

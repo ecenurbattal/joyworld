@@ -18,8 +18,21 @@ export const getQty = (currentCart, product) => {
 //   return Number(qty);
 // }
 
-export const upsertProductToChart = (cart, product, isAdd = true) => {
+export const upsertProductToChart = (currentCart, product, isAdd = true) => {
+  
+  let cart = currentCart;
+  
   const currentQty = getQty(cart, product);
+
+  if(cart.length > 0){
+    if(cart[0].product.createdBy._id !== product.createdBy._id){
+      if (window.confirm('Sepetinize farklı kullanıcılardan ürün ekleyemezsiniz. Sepeti boşaltıp bu ürünü eklemek ister misiniz?')){
+        cart = []
+      } else {
+        return cart;
+      }
+    }
+  }
 
   const condition = (!isAdd && currentQty > 1) || isAdd;
 

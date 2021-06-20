@@ -9,6 +9,7 @@ import CartContext from '../../contexts/CartContext';
 import {getTotalPrice} from '../../utils/cartUtils';
 import { SummaryWrapper, Information } from './Payment.styles';
 import { getCurrentUser } from '../../services/Auth/authService';
+import { paymentEnum,orderEnum } from '../../config/Constants';
 
 const PaymentScreen = () => {
 
@@ -26,8 +27,8 @@ const PaymentScreen = () => {
             buyer: getCurrentUser().user._id,
             owner: cart[0].product.createdBy._id,
             cart:cart,
-            payment:'IYZICO',
-            status:'Bekliyor'
+            payment:paymentEnum.IYZICO,
+            status:orderEnum.STILL_PROGRESS
         },
         basketItems:cart.map((item) => {
             return {

@@ -105,8 +105,7 @@ export const ListItem = styled.div`
     padding:7px;
     margin: 0px 0px 10px 12px;
     border-radius:10px;
-    min-width: 175px;
-    max-width: 375px;
+    min-width: 90%;
 `;
 
 

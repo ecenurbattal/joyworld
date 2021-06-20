@@ -1,5 +1,5 @@
 import {getAllUsers,findUserByUsername,deleteUserById,updateUserById, findUserByEmail, findUserById} from '../services/userService.js';
-import {findProductsByUser} from '../services/productService.js';
+import {findProductsByUser, updateProductsByCart} from '../services/productService.js';
 import errorMessages from '../../config/errorMessages.js';
 import { ErrorHandler } from '../helpers/error.js';
 import bcrypt from 'bcryptjs';
@@ -182,8 +182,21 @@ export const updateExchange = catchAsync(async(req,res,next) => {
     try {
         const exchange = await findExchange(req.params.id);
         if(exchange) {
-            const newData = req.body;
+            const newData = req.body
+            if(req.body.isRated){
+                newData.isRated.bidder ? newData.isRated.owner=exchange.isRated.owner : newData.isRated.bidder=exchange.isRated.bidder
+            }
             const updatedExchange = await updateExchangeById(exchange._id,newData);
+            if(req.body.status==='KABUL EDİLDİ') await updateProductsByCart([
+                {
+                    qty:1,
+                    product:updatedExchange.offeredProduct
+                },
+                {
+                    qty:1,
+                    product:updatedExchange.targetProduct
+                }
+            ])
             res.status(200).json({
                 message:'Exchange updated successfully',
                 data:updatedExchange,
@@ -192,7 +205,8 @@ export const updateExchange = catchAsync(async(req,res,next) => {
             return next(new ErrorHandler(404,errorMessages.EXCHANGE_NOT_FOUND));
         }
     } catch(error) {
-        throw new ErrorHandler(500,errorMessages.SERVER_ERROR);
+        console.log(error)
+        throw new ErrorHandler(500,errorMessages.errorMessages.SERVER_ERROR);
     }
 })
 

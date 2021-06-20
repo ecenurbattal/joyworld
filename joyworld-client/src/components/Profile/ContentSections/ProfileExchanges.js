@@ -3,9 +3,11 @@ import { getCurrentItems } from '../../../utils/paginationUtils';
 import { RowWrapper } from '../../FormElements/WrappedFormElements';
 import Pagination from '../../Pagination/Pagination';
 import { OutsideWrapper } from '../../Pagination/Pagination.styles';
-import { ContentsWrapper, ListItem, ListItemNote, ListItemText, ListItemTitle, Section, SectionWrapper, StyledCross, StyledTick, StyledTrash, VerticalLine } from '../Profile.styles'
+import { ContentsWrapper, ListItem, ListItemNote, ListItemText, ListItemTitle, Section, SectionWrapper, StyledCross, StyledTick, StyledTrash, VerticalLine } from '../Profile.styles';
+import { exchangeEnum } from '../../../config/Constants';
+import RatingWindow from '../../RatingWindow/RatingWindow';
 
-const ProfileExchanges = ({exchanges,onChangeStatusOP,onDeleteBP}) => {
+const ProfileExchanges = ({exchanges,onChangeStatusOP,onDeleteBP,onAcceptRating}) => {
 
     const [offeredProductsPerPage] = useState(5);
     const [bidProductsPerPage] = useState(5);
@@ -18,16 +20,21 @@ const ProfileExchanges = ({exchanges,onChangeStatusOP,onDeleteBP}) => {
 
     const statusColor = (status) => {
         switch(status) {
-            case 'Bekliyor':
+            case exchangeEnum.WAITING:
                 return "yellow"
-            case 'Kabul Edildi':
+            case exchangeEnum.ACCEPTED:
                 return "#55efc4"
-            case 'Reddedildi':
+            case exchangeEnum.DENIED:
+                return '#e55039'
+            case exchangeEnum.COMPLETED:
+                return "#55efc4"
+            case exchangeEnum.FAILED:
                 return '#e55039'
             default:
                 return "white"
         }
     }
+
     
     return (
         <ContentsWrapper>
@@ -48,14 +55,36 @@ const ProfileExchanges = ({exchanges,onChangeStatusOP,onDeleteBP}) => {
                             <ListItemText color={statusColor(op.status)}>
                                 <strong>Durum: </strong>{op.status}
                             </ListItemText>
-                            <RowWrapper>
+                            {(op.status===exchangeEnum.WAITING || op.status===exchangeEnum.ACCEPTED) &&
+                                <RowWrapper>
                                 <StyledTick
-                                    onClick={() => {if (window.confirm('Bu isteği onaylamak istediğinize emin misiniz?')) onChangeStatusOP(op._id,true)}}
+                                    onClick={() => {
+                                        if(op.status===exchangeEnum.WAITING){
+                                            if (window.confirm('Bu isteği onaylamak istediğinize emin misiniz?')) onChangeStatusOP(op._id,true,exchangeEnum.WAITING)
+                                        } else if(op.status===exchangeEnum.ACCEPTED){
+                                            if (window.confirm('Bu işlemin tamamlandığını onaylamak istediğinize emin misiniz?')) onChangeStatusOP(op._id,true,exchangeEnum.ACCEPTED)
+                                        }
+                                    }}
                                 />
                                 <StyledCross
-                                    onClick={() => {if (window.confirm('Bu isteği reddetmek istediğinize emin misiniz?')) onChangeStatusOP(op._id,false)}}
+                                    onClick={() => {
+                                        if(op.status===exchangeEnum.WAITING){
+                                            if (window.confirm('Bu reddetmek istediğinize emin misiniz?')) onChangeStatusOP(op._id,false,exchangeEnum.WAITING)
+                                        } else if(op.status===exchangeEnum.ACCEPTED){
+                                            if (window.confirm('Bu işlemin başarısız olduğunu onaylamak istediğinize emin misiniz?')) onChangeStatusOP(op._id,false,exchangeEnum.ACCEPTED)
+                                        }
+                                    }}
                                 />
                             </RowWrapper>
+                            }
+                            {((op.status===exchangeEnum.COMPLETED || op.status===exchangeEnum.FAILED) && !(op.isRated?.owner)) && 
+                                <RatingWindow
+                                    onAcceptRating={onAcceptRating}
+                                    ratedUsername={op.bidder.username}
+                                    exchangeId={op._id}
+                                    isBidder={false}
+                                />
+                            }
                         </ListItem>
                     ))}
                     <OutsideWrapper>
@@ -83,9 +112,19 @@ const ProfileExchanges = ({exchanges,onChangeStatusOP,onDeleteBP}) => {
                             <ListItemText color={statusColor(bp.status)}>
                                 <strong>Durum: </strong>{bp.status}
                             </ListItemText>
-                            <StyledTrash
+                           {bp.status===exchangeEnum.WAITING && 
+                             <StyledTrash
                                 onClick={() => {if (window.confirm('Bu isteği silmek istediğinize emin misiniz?')) onDeleteBP(bp._id)}}
                             />
+                           }
+                           {((bp.status===exchangeEnum.COMPLETED || bp.status===exchangeEnum.FAILED) && !(bp.isRated?.bidder)) && 
+                                <RatingWindow
+                                    onAcceptRating={onAcceptRating}
+                                    ratedUsername={bp.owner.username}
+                                    exchangeId={bp._id}
+                                    isBidder={true}
+                                />
+                            }
                         </ListItem>
                     ))}
                     <OutsideWrapper>

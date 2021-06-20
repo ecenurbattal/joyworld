@@ -5,6 +5,7 @@ import { ExchangeContent, Wrapper } from './ExchangeWindow.styles';
 import {getCurrentUser} from '../../services/Auth/authService';
 import { StyledTextArea } from '../FormElements/WrappedFormElements';
 import { getProductsByUser } from '../../services/api';
+import { exchangeEnum } from '../../config/Constants';
 
 const ExchangeWindow = ({targetProduct,onExchangeSubmit}) => {
 
@@ -17,7 +18,7 @@ const ExchangeWindow = ({targetProduct,onExchangeSubmit}) => {
         owner:targetProduct.createdBy._id,
         targetProduct:targetProduct._id,
         bidder:getCurrentUser().user._id,
-        status:'Bekliyor',
+        status:exchangeEnum.WAITING,
     });
 
 
