@@ -42,8 +42,8 @@ const ProfileOrders = ({orders,onChangeStatusRP,onAcceptRating}) => {
                     {currentSPs.map((sp) => (
                         <ListItem key={sp._id}>
                             <strong>Sepet</strong>
-                            {sp.cart.map((item) => (
-                                <div>
+                            {sp.cart.map((item,index) => (
+                                <div key={`orderCart${index}`}>
                                     <ListItemText href={`/products/${item.product._id}`}>
                                         {item.product.title}
                                     </ListItemText>

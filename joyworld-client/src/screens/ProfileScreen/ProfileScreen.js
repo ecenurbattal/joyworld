@@ -89,7 +89,6 @@ const ProfileScreen = () => {
                         exchanges:data
                     }
                 })
-                console.log(data)
             } catch(err){
                 if(err.response.status===500) setError(err.response.status)
                 else setError(err.response.data.message)
@@ -110,7 +109,6 @@ const ProfileScreen = () => {
                         orders:data
                     }
                 })
-                console.log(data)
             } catch(err){
                 if(err.response.status===500) setError(err.response.status)
                 else setError(err.response.data.message)

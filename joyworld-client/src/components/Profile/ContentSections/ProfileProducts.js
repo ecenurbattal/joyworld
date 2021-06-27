@@ -13,8 +13,8 @@ const ProfileProducts = ({products}) => {
 
     return (
         <ContentsWrapper>
-            {currentProducts.map((product) => (
-                <ListItem>
+            {currentProducts.map((product,index) => (
+                <ListItem key={`profileProduct${index}`}>
                     <ListItemText
                         href={`/products/${product._id}`}
                     >{product?.title}</ListItemText>

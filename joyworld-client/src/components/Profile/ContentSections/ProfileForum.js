@@ -14,8 +14,8 @@ const ProfileForum = ({posts}) => {
 
     return (
         <ContentsWrapper>
-            {currentPosts.map((post) => (
-                <ListItem>
+            {currentPosts.map((post,index) => (
+                <ListItem key={`profileForum${index}`}>
                     <ListItemText
                         href={`/forum/${post._id}`}
                     >{post?.title}</ListItemText>
