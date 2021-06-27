@@ -12,6 +12,10 @@ export const getUser = (username) => {
     return instance.get(`/users/${username}`)
 }
 
+export const getUserInfoForConversations = (userId) => {
+    return instance.get(`/users/conversation-info/${userId}`)
+}
+
 export const updateUser = (username, newData) => {
     return instance.patch(`/users/${username}`,newData)
 }
@@ -166,3 +170,25 @@ export const updateOrder = (id,newData) => {
 export const deleteOrder = (id) => {
     return instance.delete(`/orders/${id}`);
 }
+
+
+//conversations
+
+export const getConversations = async (userId) => {
+    return instance.get(`/conversations/${userId}`)
+}
+
+export const createConversation = async(conversation) => {
+    return instance.post(`/conversations`,conversation)
+}
+
+
+//messages
+export const getMessages = async (chatId) => {
+    return instance.get(`/messages/${chatId}`)
+}
+
+export const createMessage = async (message) => {
+    return instance.post(`/messages`,message)
+}
+

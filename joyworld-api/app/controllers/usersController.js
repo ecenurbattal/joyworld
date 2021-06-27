@@ -70,6 +70,27 @@ export const getUserByEmail = catchAsync(async (req,res,next) => {
     }
 })
 
+export const getUserInfoForConversations = catchAsync(async (req,res,next) => {
+    try {
+        const user = await findUserById(req.params.userId)
+        if(user) {
+            res.status(200).json({
+                message:'User fetched successfully',
+                data:{
+                    _id:user._id,
+                    username:user.username,
+                    name:user.name,
+                    avatar:user.avatar
+                },
+            });
+        } else {
+            return next(new ErrorHandler(404,errorMessages.USER_NOT_FOUND))
+        }
+    } catch(error){
+        throw new ErrorHandler(500,errorMessages.SERVER_ERROR);
+    }
+})
+
 
 
 export const updateUser = catchAsync(async(req,res,next) => {

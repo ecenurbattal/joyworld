@@ -1,14 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {useHistory} from 'react-router-dom';
 import {routes} from '../../config/Router';
-import {Wrapper, Title, Menu, InlineContainer} from './Header.styles';
+import {Wrapper, Title, Menu, InlineContainer, StyledMessages} from './Header.styles';
 import Cart from '../Cart/Cart';
 import SessionContext from '../../contexts/SessionContext';
 import SignOut from '../SignOut/SignOut';
 import DrawerToggleButton from '../SideDrawer/DrawerToggleButton';
 import Dropdown from '../Dropdown/Dropdown';
 import { getCurrentUser } from '../../services/Auth/authService';
-
 
 
 const Header = ({drawerClickHandler}) => {
@@ -65,6 +64,7 @@ const Header = ({drawerClickHandler}) => {
                     ) : (
                     <>
                         <Cart/>
+                        <li><a href={`/messenger`}><StyledMessages/></a></li>
                         <li><a href={`/profile/${getCurrentUser().user.username}`}>Profilim</a></li>
                         <SignOut/>
                     </>

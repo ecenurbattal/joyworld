@@ -19,6 +19,7 @@ import ProductsDetailScreen from '../screens/ProductsDetailScreen/ProductsDetail
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen/ForgotPasswordScreen';
 import ResetPasswordScreen from '../screens/ResetPasswordScreen/ResetPasswordScreen';
 import PaymentScreen from '../screens/PaymentScreen/PaymentScreen';
+import Messenger from '../screens/Messenger/Messenger';
 
 export const routes = [
     {
@@ -176,6 +177,13 @@ export const routes = [
         path:'/payment',
         component:() => <PaymentScreen/>,
         title:'Payment',
+        isLink:false,
+        isPrivate:true
+    },
+    {
+        path:'/messenger',
+        component:() => <Messenger/>,
+        title:'Messenger',
         isLink:false,
         isPrivate:true
     },

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { TiMessages } from 'react-icons/ti';
 
 export const Wrapper = styled.div`
     position: fixed;
@@ -86,4 +87,8 @@ export const Title = styled.h1`
     @media (max-width: 768px){
         font-size: 50px;
     }
+`;
+
+export const StyledMessages = styled(TiMessages)`
+    font-size:32px;
 `;

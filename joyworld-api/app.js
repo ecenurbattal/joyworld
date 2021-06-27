@@ -10,9 +10,9 @@ import { ErrorHandler } from './app/helpers/error.js';
 import {applyPassportStrategy} from './config/passport.js';
 import connectDB from './config/db.js';
 
-
 const app = express();
 dotenv.config();
+
 
 app.set('trust proxy', true)
 
@@ -44,6 +44,8 @@ app.use('/comicvine/api',cors(corsOptions), (req,res) => {
     req.pipe(request(request_url)).pipe(res)
 })
 
+
+
 import comicNewsRouter from './app/routes/comicNewsRouter.js';
 app.use('/comicnews',comicNewsRouter);
 
@@ -67,6 +69,14 @@ app.use('/payment',paymentRouter);
 
 import ordersRouter from './app/routes/ordersRouter.js';
 app.use('/orders',ordersRouter);
+
+import conversationRouter from './app/routes/conversationRouter.js';
+app.use('/conversations',conversationRouter);
+
+import messageRouter from './app/routes/messageRouter.js';
+app.use('/messages',messageRouter)
+
+
 
 app.all('*', (req, res, next) => {
     next(new ErrorHandler(404,`Can't find ${req.originalUrl} on this server!`));
@@ -104,6 +114,10 @@ connectDB();
 const server = app.listen(PORT, () => {
     console.log(`Server is running on ${PORT}`);
 })
+
+
+import io from './sockets.js';
+io.attach(server);
 
 process.on("unhandledRejection", (err, promise) => {
     console.log(`Logged Error: ${err.message}`);

@@ -2,13 +2,14 @@ import express from 'express';
 import passport from 'passport';
 const router = express.Router();
 
-import { getUsers, deleteUser, updateUser, getUserByUsernameExceptPassword, getExchanges, createExchanges, updateExchange, deleteExchange, getProductsByUser, getOrders, getIyzicoAccountId } from '../controllers/usersController.js';
+import { getUsers, deleteUser, updateUser, getUserByUsernameExceptPassword, getExchanges, createExchanges, updateExchange, deleteExchange, getProductsByUser, getOrders, getIyzicoAccountId, getUserInfoForConversations } from '../controllers/usersController.js';
 import {updateValidator} from '../validators/userValidator.js';
 
 //router.get('/',getUsers);
 
 //user
 router.get('/:username',[passport.authenticate('jwt', {session: false}),getUserByUsernameExceptPassword]);
+router.get('/conversation-info/:userId',[passport.authenticate('jwt', {session: false}),getUserInfoForConversations]);
 router.patch('/:username',[passport.authenticate('jwt',{session:false}),updateValidator,updateUser])
 router.delete('/:username',[passport.authenticate('jwt', {session: false}),deleteUser]);
 router.get('/:username/iyzico',[passport.authenticate('jwt', {session: false}),getIyzicoAccountId]);
