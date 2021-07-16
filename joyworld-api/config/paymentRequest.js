@@ -12,7 +12,7 @@ export const paymentRequest = (req,order) => {
         basketId: String(order._id),
         paymentChannel: Iyzipay.PAYMENT_CHANNEL.WEB,
         paymentGroup: Iyzipay.PAYMENT_GROUP.PRODUCT,
-        callbackUrl:`http://localhost:8080/payment/token`,
+        callbackUrl:`${process.env.SERVER_URL}/payment/token`,
         // paymentCard: {
         //     cardHolderName: req.body.card.cardHolderName,
         //     cardNumber: req.body.card.cardNumber,

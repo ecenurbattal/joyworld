@@ -2,7 +2,7 @@ import axios from 'axios';
 import authHeader from './Auth/authHeader';
 
 const instance = axios.create({
-    baseURL:'http://localhost:8080',
+    baseURL:process.env.REACT_APP_API_URL,
     headers: authHeader(),
 })
 

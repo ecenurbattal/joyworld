@@ -4,7 +4,7 @@ import axios from 'axios';
 const instance = axios.create({
     baseURL:'http://localhost:8080/comicvine/api',
     params: {
-        api_key:'b1e1d27f0279baff924cb89c039596e6f7eb36ee',
+        api_key:process.env.REACT_APP_COMIC_VINE_API_KEY,
         format: 'json',
     },
 })

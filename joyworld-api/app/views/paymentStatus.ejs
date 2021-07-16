@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Ödeme Sonucu</title>
 </head>
 <style>
   h2 {
@@ -16,8 +16,8 @@
   border: 10px solid #f3f3f3; /* Light grey */
   border-top: 10px solid #3498db; /* Blue */
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 100px;
+  height: 50px;
   animation: spin 2s linear infinite;
   margin-left: 7px;
   display: inline;
@@ -36,7 +36,7 @@
 
   const countDown = function setCountDown() {
       setTimeout(() => {
-        window.location.replace('http://localhost:3000')
+        window.location.replace(process.env.CLIENT_URL)
       },3000)
     }
 

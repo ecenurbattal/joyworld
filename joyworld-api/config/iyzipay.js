@@ -10,17 +10,3 @@ const iyzipay = new Iyzipay({
 });
 
 export default iyzipay;
-
-
-// export const paymentCreate = async (request) => {
-//     await iyzipay.payment.create(request, function (err, result) {
-//        return {result,err}
-//     })
-// }
-
-
-
-// iyzipay.payment.create(request, function (err, result) {
-//     console.log(err, result);
-//     done();
-// });
